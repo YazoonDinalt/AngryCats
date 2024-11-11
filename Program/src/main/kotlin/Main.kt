@@ -1,5 +1,7 @@
+import kotlin.math.*
 const val SEED = 10
 const val AMBIT = 5
+
 fun main() {
     val height = 4
     val weight = 4
@@ -22,4 +24,5 @@ fun main() {
     Print(newCatsMap)
 
     Print(Map().visualCatsMap(newCatsMap))
+
 }

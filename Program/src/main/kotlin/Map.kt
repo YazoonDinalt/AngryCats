@@ -27,8 +27,6 @@ class Map {
         return catsMap
     }
 
-
-
     fun visualCatsMap(catsMap: Array<Array<CatInMap>>): Array<Array<String>> {
         val visCatsMap = Array(catsMap.size) { Array(catsMap[0].size) { "0" } }
 
@@ -49,9 +47,6 @@ class Map {
 
         return visCatsMap
     }
-
-
-
     fun moveCatsMap(cats: Array<Cat>, amountCats: Int, height: Int, weight: Int) {
         val random = Random(SEED.toLong()) // Создаем новый объект Random с заданным SEED
         val idCats = mutableListOf<Int>()
@@ -67,8 +62,10 @@ class Map {
         for (idCat in idCats) {
             var randomWeight = 1
             var randomHeight = 1
+
             if (weight / AMBIT != 0 ) randomWeight = Random.nextInt(weight / AMBIT)
             if (height / AMBIT != 0 ) randomHeight = Random.nextInt(height / AMBIT)
+
             cats[idCat].x = cats[idCat].x + randomWeight
             cats[idCat].y = cats[idCat].y + randomHeight
             cats[idCat].status = Status.WALK
@@ -76,6 +73,7 @@ class Map {
             if (cats[idCat].x >= weight) {
                 cats[idCat].x = cats[idCat].x - weight
             }
+
             if (cats[idCat].y >= height) {
                 cats[idCat].y = cats[idCat].y - height
             }

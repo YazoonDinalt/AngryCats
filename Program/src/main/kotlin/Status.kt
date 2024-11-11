@@ -1,7 +1,6 @@
-import kotlin.math.sqrt
 import kotlin.random.Random
 
-class UpdateStatus(private val catsMap: Array<Array<CatInMap>>, private val r0: Double, private val r1: Double) {
+class UpdateStatus(private val catsMap: Array<Array<CatInMap>>, private val r0: Double, private val r1: Double, private val nameDistance: NameDistance = NameDistance.Euclidean) {
 
     init {
         updateStatus()
@@ -10,11 +9,6 @@ class UpdateStatus(private val catsMap: Array<Array<CatInMap>>, private val r0: 
     private fun updateStatus() {
         check(catsMap, r0, Status.FIGHT)
         check(catsMap, r1, Status.HISS)
-    }
-
-    // Функция для вычисления расстояния между двумя котами
-    private fun distance(cat1: Cat, cat2: Cat) : Float {
-        return sqrt(((cat1.x - cat2.x)*(cat1.x-cat2.x) + (cat1.y-cat2.y)*(cat1.y-cat2.y)).toFloat())
     }
 
     private fun check(catsMap: Array<Array<CatInMap>>, r0: Double, status: Status) {
@@ -30,7 +24,7 @@ class UpdateStatus(private val catsMap: Array<Array<CatInMap>>, private val r0: 
         }
     }
 
-    private fun addStatus(catsMap: Array<Array<CatInMap>>, r0: Double, cat: Cat, status: Status) {
+    private fun addStatus(catsMap: Array<Array<CatInMap>>, r: Double, cat: Cat, status: Status) {
         var leftStart = cat.x - r0.toInt() - 1
         var rightStart = cat.x + r0.toInt() + 1
 
@@ -51,10 +45,23 @@ class UpdateStatus(private val catsMap: Array<Array<CatInMap>>, private val r0: 
             }
 
             while (x <= right) {
-                val distance = distance(catsMap[x][y].cat, cat)
+                val distance =
+                    when (nameDistance) {
+                        NameDistance.Euclidean ->
+                            Distance(catsMap[x][y].cat, cat).euclideanDistance()
+
+                        NameDistance.Manhattan ->
+                            Distance(catsMap[x][y].cat, cat).manhattanDistance()
+
+                        NameDistance.Chebyshev ->
+                            Distance(catsMap[x][y].cat, cat).chebyshevDistance()
+
+                        NameDistance.Curvilinear ->
+                            Distance(catsMap[x][y].cat, cat).curvilinearDistance()
+                    }
 
                 // Проверяем, что не текущий кот и что расстояние не превышает r0
-                if (x == cat.x && y == cat.y || distance > r0) {
+                if (x == cat.x && y == cat.y || distance > r) {
                     x++
                     continue
                 }
