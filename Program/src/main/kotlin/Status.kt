@@ -1,6 +1,6 @@
 import kotlin.random.Random
 
-class UpdateStatus(private val catsMap: Array<Array<CatInMap>>, private val r0: Double, private val r1: Double, private val nameDistance: NameDistance = NameDistance.Euclidean) {
+class UpdateStatus(private val catsMap: Array<Array<CatInMap>>, private val r0: Double, private val r1: Double, val nameDistance: NameDistance = NameDistance.Euclidean) {
 
     init {
         updateStatus()
@@ -89,6 +89,7 @@ class UpdateStatus(private val catsMap: Array<Array<CatInMap>>, private val r0: 
         if (catsMap[x][y].number != 0) {
             catsMap[x][y].cat.status = Status.FIGHT
             cat.status = Status.FIGHT
+            println("$cat дерется с ${catsMap[x][y].cat}")
         }
     }
 
@@ -106,8 +107,10 @@ class UpdateStatus(private val catsMap: Array<Array<CatInMap>>, private val r0: 
             // Если случайное число меньше или равно вероятности, то записываем 1
             if (randomValue <= probability) {
                 cat.status = Status.HISS
+                println("$cat шипит на ${catsMap[x][y].cat}")
                 if (catsMap[x][y].cat.status != Status.FIGHT) {
                     catsMap[x][y].cat.status = Status.HISS
+                    println("${catsMap[x][y].cat} шипит на $cat")
                 }
             }
         }

@@ -9,6 +9,7 @@ class Map {
                 catsMap[cat.x][cat.y].number++
                 catsMap[cat.x][cat.y].cat = cat
                 catsMap[cat.x][cat.y].cat.status = Status.FIGHT
+                println("Коты в x = ${cat.x} y = ${cat.y} дерутся")
                 continue
             }
 
@@ -66,6 +67,8 @@ class Map {
             if (weight / AMBIT != 0 ) randomWeight = Random.nextInt(weight / AMBIT)
             if (height / AMBIT != 0 ) randomHeight = Random.nextInt(height / AMBIT)
 
+            print("${cats[idCat]} ушел в ")
+
             cats[idCat].x = cats[idCat].x + randomWeight
             cats[idCat].y = cats[idCat].y + randomHeight
             cats[idCat].status = Status.WALK
@@ -77,6 +80,8 @@ class Map {
             if (cats[idCat].y >= height) {
                 cats[idCat].y = cats[idCat].y - height
             }
+
+            println("x = ${cats[idCat].x}, y = ${cats[idCat].y}")
         }
     }
 }
