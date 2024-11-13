@@ -1,30 +1,26 @@
 import kotlin.random.Random
 
-class UpdateStatus(private val catsMap: Array<Array<CatInMap>>, private val r0: Double, private val r1: Double, val nameDistance: NameDistance = NameDistance.Euclidean) {
+class UpdateStatus(private val catsMap: Array<Array<CatInMap>>, private val r0: Float, private val r1: Float, private val nameDistance: NameDistance = NameDistance.Euclidean) {
 
-    init {
-        updateStatus()
+    fun updateStatus() {
+        check(r0, Status.FIGHT)
+        check(r1, Status.HISS)
     }
 
-    private fun updateStatus() {
-        check(catsMap, r0, Status.FIGHT)
-        check(catsMap, r1, Status.HISS)
-    }
-
-    private fun check(catsMap: Array<Array<CatInMap>>, r0: Double, status: Status) {
+    private fun check(r: Float, status: Status) {
         // Проходим по всем котам в catsMap
         for (i in catsMap.indices) {
             for (j in 0 until catsMap[i].size) {
                 // Проверяем, что текущий кот не {0, ...}
                 if (catsMap[i][j].number != 0) {
                     val currentCat = catsMap[i][j].cat
-                    addStatus(catsMap, r0, currentCat, status)
+                    addStatus(r, currentCat, status)
                 }
             }
         }
     }
 
-    private fun addStatus(catsMap: Array<Array<CatInMap>>, r: Double, cat: Cat, status: Status) {
+    fun addStatus(r: Float, cat: Cat, status: Status) {
         var leftStart = cat.x - r0.toInt() - 1
         var rightStart = cat.x + r0.toInt() + 1
 
@@ -35,7 +31,10 @@ class UpdateStatus(private val catsMap: Array<Array<CatInMap>>, private val r0: 
             rightStart = catsMap.size - 1
         }
 
-        for (y in cat.y until catsMap[leftStart].size) {
+        var startY = cat.y - r0.toInt()
+        if (startY < 0) { startY = 0 }
+
+        for (y in startY until catsMap[leftStart].size) {
             var c = -1
             var x = leftStart
             val right = rightStart
@@ -68,8 +67,8 @@ class UpdateStatus(private val catsMap: Array<Array<CatInMap>>, private val r0: 
 
                 // Добавляем статус в зависимости от типа
                 when (status) {
-                    Status.FIGHT -> checkFight(catsMap, cat, x, y)
-                    Status.HISS -> checkHiss(catsMap, cat, x, y, distance)
+                    Status.FIGHT -> checkFight(cat, x, y)
+                    Status.HISS -> checkHiss(cat, x, y, distance)
                     else -> {
                         println("WTF")
                     }
@@ -85,28 +84,41 @@ class UpdateStatus(private val catsMap: Array<Array<CatInMap>>, private val r0: 
         }
     }
 
-    private fun checkFight(catsMap: Array<Array<CatInMap>>, cat: Cat, x: Int, y: Int) {
+    private fun checkFight(cat: Cat, x: Int, y: Int) {
         if (catsMap[x][y].number != 0) {
             catsMap[x][y].cat.status = Status.FIGHT
             cat.status = Status.FIGHT
+
+            if (!cat.getFightCats().contains(catsMap[x][y].cat)) {
+                cat.addFightCats(catsMap[x][y].cat)
+            }
+
+            if (!catsMap[x][y].cat.getFightCats().contains(cat)) {
+                catsMap[x][y].cat.addFightCats(cat)
+            }
+
             println("$cat дерется с ${catsMap[x][y].cat}")
         }
     }
 
-    private fun checkHiss(catsMap: Array<Array<CatInMap>>, cat: Cat, x: Int, y: Int, distance: Float) {
+    private fun checkHiss(cat: Cat, x: Int, y: Int, distance: Float) {
         if (catsMap[x][y].number != 0 && cat.status == Status.WALK) {
             // Вероятность
             val probability = 1 / distance
 
-            // Инициализируем генератор случайных чисел
-            val random = Random(SEED)
-
             // Генерируем случайное число от 0 до 1
-            val randomValue = random.nextDouble()
+            val randomValue = Random.nextDouble()
 
-            // Если случайное число меньше или равно вероятности, то записываем 1
             if (randomValue <= probability) {
                 cat.status = Status.HISS
+                if (!cat.getHissCats().contains(catsMap[x][y].cat)) {
+                    cat.addHiisCats(catsMap[x][y].cat)
+                }
+
+                if (!catsMap[x][y].cat.getHissCats().contains(cat)) {
+                    catsMap[x][y].cat.addHiisCats(cat)
+                }
+
                 println("$cat шипит на ${catsMap[x][y].cat}")
                 if (catsMap[x][y].cat.status != Status.FIGHT) {
                     catsMap[x][y].cat.status = Status.HISS
