@@ -1,4 +1,3 @@
-import kotlin.collections.Map
 import kotlin.random.Random
 
 class Map {
@@ -87,80 +86,87 @@ class Map {
         return move
 
     }
+
+    private fun updatingInteractions(catsMap: Array<Array<CatInMap>>, fightCats: MutableList<Cat>, hissCats: MutableList<Cat>, currentCat: Cat, startCat: Cat) {
+        for (fightCat in fightCats.toList()) {
+            currentCat.removeFightCats(fightCat)
+            fightCat.removeFightCats(currentCat)
+            fightCat.removeFightCats(startCat)
+
+            if (fightCat.getFightCats().isEmpty())
+                catsMap[fightCat.x][fightCat.y].cat.status = Status.WALK
+            fightCat.status = Status.WALK
+        }
+
+        for (hissCat in hissCats) {
+            currentCat.removeHissCats(hissCat)
+            hissCat.removeHissCats(currentCat)
+            hissCat.removeHissCats(startCat)
+
+            if (hissCat.getHissCats().isEmpty() && hissCat.status != Status.FIGHT)
+                catsMap[hissCat.x][hissCat.y].cat.status = Status.WALK
+            hissCat.status = Status.WALK
+        }
+    }
     fun moveCatsMap(catsMap: Array<Array<CatInMap>>, cats: Array<Cat>, amountCats: Int, height: Int, weight: Int, r0: Float, r1: Float) {
         val idCats = mixingCats(cats, amountCats)
         for (idCat in idCats) {
             val currentCat = cats[idCat]
-            val fightCats = catsMap[currentCat.x][currentCat.y].cat.getFightCats().toList()
-            val hissCats = catsMap[currentCat.x][currentCat.y].cat.getHissCats().toList()
+            val currentCatInMap = catsMap[currentCat.x][currentCat.y]
+            val startCat = Cat(currentCat.x, currentCat.y, currentCat.status)
+            val fightCats = currentCatInMap.cat.getFightCats()
+            val hissCats = currentCatInMap.cat.getHissCats()
 
-            print("${cats[idCat]} ушел в ")
+            print("$currentCat ушел в ")
 
-            val startCat = Cat(cats[idCat].x, cats[idCat].y, cats[idCat].status)
-
-            catsMap[cats[idCat].x][cats[idCat].y].number--
-            if (catsMap[cats[idCat].x][cats[idCat].y].number == 1 && catsMap[cats[idCat].x][cats[idCat].y].cat.getFightCats().isEmpty()) {
-                catsMap[cats[idCat].x][cats[idCat].y].cat.status = Status.WALK
-            } else if (catsMap[cats[idCat].x][cats[idCat].y].number >= 1) {
-                catsMap[cats[idCat].x][cats[idCat].y].cat.status = Status.FIGHT
-            } else if (catsMap[cats[idCat].x][cats[idCat].y].number == 0) {
-                catsMap[cats[idCat].x][cats[idCat].y].cat.status = Status.None
+            currentCatInMap.number--
+            if (currentCatInMap.number == 1 && fightCats.isEmpty()) {
+                currentCatInMap.cat.status = Status.WALK
+            } else if (currentCatInMap.number >= 1) {
+                currentCatInMap.cat.status = Status.FIGHT
+            } else if (currentCatInMap.number == 0) {
+                currentCatInMap.cat.status = Status.None
             }
 
-            val moveX = move(weight)
-            val moveY = move(height)
+            currentCat.x = currentCat.x + move(weight)
+            currentCat.y = currentCat.y + move(height)
+            currentCat.status = Status.WALK
 
-            cats[idCat].x = cats[idCat].x + moveX
-            cats[idCat].y = cats[idCat].y + moveY
-            cats[idCat].status = Status.WALK
-
-            if (cats[idCat].x >= weight) {
-                cats[idCat].x = cats[idCat].x - weight
-            } else if (cats[idCat].x < 0) {
-                cats[idCat].x = cats[idCat].x + weight
+            if (currentCat.x >= weight) {
+                currentCat.x = currentCat.x - weight
+            } else if (currentCat.x < 0) {
+                currentCat.x = currentCat.x + weight
             }
 
-            if (cats[idCat].y >= height) {
-                cats[idCat].y = cats[idCat].y - height
-            } else if (cats[idCat].y < 0) {
-                cats[idCat].y = cats[idCat].y + height
+            if (currentCat.y >= height) {
+                currentCat.y = currentCat.y - height
+            } else if (currentCat.y < 0) {
+                currentCat.y = currentCat.y + height
             }
 
-            println("x = ${cats[idCat].x}, y = ${cats[idCat].y}")
+            println("x = ${currentCat.x}, y = ${currentCat.y}")
 
-            catsMap[cats[idCat].x][cats[idCat].y].number++
-            if (catsMap[cats[idCat].x][cats[idCat].y].number > 1) {
-                catsMap[cats[idCat].x][cats[idCat].y].cat.status = Status.FIGHT
-                cats[idCat].status = Status.FIGHT
-                println("${cats[idCat]} Дерется в клетке")
-            } else if (catsMap[cats[idCat].x][cats[idCat].y].number == 1) {
-                catsMap[cats[idCat].x][cats[idCat].y].cat.status = Status.WALK
-                cats[idCat].status = Status.WALK
+            val moveCurrentCatInMap = catsMap[currentCat.x][currentCat.y]
+
+            moveCurrentCatInMap.number++
+            if (moveCurrentCatInMap.number > 1) {
+                moveCurrentCatInMap.cat.status = Status.FIGHT
+                currentCat.status = Status.FIGHT
+                println("$currentCat дерется в своей клетке")
+            } else if (moveCurrentCatInMap.number == 1) {
+                moveCurrentCatInMap.cat.status = Status.WALK
+                currentCat.status = Status.WALK
             }
 
             if (fightCats.isNotEmpty() || hissCats.isNotEmpty()) {
-                if (catsMap[startCat.x][startCat.y].number == 0) {
-                    for (cat in fightCats) {
-                        println("$cat       ${cat.getFightCats()}")
-                        println(cats[idCat])
-                        cats[idCat].removeFightCats(cat)
-                        cat.removeFightCats(cats[idCat])
-                        cat.removeFightCats(startCat)
-
-                        if (cat.getFightCats().isEmpty()) catsMap[cat.x][cat.y].cat.status = Status.WALK
-                    }
-
-                    for (cat in hissCats) {
-                        cats[idCat].removeHissCats(cat)
-                        cat.removeHissCats(cats[idCat])
-                        if (cat.getHissCats().isEmpty() && cat.status != Status.FIGHT) cat.status = Status.WALK
-                    }
+                if (currentCatInMap.number == 0) {
+                    updatingInteractions(catsMap, fightCats, hissCats, currentCat, startCat)
                 }
             }
 
-            UpdateStatus(catsMap, r0, r1).addStatus(r0, catsMap[cats[idCat].x][cats[idCat].y].cat, Status.FIGHT)
-            UpdateStatus(catsMap, r0, r1).addStatus(r1, catsMap[cats[idCat].x][cats[idCat].y].cat, Status.HISS)
-            cats[idCat].status = catsMap[cats[idCat].x][cats[idCat].y].cat.status
+            UpdateStatus(catsMap, r0, r1).addStatus(r0, catsMap[currentCat.x][currentCat.y].cat, Status.FIGHT)
+            UpdateStatus(catsMap, r0, r1).addStatus(r1, catsMap[currentCat.x][currentCat.y].cat, Status.HISS)
+            currentCat.status = catsMap[currentCat.x][currentCat.y].cat.status
         }
     }
 }
