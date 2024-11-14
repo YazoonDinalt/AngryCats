@@ -38,7 +38,13 @@ class Cat (
     }
 
     fun removeHissCats(cat: Cat) {
-        hissCats.remove(cat)
+        var delete = cat
+        for (hc in hissCats) {
+            if (hc.x == cat.x && hc.y == cat.y) {
+                delete = hc
+            }
+        }
+        hissCats.remove(delete)
     }
     fun getHissCats(): MutableList<Cat> {
         return hissCats
