@@ -21,6 +21,7 @@ class Distance(private val cat1: Cat, private val cat2: Cat) {
     }
 
     fun curvilinearDistance(): Float {
+        // Переход к полярным координатам
         val r1 = sqrt((cat1.x * cat1.x + cat1.y * cat1.y).toFloat())
         val phi1 = atan((cat1.y / cat1.x).toFloat())
 

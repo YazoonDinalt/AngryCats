@@ -1,7 +1,5 @@
 import kotlin.random.Random
 
-
-
 enum class Status {
     WALK,
     HISS,
@@ -14,41 +12,6 @@ class Cat (
     var y: Int,
     var status: Status
 ) {
-    private var fightCats: MutableList<Cat> = mutableListOf() // Использование MutableList
-    private var hissCats: MutableList<Cat> = mutableListOf() // Использование MutableList
-    fun addFightCats(cat: Cat) {
-        fightCats.add(cat)
-    }
-
-    fun removeFightCats(cat: Cat) {
-        var delete = cat
-        for (fc in fightCats) {
-            if (fc.x == cat.x && fc.y == cat.y) {
-                delete = fc
-            }
-        }
-        fightCats.remove(delete)
-    }
-    fun getFightCats(): MutableList<Cat> {
-        return fightCats
-    }
-
-    fun addHiisCats(cat: Cat) {
-        hissCats.add(cat)
-    }
-
-    fun removeHissCats(cat: Cat) {
-        var delete = cat
-        for (hc in hissCats) {
-            if (hc.x == cat.x && hc.y == cat.y) {
-                delete = hc
-            }
-        }
-        hissCats.remove(delete)
-    }
-    fun getHissCats(): MutableList<Cat> {
-        return hissCats
-    }
     override fun toString(): String {
         return "Cat(X=$x, Y=$y, Status=$status)"
     }
