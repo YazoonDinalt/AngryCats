@@ -43,14 +43,6 @@ fun presenter(queueCats: SynchronizedQueue<Array<Array<CatInMap>>>) = applicatio
     }
 }
 
-/*
-0 - пустота
-1 - шипит
-2 - дерется
-3 - просто стоит
-4 - умер нахуй
-5 - спаривается
- */
 @Composable
 fun mainWindow(queueCats: SynchronizedQueue<Array<Array<CatInMap>>>) {
     val scope = rememberCoroutineScope()
