@@ -1,31 +1,21 @@
 object Checker {
-    fun checkFight(cats: MutableList<Cat>, r0: Double, cat: Cat): Boolean {
+    private fun checkFightOrBreending(cats: MutableList<Cat>, r0: Double, cat: Cat, inputStatus: Status): Boolean {
         for (i in cats.indices) {
-            if (cats[i] != cat) {
-                val distance = Distance(cats[i], cat).euclideanDistance()
-                if (distance < r0) {
-                    if (cats[i].status != Status.FIGHT) {
-                        return false
-                    }
-                }
+            val currentCat = cats[i]
+            val distance = Distance(currentCat, cat).euclideanDistance()
+            if (currentCat != cat && distance < r0 && currentCat.status != inputStatus) {
+                return false
             }
         }
         return true
     }
 
+    fun checkFight(cats: MutableList<Cat>, r0: Double, cat: Cat): Boolean {
+        return checkFightOrBreending(cats, r0, cat, Status.FIGHT)
+    }
+
     fun checkBreending(cats: MutableList<Cat>, r0: Double, cat: Cat): Boolean {
-        for (i in cats.indices) {
-            if (cats[i] != cat) {
-                val distance = Distance(cats[i], cat).euclideanDistance()
-                if (distance < r0 && cats[i].status != Status.BREENDING) {
-                    println(distance)
-                    println(cat)
-                    println( cats[i] )
-                    return false
-                }
-            }
-        }
-        return true
+        return checkFightOrBreending(cats, r0, cat, Status.BREENDING)
     }
 
     fun checkWalk(cats: MutableList<Cat>, r0: Double, cat: Cat): Boolean {

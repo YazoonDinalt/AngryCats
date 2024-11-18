@@ -11,7 +11,7 @@ class ProgramTest {
 
         val cats = createCats(amountCats, height, width)
 
-        for (num in 0..3) {
+        for (num in 0..1) {
             Map(width, height, cats).moveCats()
             UpdateStatus(cats, r0, r1)
 

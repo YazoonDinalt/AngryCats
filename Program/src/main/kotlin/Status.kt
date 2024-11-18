@@ -70,41 +70,28 @@ class UpdateStatus(private val cats: MutableList<Cat>, private val r0: Double, p
             if (currentCat.status != Status.DEAD) {
                 for (j in i + 1 until cats.size) {
                     val otherCat = cats[j]
-                    if (otherCat.status != Status.DEAD) {
-                        if ((currentCat.status != Status.BREENDING || otherCat.status != Status.BREENDING) && currentCat != otherCat) {
-                            val distance = distance(currentCat, otherCat)
-                            if (distance <= r0) {
-                                if (currentCat.status == Status.BREENDING) {
+                    val distance = distance(currentCat, otherCat)
+                    if ((otherCat.status != Status.DEAD)
+                        && (currentCat.status != Status.BREENDING || otherCat.status != Status.BREENDING)
+                        && currentCat != otherCat
+                        && distance <= r0) {
 
-                                    for (cat in currentCat.getNeighboringBreending()) {
-                                        cat.removeNeighboringBreending(currentCat)
-                                    }
+                        if (currentCat.status == Status.BREENDING) {
+                            breedingForWar(currentCat)
+                        }
 
-                                    for (cat in currentCat.getNeighboringBreending()) {
-                                        breedingForWar(cat)
-                                    }
-                                }
-                                if (otherCat.status == Status.BREENDING) {
+                        if (otherCat.status == Status.BREENDING) {
+                            breedingForWar(otherCat)
+                        }
 
-                                    for (cat in otherCat.getNeighboringBreending()) {
-                                        cat.removeNeighboringBreending(otherCat)
-                                    }
-
-                                    for (cat in otherCat.getNeighboringBreending()) {
-                                        breedingForWar(cat)
-                                    }
-                                }
-
-                                currentCat.status = Status.FIGHT
-                                otherCat.status = Status.FIGHT
+                        currentCat.status = Status.FIGHT
+                        otherCat.status = Status.FIGHT
 
 
-                                if (currentCat.x == otherCat.x && currentCat.y == otherCat.y) {
-                                    println("Коты в x = ${currentCat.x}, y = ${currentCat.y} дерутся")
-                                } else {
-                                    println("$currentCat дерется c $otherCat")
-                                }
-                            }
+                        if (currentCat.x == otherCat.x && currentCat.y == otherCat.y) {
+                            println("Коты в x = ${currentCat.x}, y = ${currentCat.y} дерутся")
+                        } else {
+                            println("$currentCat дерется c $otherCat")
                         }
                     }
                 }

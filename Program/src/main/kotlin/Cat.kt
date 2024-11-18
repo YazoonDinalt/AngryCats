@@ -63,12 +63,7 @@ fun createCat(
     x: Int = random.nextInt(width),
     y: Int = random.nextInt(height)
 ): Cat {
-    val sex =
-        if (random.nextBoolean()) {
-            Sex.Male
-        } else {
-            Sex.Female
-        }
+    val sex = if (random.nextBoolean()) Sex.Male else Sex.Female
 
     return (Cat(x, y, sex, age, Status.WALK))
 }
