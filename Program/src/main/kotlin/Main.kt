@@ -2,12 +2,12 @@ const val SEED = 111
 const val AMBIT = 5
 fun main() {
     val height = 5
-    val weight = 5
+    val width = 5
     val amountCats = 10
     val r0 = 1.0
     val r1 = 10.0
 
-    val cats = createCats(amountCats, height, weight)
+    val cats = createCats(amountCats, height, width)
 
 
     cats[0].addNeighboringBreending(cats[2])
@@ -25,18 +25,18 @@ fun main() {
 //        papa(cat, cats[0])
 //    }
 
-    Print(Map(weight, height, cats).visualCatsMap())
+    Print(Map(width, height, cats).visualCatsMap())
 
     UpdateStatus(cats, r0, r1)
-    Print(Map(weight, height, cats).visualCatsMap())
+    Print(Map(width, height, cats).visualCatsMap())
 
-    Map(weight, height, cats).moveCats()
-
-    UpdateStatus(cats, r0, r1)
-    Print(Map(weight, height, cats).visualCatsMap())
-
-    Map(weight, height, cats).moveCats()
+    Map(width, height, cats).moveCats()
 
     UpdateStatus(cats, r0, r1)
-    Print(Map(weight, height, cats).visualCatsMap())
+    Print(Map(width, height, cats).visualCatsMap())
+
+    Map(width, height, cats).moveCats()
+
+    UpdateStatus(cats, r0, r1)
+    Print(Map(width, height, cats).visualCatsMap())
 }

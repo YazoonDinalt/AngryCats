@@ -51,8 +51,8 @@ object Checker {
         return true
     }
 
-    fun checkDead(cat: Cat, weight: Int, height: Int): Boolean {
-        if (cat.status == Status.DEAD && cat.x == -weight && cat.y == -height) {
+    fun checkDead(cat: Cat, width: Int, height: Int): Boolean {
+        if (cat.status == Status.DEAD && cat.x == -width && cat.y == -height) {
             return true
         }
         return true

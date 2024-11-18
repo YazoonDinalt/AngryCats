@@ -57,10 +57,10 @@ class Cat (
 }
 
 fun createCat(
-    weight: Int,
+    width: Int,
     height: Int,
     age: Int = random.nextInt(10),
-    x: Int = random.nextInt(weight),
+    x: Int = random.nextInt(width),
     y: Int = random.nextInt(height)
 ): Cat {
     val sex =
@@ -73,11 +73,11 @@ fun createCat(
     return (Cat(x, y, sex, age, Status.WALK))
 }
 
-fun createCats(amount: Int, height: Int, weight: Int): MutableList<Cat> {
+fun createCats(amount: Int, height: Int, width: Int): MutableList<Cat> {
     val cats: MutableList<Cat> = mutableListOf()
 
     for (i in 0 until amount) {
-        val cat = createCat(weight, height)
+        val cat = createCat(width, height)
         cats.add(cat)
     }
 

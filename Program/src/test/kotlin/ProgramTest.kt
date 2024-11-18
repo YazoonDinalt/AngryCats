@@ -4,15 +4,15 @@ class ProgramTest {
     @Test
     fun `big test move and update` () {
         val height = 1000
-        val weight = 1000
+        val width = 1000
         val amountCats = 50000
         val r0 = 8.0
         val r1 = r0 * 2
 
-        val cats = createCats(amountCats, height, weight)
+        val cats = createCats(amountCats, height, width)
 
         for (num in 0..3) {
-            Map(weight, height, cats).moveCats()
+            Map(width, height, cats).moveCats()
             UpdateStatus(cats, r0, r1)
 
             for (i in cats.indices) {
@@ -21,7 +21,7 @@ class ProgramTest {
                     Status.HISS -> assert(Checker.checkHiss(r1, cats[i]))
                     Status.WALK -> assert(Checker.checkWalk(cats, r0, cats[i]))
                     Status.BREENDING -> assert(Checker.checkBreending(cats, r0, cats[i]))
-                    Status.DEAD -> assert(Checker.checkDead(cats[i], weight, height))
+                    Status.DEAD -> assert(Checker.checkDead(cats[i], width, height))
                 }
             }
         }
@@ -106,9 +106,6 @@ class ProgramTest {
 
     @Test
     fun `test all dead`() {
-        val r0 = 0.0
-        val r1 = r0 * 2
-
         val cats = mutableListOf(
             Cat(0, 0, Sex.Female, 15, Status.WALK),
             Cat(0, 1, Sex.Female, 15, Status.WALK),

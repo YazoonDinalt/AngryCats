@@ -1,8 +1,8 @@
 import kotlin.random.Random
 
-class Map (private val weight: Int, private val height: Int, private val cats: MutableList<Cat>){
+class Map (private val width: Int, private val height: Int, private val cats: MutableList<Cat>){
     fun visualCatsMap(): Array<Array<String>> {
-        val visCatsMap = Array(weight) { Array(height) { "0" } }
+        val visCatsMap = Array(width) { Array(height) { "0" } }
 
         for (i in cats.indices) {
             when (cats[i].status) {
@@ -40,7 +40,7 @@ class Map (private val weight: Int, private val height: Int, private val cats: M
         for (cat in cats) {
 
             if (cat.status == Status.BREENDING && cat.sex == Sex.Female) {
-                val newCat = createCat(weight, height, 0, cat.x, cat.y)
+                val newCat = createCat(width, height, 0, cat.x, cat.y)
                 newCatList.add(newCat)
             }
 
@@ -49,19 +49,19 @@ class Map (private val weight: Int, private val height: Int, private val cats: M
             if (cat.age > 15) {
                 if (cat.age < 17) { println("$cat умер") }
                 cat.status = Status.DEAD
-                cat.x = -weight
+                cat.x = -width
                 cat.y = -height
             } else {
                 print("$cat ушел в ")
 
-                cat.x += move(weight)
+                cat.x += move(width)
                 cat.y += move(height)
                 cat.status = Status.WALK
 
-                if (cat.x >= weight) {
-                    cat.x = cat.x - weight
+                if (cat.x >= width) {
+                    cat.x = cat.x - width
                 } else if ((cat.x < 0)) {
-                    cat.x = cat.x + weight
+                    cat.x = cat.x + width
                 }
 
                 if (cat.y >= height) {
