@@ -7,7 +7,7 @@ fun main() {
     val r0 = 1.0
     val r1 = 10.0
 
-    val cats: Array<Cat> = createCats(amountCats, height, weight)
+    val cats = createCats(amountCats, height, weight)
 
 
     cats[0].addNeighboringBreending(cats[2])
