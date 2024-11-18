@@ -8,16 +8,25 @@ enum class NameDistance {
 }
 
 class Distance(private val cat1: Cat, private val cat2: Cat) {
+    private val catLeftX = min(cat1.x, cat2.x)
+    val catRightX = max(cat1.x, cat2.x)
+
+    val catLeftY = min(cat1.y, cat2.y)
+    val catRightY = max(cat1.y, cat2.y)
+
+    val distanceX = catRightX - catLeftX
+    val distanceY = catLeftY - catRightY
+
     fun euclideanDistance(): Float {
-        return sqrt(((cat1.x - cat2.x)*(cat1.x-cat2.x) + (cat1.y-cat2.y)*(cat1.y-cat2.y)).toFloat())
+        return sqrt((distanceX * distanceX + distanceY * distanceY).toFloat())
     }
 
     fun manhattanDistance(): Float {
-        return (abs(cat1.x - cat2.x) + abs(cat1.y-cat2.y)).toFloat()
+        return (abs(distanceX) + abs(distanceY)).toFloat()
     }
 
     fun chebyshevDistance(): Float {
-        return max((cat1.x - cat2.x).toFloat(), (cat1.y - cat2.y).toFloat())
+        return max(distanceX.toFloat(), distanceY.toFloat())
     }
 
     fun curvilinearDistance(): Float {

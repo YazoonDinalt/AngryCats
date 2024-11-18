@@ -8,20 +8,17 @@ fun main() {
     val r1 = 10.0
 
     val cats = createCats(amountCats, height, weight)
-    var catsMap = Map().createCatsMap(cats, height, weight)
 
-    UpdateStatus(catsMap, r0, r1).updateStatus()
-    Print(Map().visualCatsMap(catsMap))
+    UpdateStatus(cats, r0, r1)
+    Print(Map().visualCatsMap(cats, weight, height))
 
-    Map().moveCatsMap(cats, amountCats, height, weight)
-    catsMap = Map().createCatsMap(cats, height, weight)
-    UpdateStatus(catsMap, r0, r1).updateStatus()
+    Map().moveCats(cats, amountCats, height, weight)
+    UpdateStatus(cats, r0, r1)
 
-    Print(Map().visualCatsMap(catsMap))
+    Print(Map().visualCatsMap(cats, weight, height))
 
-    Map().moveCatsMap(cats, amountCats, height, weight)
-    catsMap = Map().createCatsMap(cats, height, weight)
-    UpdateStatus(catsMap, r0, r1).updateStatus()
+    Map().moveCats(cats, amountCats, height, weight)
+    UpdateStatus(cats, r0, r1)
 
-    Print(Map().visualCatsMap(catsMap))
+    Print(Map().visualCatsMap(cats, weight, height))
 }
