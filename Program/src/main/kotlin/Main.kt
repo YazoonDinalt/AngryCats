@@ -1,42 +1,28 @@
-const val SEED = 111
+import view.presenter
+import kotlinx.coroutines.*
+
+const val SEED = 18
 const val AMBIT = 5
 fun main() {
-    val height = 5
-    val width = 5
-    val amountCats = 10
-    val r0 = 1.0
-    val r1 = 10.0
+    val scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
+    val queueCats = SynchronizedQueue<Array<Cat>>()
+    var cats = arrayOf<Cat>()
 
-    val cats = createCats(amountCats, height, width)
+    scope.launch {
+        while(!Config.isReady.value) cats = createCats(Config.amountCats.value, Config.height.value, Config.width.value)
 
+        while (true) {
+            if (Config.isReady.value) startCalculate(cats, queueCats)
+        }
+    }
 
-    cats[0].addNeighboringBreending(cats[2])
-    cats[0].addNeighboringBreending(cats[3])
+    presenter(queueCats)
+}
 
-    cats[2].addNeighboringBreending(cats[0])
-    cats[2].addNeighboringBreending(cats[1])
-    cats[2].addNeighboringBreending(cats[4])
-    cats[2].addNeighboringBreending(cats[5])
-
-    cats[4].addNeighboringBreending(cats[2])
-    cats[4].addNeighboringBreending(cats[3])
-//
-//    for (cat in cats[0].getSose()) {
-//        papa(cat, cats[0])
-//    }
-
-    Print(Map(width, height, cats).visualCatsMap())
-
-    UpdateStatus(cats, r0, r1)
-    Print(Map(width, height, cats).visualCatsMap())
-
-    Map(width, height, cats).moveCats()
-
-    UpdateStatus(cats, r0, r1)
-    Print(Map(width, height, cats).visualCatsMap())
-
-    Map(width, height, cats).moveCats()
-
-    UpdateStatus(cats, r0, r1)
-    Print(Map(width, height, cats).visualCatsMap())
+suspend fun startCalculate(cats: Array<Cat>, queueCats: SynchronizedQueue<Array<Cat>>) {
+    UpdateStatus(cats, Config.r0.value, Config.r1.value)
+    Print(Map().visualCatsMap(cats,  Config.width.value, Config.height.value))
+    Map().moveCats(cats, Config.amountCats.value, Config.height.value,  Config.width.value)
+    queueCats.enqueue(cats)
+    delay(500L)
 }

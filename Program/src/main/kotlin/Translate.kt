@@ -1,25 +1,17 @@
-
 object Translate {
 
-    fun translateCatMapIn2dArray(catsMap: Array<Array<CatInMap>>) : Array<IntArray> {
-        val visCatsMap = Array(catsMap.size) { IntArray(catsMap[0].size) { 0 } }
-
-        for (i in catsMap.indices) {
-            for (j in 0 until catsMap[i].size) {
-                if (catsMap[i][j].number == 0) {
-                    continue
-                }
-
-                when (catsMap[i][j].cat.status) {
-                    Status.FIGHT -> visCatsMap[i][j] = 2
-                    Status.WALK -> visCatsMap[i][j] = 3
-                    Status.HISS -> visCatsMap[i][j] = 1
-                    else -> println("WTF")
+    fun catsToGrid(cats: List<Cat>, gridWidth: Int, gridHeight: Int): Array<IntArray> {
+        val grid = Array(gridHeight) { IntArray(gridWidth) { 0 } }
+        cats.forEach { cat ->
+            if (cat.x in 0 until gridWidth && cat.y in 0 until gridHeight) {
+                grid[cat.y][cat.x] = when (cat.status) {
+                    Status.WALK -> 1
+                    Status.FIGHT -> 2
+                    Status.HISS -> 3
                 }
             }
         }
-
-        return visCatsMap
+        return grid
     }
 
 }

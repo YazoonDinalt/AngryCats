@@ -1,13 +1,15 @@
+package view
+
+import Cat
+import SynchronizedQueue
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.input.pointer.positionChange
 import androidx.compose.ui.layout.ContentScale
@@ -15,50 +17,25 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.*
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import java.awt.Dimension
-
-
-fun presenter(queueCats: SynchronizedQueue<Array<Array<CatInMap>>>) = application {
-    Window(
-        onCloseRequest = ::exitApplication,
-        title = "AngryCats",
-        state = rememberWindowState(
-            position = WindowPosition(alignment = Alignment.Center),
-            size = DpSize(1200.dp, 1200.dp),
-        ),
-    ) {
-        window.minimumSize = Dimension(800, 800)
-        MaterialTheme(
-            colorScheme = MaterialTheme.colorScheme.copy(
-                surface = Color(red = 235, green = 235, blue = 237)
-            )
-        ) {
-            mainWindow(queueCats)
-        }
-    }
-}
 
 @Composable
-fun mainWindow(queueCats: SynchronizedQueue<Array<Array<CatInMap>>>) {
+fun mainWindow(queueCats: SynchronizedQueue<Array<Cat>>) {
     val scope = rememberCoroutineScope()
     var array by remember { mutableStateOf<Array<IntArray>?>(null) }
     var previousArray by remember { mutableStateOf<Array<IntArray>?>(null) }
     LaunchedEffect(queueCats) {
         scope.launch {
             queueCats.asFlow()
-                .map { it.let { Translate.translateCatMapIn2dArray(it) } }
+                .map { it.let { Translate.catsToGrid(it.toList(), 1000, 1000) } }
                 .collect { newArray ->
                     previousArray = array
                     array = newArray
                 }
         }
     }
-
 
     var offsetX by remember { mutableStateOf(0f) }
     var offsetY by remember { mutableStateOf(0f) }
@@ -76,16 +53,12 @@ fun mainWindow(queueCats: SynchronizedQueue<Array<Array<CatInMap>>>) {
         }
         .clipToBounds()
     ) {
-        array?.let { displayArrayCanvas(it, offsetX, offsetY) } ?: displayPlaceholder()
+        array?.let { displayArrayCanvas(it, offsetX, offsetY) }
     }
 }
 
 fun Dp.toPx(density: Density): Float {
     return this.value * density.density
-}
-
-@Composable
-fun displayPlaceholder(){
 }
 
 @Composable
@@ -130,4 +103,3 @@ fun displayArrayCanvas(array: Array<IntArray>, offsetX: Float = 0f, offsetY: Flo
         }
     }
 }
-
