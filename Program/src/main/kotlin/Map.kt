@@ -38,7 +38,6 @@ class Map (private val weight: Int, private val height: Int, private val cats: M
     fun moveCats() {
         val newCatList = mutableListOf<Cat>()
         for (cat in cats) {
-            print("$cat ушел в ")
 
             if (cat.status == Status.BREENDING && cat.sex == Sex.Female) {
                 val newCat = createCat(weight, height, 0, cat.x, cat.y)
@@ -48,10 +47,13 @@ class Map (private val weight: Int, private val height: Int, private val cats: M
             cat.age += 1
 
             if (cat.age > 15) {
+                if (cat.age < 17) { println("$cat умер") }
                 cat.status = Status.DEAD
                 cat.x = -weight
                 cat.y = -height
             } else {
+                print("$cat ушел в ")
+
                 cat.x += move(weight)
                 cat.y += move(height)
                 cat.status = Status.WALK
