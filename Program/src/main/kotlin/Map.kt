@@ -1,8 +1,7 @@
-import kotlin.collections.Map
 import kotlin.random.Random
 
-class Map {
-    fun visualCatsMap(cats: Array<Cat>, weight: Int, height: Int): Array<Array<String>> {
+class Map (private val weight: Int, private val height: Int, private val cats: Array<Cat>){
+    fun visualCatsMap(): Array<Array<String>> {
         val visCatsMap = Array(weight) { Array(height) { "0" } }
 
         for (i in cats.indices) {
@@ -10,7 +9,8 @@ class Map {
                 Status.FIGHT -> visCatsMap[cats[i].x][cats[i].y] = "F"
                 Status.WALK -> visCatsMap[cats[i].x][cats[i].y] = "W"
                 Status.HISS -> visCatsMap[cats[i].x][cats[i].y] = "H"
-                else -> println("WTF")
+                Status.DEAD -> visCatsMap[cats[i].x][cats[i].y] = "D"
+                Status.BREENDING -> visCatsMap[cats[i].x][cats[i].y] = "S"
             }
         }
 
@@ -18,8 +18,7 @@ class Map {
     }
 
     private fun move(distance: Int): Int {
-        val random = Random(SEED) // Создаем новый объект Random с заданным SEED
-        val randomOp = random.nextDouble()
+        val randomOp = Random.nextDouble()
 
         var move =
             if (randomOp < 0.5) -1
@@ -36,12 +35,13 @@ class Map {
         return move
 
     }
-    fun moveCats(cats: Array<Cat>, amountCats: Int, height: Int, weight: Int) {
+    fun moveCats() {
         for (cat in cats) {
             print("$cat ушел в ")
 
-            cat.x = cat.x + move(weight)
-            cat.y = cat.y + move(height)
+            cat.x += move(weight)
+            cat.y += move(height)
+            cat.age += 1
             cat.status = Status.WALK
 
             if (cat.x >= weight) {
@@ -58,23 +58,8 @@ class Map {
 
             println("x = ${cat.x}, y = ${cat.y}")
 
-            for (fightCat in cat.getFightCats()) {
-                fightCat.removeFightCat(cat)
-
-                if (fightCat.getFightCats().isEmpty()) {
-                    fightCat.status = Status.WALK
-                }
-            }
-            cat.removeAllFightCats()
-
-            for (hissCat in cat.getHissCats()) {
-                hissCat.removeHissCat(cat)
-
-                if (hissCat.getHissCats().isEmpty() && hissCat.status != Status.FIGHT) {
-                    hissCat.status = Status.WALK
-                }
-            }
             cat.removeAllHissCats()
+            cat.removeAllNeighboringBreending()
         }
     }
 }
