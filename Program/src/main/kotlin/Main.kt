@@ -4,36 +4,25 @@ import kotlinx.coroutines.*
 const val SEED = 18
 const val AMBIT = 5
 fun main() {
-    val height = 100
-    val weight = 100
-    val amountCats = 500
-    val r0 = 1.0
-    val r1 = 10.0
-
     val scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
-    val cats = createCats(amountCats, height, weight)
     val queueCats = SynchronizedQueue<Array<Cat>>()
+    var cats = arrayOf<Cat>()
+
     scope.launch {
+        while(!Config.isReady.value) cats = createCats(Config.amountCats.value, Config.height.value, Config.width.value)
+
         while (true) {
-            UpdateStatus(cats, r0, r1)
-            Print(Map().visualCatsMap(cats, weight, height))
-
-            Map().moveCats(cats, amountCats, height, weight)
-            queueCats.enqueue(cats)
-            delay(500L)
-            UpdateStatus(cats, r0, r1)
-
-            Print(Map().visualCatsMap(cats, weight, height))
-
-            Map().moveCats(cats, amountCats, height, weight)
-            queueCats.enqueue(cats)
-
-            delay(500L)
-
-            UpdateStatus(cats, r0, r1)
-
-            Print(Map().visualCatsMap(cats, weight, height))
+            if (Config.isReady.value) startCalculate(cats, queueCats)
         }
     }
+
     presenter(queueCats)
+}
+
+suspend fun startCalculate(cats: Array<Cat>, queueCats: SynchronizedQueue<Array<Cat>>) {
+    UpdateStatus(cats, Config.r0.value, Config.r1.value)
+    Print(Map().visualCatsMap(cats,  Config.width.value, Config.height.value))
+    Map().moveCats(cats, Config.amountCats.value, Config.height.value,  Config.width.value)
+    queueCats.enqueue(cats)
+    delay(500L)
 }
