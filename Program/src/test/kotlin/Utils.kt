@@ -1,5 +1,5 @@
 object Checker {
-    fun checkFight(cats: Array<Cat>, r0: Double, cat: Cat): Boolean {
+    fun checkFight(cats: MutableList<Cat>, r0: Double, cat: Cat): Boolean {
         for (i in cats.indices) {
             if (cats[i] != cat) {
                 val distance = Distance(cats[i], cat).euclideanDistance()
@@ -13,7 +13,7 @@ object Checker {
         return true
     }
 
-    fun checkBreending(cats: Array<Cat>, r0: Double, cat: Cat): Boolean {
+    fun checkBreending(cats: MutableList<Cat>, r0: Double, cat: Cat): Boolean {
         for (i in cats.indices) {
             if (cats[i] != cat) {
                 val distance = Distance(cats[i], cat).euclideanDistance()
@@ -28,7 +28,7 @@ object Checker {
         return true
     }
 
-    fun checkWalk(cats: Array<Cat>, r0: Double, cat: Cat): Boolean {
+    fun checkWalk(cats: MutableList<Cat>, r0: Double, cat: Cat): Boolean {
         for (i in cats.indices) {
             if (cats[i] != cat) {
                 val distance = Distance(cats[i], cat).euclideanDistance()
@@ -47,6 +47,13 @@ object Checker {
             if (distance > r1) {
                 return false
             }
+        }
+        return true
+    }
+
+    fun checkDead(cat: Cat, weight: Int, height: Int): Boolean {
+        if (cat.status == Status.DEAD && cat.x == -weight && cat.y == -height) {
+            return true
         }
         return true
     }
