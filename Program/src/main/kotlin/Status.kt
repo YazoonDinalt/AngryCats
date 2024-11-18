@@ -1,6 +1,6 @@
 import kotlin.random.Random
 
-class UpdateStatus(private val cats: Array<Cat>, private val r0: Double, private val r1: Double, private val nameDistance: NameDistance = NameDistance.Euclidean) {
+class UpdateStatus(private val cats: MutableList<Cat>, private val r0: Double, private val r1: Double, private val nameDistance: NameDistance = NameDistance.Euclidean) {
 
     init {
         updateCatStatus()
@@ -67,40 +67,44 @@ class UpdateStatus(private val cats: Array<Cat>, private val r0: Double, private
     private fun updateFight() {
         for (i in cats.indices) {
             val currentCat = cats[i]
-            for (j in i + 1 until cats.size) {
-                val otherCat = cats[j]
-                if ((currentCat.status != Status.BREENDING || otherCat.status != Status.BREENDING) && currentCat != otherCat) {
-                    val distance = distance(currentCat, otherCat)
-                    if (distance <= r0) {
-                        if (currentCat.status == Status.BREENDING) {
+            if (currentCat.status != Status.DEAD) {
+                for (j in i + 1 until cats.size) {
+                    val otherCat = cats[j]
+                    if (otherCat.status != Status.DEAD) {
+                        if ((currentCat.status != Status.BREENDING || otherCat.status != Status.BREENDING) && currentCat != otherCat) {
+                            val distance = distance(currentCat, otherCat)
+                            if (distance <= r0) {
+                                if (currentCat.status == Status.BREENDING) {
 
-                            for (cat in currentCat.getNeighboringBreending()) {
-                                cat.removeNeighboringBreending(currentCat)
+                                    for (cat in currentCat.getNeighboringBreending()) {
+                                        cat.removeNeighboringBreending(currentCat)
+                                    }
+
+                                    for (cat in currentCat.getNeighboringBreending()) {
+                                        breedingForWar(cat)
+                                    }
+                                }
+                                if (otherCat.status == Status.BREENDING) {
+
+                                    for (cat in otherCat.getNeighboringBreending()) {
+                                        cat.removeNeighboringBreending(otherCat)
+                                    }
+
+                                    for (cat in otherCat.getNeighboringBreending()) {
+                                        breedingForWar(cat)
+                                    }
+                                }
+
+                                currentCat.status = Status.FIGHT
+                                otherCat.status = Status.FIGHT
+
+
+                                if (currentCat.x == otherCat.x && currentCat.y == otherCat.y) {
+                                    println("Коты в x = ${currentCat.x}, y = ${currentCat.y} дерутся")
+                                } else {
+                                    println("$currentCat дерется c $otherCat")
+                                }
                             }
-
-                            for (cat in currentCat.getNeighboringBreending()) {
-                                breedingForWar(cat)
-                            }
-                        }
-                        if (otherCat.status == Status.BREENDING) {
-
-                            for (cat in otherCat.getNeighboringBreending()) {
-                                cat.removeNeighboringBreending(otherCat)
-                            }
-
-                            for (cat in otherCat.getNeighboringBreending()) {
-                                breedingForWar(cat)
-                            }
-                        }
-
-                        currentCat.status = Status.FIGHT
-                        otherCat.status = Status.FIGHT
-
-
-                        if (currentCat.x == otherCat.x && currentCat.y == otherCat.y) {
-                            println("Коты в x = ${currentCat.x}, y = ${currentCat.y} дерутся")
-                        } else {
-                            println("$currentCat дерется c $otherCat")
                         }
                     }
                 }

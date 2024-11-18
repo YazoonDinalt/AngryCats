@@ -1,6 +1,6 @@
 import kotlin.random.Random
 
-class Map (private val weight: Int, private val height: Int, private val cats: Array<Cat>){
+class Map (private val weight: Int, private val height: Int, private val cats: MutableList<Cat>){
     fun visualCatsMap(): Array<Array<String>> {
         val visCatsMap = Array(weight) { Array(height) { "0" } }
 
@@ -36,30 +36,48 @@ class Map (private val weight: Int, private val height: Int, private val cats: A
 
     }
     fun moveCats() {
+        val newCatList = mutableListOf<Cat>()
         for (cat in cats) {
             print("$cat ушел в ")
 
-            cat.x += move(weight)
-            cat.y += move(height)
+            if (cat.status == Status.BREENDING && cat.sex == Sex.Female) {
+                val newCat = createCat(weight, height, 0, cat.x, cat.y)
+                newCatList.add(newCat)
+            }
+
             cat.age += 1
-            cat.status = Status.WALK
 
-            if (cat.x >= weight) {
-                cat.x = cat.x - weight
-            } else if ((cat.x < 0)) {
-                cat.x = cat.x + weight
+            if (cat.age > 15) {
+                cat.status = Status.DEAD
+                cat.x = -weight
+                cat.y = -height
+            } else {
+                cat.x += move(weight)
+                cat.y += move(height)
+                cat.status = Status.WALK
+
+                if (cat.x >= weight) {
+                    cat.x = cat.x - weight
+                } else if ((cat.x < 0)) {
+                    cat.x = cat.x + weight
+                }
+
+                if (cat.y >= height) {
+                    cat.y = cat.y - height
+                } else if ((cat.y < 0)) {
+                    cat.y = cat.y + height
+                }
+
+                println("x = ${cat.x}, y = ${cat.y}")
             }
-
-            if (cat.y >= height) {
-                cat.y = cat.y - height
-            } else if ((cat.y < 0)) {
-                cat.y = cat.y + height
-            }
-
-            println("x = ${cat.x}, y = ${cat.y}")
 
             cat.removeAllHissCats()
             cat.removeAllNeighboringBreending()
+        }
+
+
+        for (newCat in newCatList) {
+            cats.add(newCat)
         }
     }
 }
