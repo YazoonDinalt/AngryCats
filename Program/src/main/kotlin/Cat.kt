@@ -13,6 +13,8 @@ enum class Status {
     BREENDING
 }
 
+val random = Random(SEED)
+
 class Cat (
     var x: Int,
     var y: Int,
@@ -54,24 +56,29 @@ class Cat (
     }
 }
 
-fun createCats(amount: Int, height: Int, weight: Int): Array<Cat> {
-    // Инициализируем генератор случайных чисел
-    val random = Random(SEED) // Создаем новый объект Random с заданным SEED
+fun createCat(
+    weight: Int,
+    height: Int,
+    age: Int = random.nextInt(10),
+    x: Int = random.nextInt(weight),
+    y: Int = random.nextInt(height)
+): Cat {
+    val sex =
+        if (random.nextBoolean()) {
+            Sex.Male
+        } else {
+            Sex.Female
+        }
 
-    val cats = Array(amount) {  Cat(0, 0, Sex.Male, 0, Status.WALK) }
+    return (Cat(x, y, sex, age, Status.WALK))
+}
+
+fun createCats(amount: Int, height: Int, weight: Int): MutableList<Cat> {
+    val cats: MutableList<Cat> = mutableListOf()
 
     for (i in 0 until amount) {
-        val x = random.nextInt(weight)
-        val y = random.nextInt(height)
-        val age = random.nextInt(10)
-        val sex =
-            if (Random.nextBoolean()) {
-                Sex.Male
-            } else {
-                Sex.Female
-            }
-
-        cats[i] = Cat(x, y, sex, age, Status.WALK)
+        val cat = createCat(weight, height)
+        cats.add(cat)
     }
 
     return cats
