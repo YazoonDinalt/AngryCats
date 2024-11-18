@@ -1,4 +1,3 @@
-import kotlin.random.Random
 import org.junit.jupiter.api.Test
 
 class ProgramTest {
@@ -33,7 +32,7 @@ class ProgramTest {
         val r0 = 0.0
         val r1 = r0 * 2
 
-        val cats: Array<Cat> = arrayOf(
+        val cats = mutableListOf(
             Cat(0, 0, Sex.Female, 3, Status.WALK),
             Cat(0, 1, Sex.Female, 3, Status.WALK),
             Cat(0, 2, Sex.Female, 3, Status.WALK),
@@ -63,6 +62,9 @@ class ProgramTest {
             }
         }
 
+        Map(3, 3, cats).moveCats()
+
+        assert(cats.size == 27)
     }
 
     @Test
@@ -70,7 +72,7 @@ class ProgramTest {
         val r0 = 1.0
         val r1 = r0 * 2
 
-        val cats: Array<Cat> = arrayOf(
+        val cats = mutableListOf(
             Cat(0, 0, Sex.Female, 3, Status.WALK),
             Cat(0, 1, Sex.Female, 3, Status.WALK),
             Cat(0, 2, Sex.Female, 3, Status.WALK),
@@ -98,6 +100,42 @@ class ProgramTest {
                 else -> {
                     assert(false)
                 }
+            }
+        }
+    }
+
+    @Test
+    fun `test all dead`() {
+        val r0 = 0.0
+        val r1 = r0 * 2
+
+        val cats = mutableListOf(
+            Cat(0, 0, Sex.Female, 15, Status.WALK),
+            Cat(0, 1, Sex.Female, 15, Status.WALK),
+            Cat(0, 2, Sex.Female, 15, Status.WALK),
+            Cat(1, 0, Sex.Female, 15, Status.WALK),
+            Cat(1, 1, Sex.Female, 15, Status.WALK),
+            Cat(1, 2, Sex.Female, 15, Status.WALK),
+            Cat(2, 0, Sex.Female, 15, Status.WALK),
+            Cat(2, 1, Sex.Female, 15, Status.WALK),
+            Cat(2, 2, Sex.Female, 15, Status.WALK),
+            Cat(0, 0, Sex.Female, 15, Status.WALK),
+            Cat(0, 1, Sex.Female, 15, Status.WALK),
+            Cat(0, 2, Sex.Female, 15, Status.WALK),
+            Cat(1, 0, Sex.Female, 15, Status.WALK),
+            Cat(1, 1, Sex.Female, 15, Status.WALK),
+            Cat(1, 2, Sex.Female, 15, Status.WALK),
+            Cat(2, 0, Sex.Female, 15, Status.WALK),
+            Cat(2, 1, Sex.Female, 15, Status.WALK),
+            Cat(2, 2, Sex.Female, 15, Status.WALK),
+        )
+
+        Map(3, 3, cats).moveCats()
+
+        for (cat in cats) {
+            when (cat.status) {
+                Status.DEAD -> assert(Checker.checkDead(cat, 3, 3))
+                else -> assert(false)
             }
         }
     }
