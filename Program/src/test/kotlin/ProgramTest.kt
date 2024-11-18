@@ -21,7 +21,7 @@ class ProgramTest {
                     Status.HISS -> assert(Checker.checkHiss(r1, cats[i]))
                     Status.WALK -> assert(Checker.checkWalk(cats, r0, cats[i]))
                     Status.BREENDING -> assert(Checker.checkBreending(cats, r0, cats[i]))
-                    else -> assert(false)
+                    Status.DEAD -> assert(Checker.checkDead(cats[i], weight, height))
                 }
             }
         }
