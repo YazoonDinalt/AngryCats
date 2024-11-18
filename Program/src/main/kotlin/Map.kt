@@ -1,16 +1,16 @@
-import kotlin.collections.Map
 import kotlin.random.Random
 
-class Map {
-    fun visualCatsMap(cats: Array<Cat>, weight: Int, height: Int): Array<Array<String>> {
-        val visCatsMap = Array(weight) { Array(height) { "0" } }
+class Map (private val width: Int, private val height: Int, private val cats: MutableList<Cat>){
+    fun visualCatsMap(): Array<Array<String>> {
+        val visCatsMap = Array(width) { Array(height) { "0" } }
 
         for (i in cats.indices) {
             when (cats[i].status) {
                 Status.FIGHT -> visCatsMap[cats[i].x][cats[i].y] = "F"
                 Status.WALK -> visCatsMap[cats[i].x][cats[i].y] = "W"
                 Status.HISS -> visCatsMap[cats[i].x][cats[i].y] = "H"
-                else -> println("WTF")
+                Status.DEAD -> visCatsMap[cats[i].x][cats[i].y] = "D"
+                Status.BREENDING -> visCatsMap[cats[i].x][cats[i].y] = "S"
             }
         }
 
@@ -18,8 +18,7 @@ class Map {
     }
 
     private fun move(distance: Int): Int {
-        val random = Random(SEED) // Создаем новый объект Random с заданным SEED
-        val randomOp = random.nextDouble()
+        val randomOp = Random.nextDouble()
 
         var move =
             if (randomOp < 0.5) -1
@@ -36,45 +35,51 @@ class Map {
         return move
 
     }
-    fun moveCats(cats: Array<Cat>, amountCats: Int, height: Int, weight: Int) {
+    fun moveCats() {
+        val newCatList = mutableListOf<Cat>()
         for (cat in cats) {
-            print("$cat ушел в ")
 
-            cat.x = cat.x + move(weight)
-            cat.y = cat.y + move(height)
-            cat.status = Status.WALK
-
-            if (cat.x >= weight) {
-                cat.x = cat.x - weight
-            } else if ((cat.x < 0)) {
-                cat.x = cat.x + weight
+            if (cat.status == Status.BREENDING && cat.sex == Sex.Female) {
+                val newCat = createCat(width, height, 0, cat.x, cat.y)
+                newCatList.add(newCat)
             }
 
-            if (cat.y >= height) {
-                cat.y = cat.y - height
-            } else if ((cat.y < 0)) {
-                cat.y = cat.y + height
-            }
+            cat.age += 1
 
-            println("x = ${cat.x}, y = ${cat.y}")
+            if (cat.age > 15) {
+                if (cat.age < 17) { println("$cat умер") }
+                cat.status = Status.DEAD
+                cat.x = -width
+                cat.y = -height
+            } else {
+                print("$cat ушел в ")
 
-            for (fightCat in cat.getFightCats()) {
-                fightCat.removeFightCat(cat)
+                cat.x += move(width)
+                cat.y += move(height)
+                cat.status = Status.WALK
 
-                if (fightCat.getFightCats().isEmpty()) {
-                    fightCat.status = Status.WALK
+                if (cat.x >= width) {
+                    cat.x = cat.x - width
+                } else if ((cat.x < 0)) {
+                    cat.x = cat.x + width
                 }
-            }
-            cat.removeAllFightCats()
 
-            for (hissCat in cat.getHissCats()) {
-                hissCat.removeHissCat(cat)
-
-                if (hissCat.getHissCats().isEmpty() && hissCat.status != Status.FIGHT) {
-                    hissCat.status = Status.WALK
+                if (cat.y >= height) {
+                    cat.y = cat.y - height
+                } else if ((cat.y < 0)) {
+                    cat.y = cat.y + height
                 }
+
+                println("x = ${cat.x}, y = ${cat.y}")
             }
+
             cat.removeAllHissCats()
+            cat.removeAllNeighboringBreending()
+        }
+
+
+        for (newCat in newCatList) {
+            cats.add(newCat)
         }
     }
 }

@@ -9,13 +9,13 @@ enum class NameDistance {
 
 class Distance(private val cat1: Cat, private val cat2: Cat) {
     private val catLeftX = min(cat1.x, cat2.x)
-    val catRightX = max(cat1.x, cat2.x)
+    private val catRightX = max(cat1.x, cat2.x)
 
-    val catLeftY = min(cat1.y, cat2.y)
-    val catRightY = max(cat1.y, cat2.y)
+    private val catLeftY = min(cat1.y, cat2.y)
+    private val catRightY = max(cat1.y, cat2.y)
 
-    val distanceX = catRightX - catLeftX
-    val distanceY = catLeftY - catRightY
+    private val distanceX = catRightX - catLeftX
+    private val distanceY = catLeftY - catRightY
 
     fun euclideanDistance(): Float {
         return sqrt((distanceX * distanceX + distanceY * distanceY).toFloat())
