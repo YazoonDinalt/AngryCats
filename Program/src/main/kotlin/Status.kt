@@ -32,13 +32,13 @@ class UpdateStatus(private val cats: MutableList<Cat>, private val r0: Double, p
     }
     
     private fun updateBreeding() {
-        val catsByLocation = cats.groupBy { it.x to it.y }
+        val catsByLocation = cats.groupBy { it.x  to it.y }
 
         for ((_, catsAtLocation) in catsByLocation) {
             val males = catsAtLocation.filter { it.sex == Sex.Male }
             val females = catsAtLocation.filter { it.sex == Sex.Female }
 
-            if (males.isEmpty() || females.isEmpty()) {
+            if (males.isEmpty() || females.isEmpty() || catsAtLocation[0].status == Status.DEAD) {
                 continue
             }
 
@@ -50,7 +50,7 @@ class UpdateStatus(private val cats: MutableList<Cat>, private val r0: Double, p
                     val males2 = catsAtLocation2.filter { it.sex == Sex.Male }
                     val females2 = catsAtLocation2.filter { it.sex == Sex.Female }
 
-                    if (males2.isEmpty() || females2.isEmpty()) {
+                    if (males2.isEmpty() || females2.isEmpty()|| catsAtLocation2[0].status == Status.DEAD) {
                         continue
                     }
 
