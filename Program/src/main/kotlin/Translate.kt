@@ -1,6 +1,6 @@
 object Translate {
 
-    fun catsToGrid(cats: MutableList<Cat>, gridWidth: Int, gridHeight: Int): Array<IntArray> {
+    fun catsToGrid(cats: MutableList<CatForPresenter>, gridWidth: Int, gridHeight: Int): Array<IntArray> {
         val grid = Array(gridHeight) { IntArray(gridWidth) { 0 } }
         cats.forEach { cat ->
             if (cat.x in 0 until gridWidth && cat.y in 0 until gridHeight) {

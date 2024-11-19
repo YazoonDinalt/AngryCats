@@ -1,7 +1,7 @@
 package view
 
-import Cat
-import SynchronizedQueue
+import CatForPresenter
+import ChannelQueue
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -11,7 +11,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.*
 import java.awt.Dimension
 
-fun presenter(queueCats: SynchronizedQueue<MutableList<Cat>>) = application {
+fun presenter(queueCats: ChannelQueue<MutableList<CatForPresenter>>) = application {
     var showSecondScreen by remember { mutableStateOf(false) }
     Window(
         onCloseRequest = ::exitApplication,

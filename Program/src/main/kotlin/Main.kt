@@ -5,7 +5,7 @@ const val SEED = 18
 const val AMBIT = 5
 fun main() {
     val scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
-    val queueCats = SynchronizedQueue<MutableList<Cat>>()
+    val queueCats = ChannelQueue<MutableList<CatForPresenter>>()
     var cats = mutableListOf<Cat>()
 
     scope.launch {
@@ -14,9 +14,9 @@ fun main() {
         while (true) {
             if (Config.isReady.value) {
                 UpdateStatus(cats, Config.r0.value, Config.r1.value)
-                val catsForQueue = mutableListOf<Cat>()
-                cats.forEach { catsForQueue.add(Cat(it.x, it.y, it.sex, it.age, it.status)) }
-                queueCats.enqueue(catsForQueue.toMutableList())
+                val catsForQueue = mutableListOf<CatForPresenter>()
+                cats.forEach { catsForQueue.add(CatForPresenter(it.x, it.y, it.sex, it.age, it.status)) }
+                queueCats.enqueue(catsForQueue)
                 Print(Map(Config.width.value, Config.height.value, cats).visualCatsMap())
                 Map(Config.width.value, Config.height.value, cats).moveCats()
                 delay(500L)
@@ -28,3 +28,10 @@ fun main() {
 }
 
 
+class CatForPresenter (
+    var x: Int,
+    var y: Int,
+    val sex: Sex,
+    var age: Int,
+    var status: Status
+)

@@ -4,53 +4,17 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import java.util.LinkedList
 import java.util.concurrent.locks.ReentrantLock
 
-class SynchronizedQueue<T> {
-    private val queue = LinkedList<T>()
-    private val lock = ReentrantLock()
-    private val channel = Channel<T>(Channel.BUFFERED)
+class ChannelQueue<T>(private val channel: Channel<T> = Channel(Channel.BUFFERED)) {
 
+    suspend fun enqueue(item: T) = channel.send(item)
 
-    suspend fun enqueue(item: T) {
-        lock.lock()
-        try {
-            queue.addLast(item)
-            channel.send(item)
-        } finally {
-            lock.unlock()
-        }
-    }
+    suspend fun dequeue(): T? =
+        channel.receiveCatching().getOrNull() // receiveOrNull() возвращает null, если канал пустой и закрыт
 
-    fun dequeue(): T? {
-        lock.lock()
-        try {
-            if (queue.isEmpty()) return null else  {
-                val a = queue.removeFirst()
-                return a
-            }
-        } finally {
-            lock.unlock()
-        }
-    }
-
-    fun isEmpty(): Boolean {
-        lock.lock()
-        try {
-            return queue.isEmpty()
-        } finally {
-            lock.unlock()
-        }
-    }
-
-    fun size(): Int {
-        lock.lock()
-        try {
-            return queue.size
-        } finally {
-            lock.unlock()
-        }
-    }
 
     fun asFlow(): Flow<T> = channel.receiveAsFlow()
+
+    fun close() = channel.close() // Закрывает канал
 }
 
 
