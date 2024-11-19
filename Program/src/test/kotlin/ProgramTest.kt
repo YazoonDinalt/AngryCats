@@ -12,7 +12,7 @@ class ProgramTest {
 
         val cats = createCats(amountCats, height, width)
 
-        for (num in 0..1) {
+        for (num in 0..3) {
             Map(width, height, cats, false).moveCats()
             UpdateStatus(cats, r0, r1, false)
 
@@ -21,7 +21,7 @@ class ProgramTest {
                     Status.FIGHT -> assert(Checker.checkFight(cats, r0, cats[i]))
                     Status.HISS -> assert(Checker.checkHiss(r1, cats[i]))
                     Status.WALK -> assert(Checker.checkWalk(cats, r0, cats[i]))
-                    Status.BREENDING -> assert(Checker.checkBreending(cats, r0, cats[i]))
+                    Status.BREEDING -> assert(Checker.checkBreending(cats, r0, cats[i]))
                     Status.DEAD -> assert(Checker.checkDead(cats[i], width, height))
                 }
             }
@@ -29,7 +29,7 @@ class ProgramTest {
     }
 
     @Test
-    fun `test all breending`() {
+    fun `test all breeding`() {
         val r0 = 0.0
         val r1 = r0 * 2
 
@@ -58,7 +58,7 @@ class ProgramTest {
 
         for (i in cats.indices) {
             when (cats[i].status) {
-                Status.BREENDING -> assert(Checker.checkBreending(cats, r0, cats[i]))
+                Status.BREEDING -> assert(Checker.checkBreending(cats, r0, cats[i]))
                 else -> assert(false)
             }
         }
@@ -69,7 +69,7 @@ class ProgramTest {
     }
 
     @Test
-    fun `test not breending because of the freak`() {
+    fun `test not breeding because of the freak`() {
         val r0 = 1.0
         val r1 = r0 * 2
 

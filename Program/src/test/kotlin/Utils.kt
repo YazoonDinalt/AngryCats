@@ -3,7 +3,7 @@ import cats.Status
 import utils.Distance
 
 object Checker {
-    private fun checkFightOrBreending(cats: MutableList<Cat>, r0: Double, cat: Cat, inputStatus: Status): Boolean {
+    private fun checkFightOrBreeding(cats: MutableList<Cat>, r0: Double, cat: Cat, inputStatus: Status): Boolean {
         for (i in cats.indices) {
             val currentCat = cats[i]
             val distance = Distance(currentCat, cat).euclideanDistance()
@@ -15,11 +15,11 @@ object Checker {
     }
 
     fun checkFight(cats: MutableList<Cat>, r0: Double, cat: Cat): Boolean {
-        return checkFightOrBreending(cats, r0, cat, Status.FIGHT)
+        return checkFightOrBreeding(cats, r0, cat, Status.FIGHT)
     }
 
     fun checkBreending(cats: MutableList<Cat>, r0: Double, cat: Cat): Boolean {
-        return checkFightOrBreending(cats, r0, cat, Status.BREENDING)
+        return checkFightOrBreeding(cats, r0, cat, Status.BREEDING)
     }
 
     fun checkWalk(cats: MutableList<Cat>, r0: Double, cat: Cat): Boolean {
