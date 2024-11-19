@@ -1,3 +1,4 @@
+import cats.*
 import org.junit.jupiter.api.Test
 
 class ProgramTest {

@@ -1,3 +1,8 @@
+import cats.Cat
+import cats.ChannelQueue
+import cats.UpdateStatus
+import cats.createCats
+import utils.Config
 import view.presenter
 import kotlinx.coroutines.*
 import view.CatForPresenter
@@ -25,11 +30,11 @@ suspend fun start(queueCats: ChannelQueue<MutableList<CatForPresenter>>) = corou
 }
 
 suspend fun compute(cats: MutableList<Cat>, queueCats: ChannelQueue<MutableList<CatForPresenter>>) {
-    UpdateStatus(cats, Config.r0.value, Config.r1.value)
+    UpdateStatus(cats, Config.r0.value, Config.r1.value, false)
     val catsForQueue = mutableListOf<CatForPresenter>()
     cats.forEach { catsForQueue.add(CatForPresenter(it.x, it.y, it.status)) }
     queueCats.enqueue(catsForQueue)
-    Print(Map(Config.width.value, Config.height.value, cats).visualCatsMap())
-    Map(Config.width.value, Config.height.value, cats).moveCats()
+   //Print(Map(Utils.Config.width.value, Utils.Config.height.value, cats, false).visualCatsMap())
+    Map(Config.width.value, Config.height.value, cats, false ).moveCats()
     delay(Config.time.value)
 }

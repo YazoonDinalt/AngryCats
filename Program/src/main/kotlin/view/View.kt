@@ -1,6 +1,7 @@
 package view
 
-import ChannelQueue
+import cats.ChannelQueue
+import utils.Config
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment

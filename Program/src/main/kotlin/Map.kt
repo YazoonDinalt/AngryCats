@@ -1,7 +1,11 @@
+import cats.Cat
+import cats.Sex
+import cats.Status
+import cats.createCat
 import kotlinx.coroutines.*
 import kotlin.random.Random
 
-class Map (private val width: Int, private val height: Int, private val cats: MutableList<Cat>) {
+class Map (private val width: Int, private val height: Int, private val cats: MutableList<Cat>, val log: Boolean) {
     fun visualCatsMap(): Array<Array<String>> {
         val visCatsMap = Array(width + 1) { Array(height) { "0" } }
 
@@ -54,21 +58,22 @@ class Map (private val width: Int, private val height: Int, private val cats: Mu
                         synchronized(newCatList){
                             newCatList.add(newCat)
                         }
-                        println("В x = ${cat.x}, y = ${cat.y} появился новый котенок")
+                        if (log) {println("В x = ${cat.x}, y = ${cat.y} появился новый котенок")}
                     }
 
                     cat.age += 1
 
-                    if (cat.age > 15) {
-                        if (cat.age < 17) {
+                    if (cat.age > 30) {
+                        if (cat.age < 32 && log) {
                             println("$cat умер")
                         }
                         cat.status = Status.DEAD
                         cat.x = -width
                         cat.y = -height
                     } else {
-                        print("$cat ушел в ")
-
+                        if (log) {
+                                print("$cat ушел в ")
+                            }
                         cat.x += move(width)
                         cat.y += move(height)
                         cat.status = Status.WALK
@@ -85,7 +90,9 @@ class Map (private val width: Int, private val height: Int, private val cats: Mu
                             cat.y = cat.y + height
                         }
 
-                        println("x = ${cat.x}, y = ${cat.y}")
+                        if (log) {
+                            println("x = ${cat.x}, y = ${cat.y}")
+                        }
                     }
 
                     cat.removeAllHissCats()
