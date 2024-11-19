@@ -6,5 +6,6 @@ object Config {
     val amountCats = atomic(500)
     val r0 = atomic(1.0)
     val r1 = atomic(10.0)
+    val time = atomic(500L)
     val isReady = atomic(false)
 }
