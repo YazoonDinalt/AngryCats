@@ -133,9 +133,15 @@ fun getConfigData(changeScreen: () -> Unit) {
                 value = time,
                 onValueChange = {
                     time = it
+                    Config.time.value = try {
+                        ((it.toDoubleOrNull() ?: 1.0) * 1000L ).toLong()
+                    } catch (e: Exception) {
+                        500L
+                    }
                 },
+
                 shape = RoundedCornerShape(20.dp),
-                label = { Text("Default: 1s") },
+                label = { Text("Default: 0.5s") },
                 modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp)
             )
 

@@ -31,5 +31,5 @@ suspend fun compute(cats: MutableList<Cat>, queueCats: ChannelQueue<MutableList<
     queueCats.enqueue(catsForQueue)
     Print(Map(Config.width.value, Config.height.value, cats).visualCatsMap())
     Map(Config.width.value, Config.height.value, cats).moveCats()
-    delay(500L)
+    delay(Config.time.value)
 }
