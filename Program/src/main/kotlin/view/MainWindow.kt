@@ -1,7 +1,8 @@
 package view
 
-import Config
-import ChannelQueue
+import utils.Config
+import cats.ChannelQueue
+import utils.Translate
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.gestures.detectDragGestures

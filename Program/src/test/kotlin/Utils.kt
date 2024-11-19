@@ -1,3 +1,7 @@
+import cats.Cat
+import cats.Status
+import utils.Distance
+
 object Checker {
     private fun checkFightOrBreending(cats: MutableList<Cat>, r0: Double, cat: Cat, inputStatus: Status): Boolean {
         for (i in cats.indices) {

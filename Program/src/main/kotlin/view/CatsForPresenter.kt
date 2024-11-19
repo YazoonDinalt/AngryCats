@@ -1,6 +1,6 @@
 package view
 
-import Status
+import cats.Status
 
 class CatForPresenter (
     var x: Int,

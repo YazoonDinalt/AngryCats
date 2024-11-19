@@ -1,3 +1,4 @@
+import cats.*
 import org.junit.jupiter.api.Test
 
 class ProgramTest {
@@ -12,8 +13,8 @@ class ProgramTest {
         val cats = createCats(amountCats, height, width)
 
         for (num in 0..1) {
-            Map(width, height, cats).moveCats()
-            UpdateStatus(cats, r0, r1)
+            Map(width, height, cats, false).moveCats()
+            UpdateStatus(cats, r0, r1, false)
 
             for (i in cats.indices) {
                 when (cats[i].status) {
@@ -53,7 +54,7 @@ class ProgramTest {
             Cat(2, 2, Sex.Male, 3, Status.WALK),
         )
 
-        UpdateStatus(cats, r0, r1)
+        UpdateStatus(cats, r0, r1, false)
 
         for (i in cats.indices) {
             when (cats[i].status) {
@@ -62,7 +63,7 @@ class ProgramTest {
             }
         }
 
-        Map(3, 3, cats).moveCats()
+        Map(3, 3, cats, false).moveCats()
 
         assert(cats.size == 27)
     }
@@ -92,7 +93,7 @@ class ProgramTest {
             Cat(2, 1, Sex.Male, 3, Status.WALK),
         )
 
-        UpdateStatus(cats, r0, r1)
+        UpdateStatus(cats, r0, r1,false)
 
         for (i in cats.indices) {
             when (cats[i].status) {
@@ -127,7 +128,7 @@ class ProgramTest {
             Cat(2, 2, Sex.Female, 15, Status.WALK),
         )
 
-        Map(3, 3, cats).moveCats()
+        Map(3, 3, cats, false).moveCats()
 
         for (cat in cats) {
             when (cat.status) {

@@ -1,3 +1,5 @@
+package utils
+
 import kotlinx.atomicfu.atomic
 
 object Config {

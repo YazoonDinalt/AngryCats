@@ -1,3 +1,6 @@
+package utils
+
+import cats.Status
 import view.CatForPresenter
 
 object Translate {
