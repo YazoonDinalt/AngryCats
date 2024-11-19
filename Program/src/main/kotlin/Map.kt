@@ -59,15 +59,15 @@ class Map (private val width: Int, private val height: Int, private val cats: Mu
                 cat.status = Status.WALK
 
                 if (cat.x >= width) {
-                    cat.x = cat.x - width
+                    cat.x -= width
                 } else if ((cat.x < 0)) {
-                    cat.x = cat.x + width
+                    cat.x += width
                 }
 
                 if (cat.y >= height) {
-                    cat.y = cat.y - height
+                    cat.y -= height
                 } else if ((cat.y < 0)) {
-                    cat.y = cat.y + height
+                    cat.y += height
                 }
 
                 println("x = ${cat.x}, y = ${cat.y}")

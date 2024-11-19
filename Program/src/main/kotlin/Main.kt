@@ -1,5 +1,6 @@
 import view.presenter
 import kotlinx.coroutines.*
+import view.CatForPresenter
 
 const val SEED = 18
 const val AMBIT = 5
@@ -15,7 +16,7 @@ fun main() {
             if (Config.isReady.value) {
                 UpdateStatus(cats, Config.r0.value, Config.r1.value)
                 val catsForQueue = mutableListOf<CatForPresenter>()
-                cats.forEach { catsForQueue.add(CatForPresenter(it.x, it.y, it.sex, it.age, it.status)) }
+                cats.forEach { catsForQueue.add(CatForPresenter(it.x, it.y, it.status)) }
                 queueCats.enqueue(catsForQueue)
                 Print(Map(Config.width.value, Config.height.value, cats).visualCatsMap())
                 Map(Config.width.value, Config.height.value, cats).moveCats()
@@ -27,11 +28,3 @@ fun main() {
     presenter(queueCats)
 }
 
-
-class CatForPresenter (
-    var x: Int,
-    var y: Int,
-    val sex: Sex,
-    var age: Int,
-    var status: Status
-)

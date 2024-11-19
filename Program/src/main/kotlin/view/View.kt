@@ -1,6 +1,5 @@
 package view
 
-import CatForPresenter
 import ChannelQueue
 import androidx.compose.material3.*
 import androidx.compose.runtime.*

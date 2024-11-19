@@ -1,7 +1,5 @@
 package view
 
-import Cat
-import CatForPresenter
 import Config
 import ChannelQueue
 import androidx.compose.foundation.Image

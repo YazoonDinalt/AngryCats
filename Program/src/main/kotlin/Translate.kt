@@ -1,3 +1,5 @@
+import view.CatForPresenter
+
 object Translate {
 
     fun catsToGrid(cats: MutableList<CatForPresenter>, gridWidth: Int, gridHeight: Int): Array<IntArray> {
