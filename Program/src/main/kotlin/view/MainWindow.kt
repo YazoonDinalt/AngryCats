@@ -2,9 +2,11 @@ package view
 
 import Config
 import ChannelQueue
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.onClick
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -21,8 +23,9 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun mainWindow(queueCats: ChannelQueue<MutableList<CatForPresenter>>) {
+fun mainWindow(queueCats: ChannelQueue<MutableList<CatForPresenter>>, backScreen: () -> Unit) {
     val scope = rememberCoroutineScope()
     var array by remember { mutableStateOf<Array<IntArray>?>(null) }
     var previousArray by remember { mutableStateOf<Array<IntArray>?>(null) }
@@ -54,6 +57,16 @@ fun mainWindow(queueCats: ChannelQueue<MutableList<CatForPresenter>>) {
         }
         .clipToBounds()
     ) {
+
+        Box(modifier = Modifier.fillMaxSize().padding(top = 25.dp, start = 25.dp), contentAlignment = Alignment.TopStart){
+            Image(modifier = Modifier
+                .padding(bottom = 5.dp, end = 10.dp)
+                .size(60.dp)
+                .onClick { backScreen() },
+                painter = painterResource("back.png"),
+                contentScale = ContentScale.Crop,
+                contentDescription = null)}
+
         array?.let { displayArrayCanvas(it, offsetX, offsetY) }
     }
 }

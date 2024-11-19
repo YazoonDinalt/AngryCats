@@ -140,9 +140,14 @@ fun getConfigData(changeScreen: () -> Unit) {
             )
 
             Spacer(modifier = Modifier.height(40.dp))
-            Button(onClick = changeScreen, modifier = Modifier.fillMaxWidth()) {
+            Button(
+                onClick = changeScreen,
+                modifier = Modifier.padding(top = 80.dp).size(width = 400.dp, height = 50.dp),
+            ) {
                 Text("Compute!")
             }
+
+
         }
     }
 }
