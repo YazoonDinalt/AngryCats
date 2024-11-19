@@ -5,7 +5,7 @@ import utils.NameDistance
 import kotlinx.coroutines.*
 import kotlin.random.Random
 
-class UpdateStatus(private val cats: MutableList<Cat>, private val r0: Double, private val r1: Double, val log: Boolean, private val nameDistance: NameDistance = NameDistance.Euclidean) {
+class UpdateStatus(private val cats: MutableList<Cat>, private val r0: Double, private val r1: Double, private val log: Boolean, private val nameDistance: NameDistance = NameDistance.Euclidean) {
 
     init {
         updateCatStatus()
@@ -16,20 +16,19 @@ class UpdateStatus(private val cats: MutableList<Cat>, private val r0: Double, p
             NameDistance.Euclidean -> Distance(cat1, cat2).euclideanDistance()
             NameDistance.Manhattan -> Distance(cat1, cat2).manhattanDistance()
             NameDistance.Chebyshev -> Distance(cat1, cat2).chebyshevDistance()
-            NameDistance.Curvilinear -> Distance(cat1, cat2).curvilinearDistance()
         }
     }
 
     private fun breedingForWar(cat: Cat) {
         cat.status = Status.FIGHT
-        if (cat.getNeighboringBreending().isEmpty()) {
+        if (cat.getNeighboringBreeding().isEmpty()) {
             return
         } else {
-            for (c in cat.getNeighboringBreending()) {
-                c.removeNeighboringBreending(cat)
+            for (c in cat.getNeighboringBreeding()) {
+                c.removeNeighboringBreeding(cat)
             }
 
-            for (c in cat.getNeighboringBreending()) {
+            for (c in cat.getNeighboringBreeding()) {
                 breedingForWar(c)
             }
         }
@@ -47,8 +46,8 @@ class UpdateStatus(private val cats: MutableList<Cat>, private val r0: Double, p
 
                     if (males.isNotEmpty() && females.isNotEmpty() && catsAtLocation[0].status != Status.DEAD) {
 
-                        males.forEach { it.status = Status.BREENDING }
-                        females.forEach { it.status = Status.BREENDING }
+                        males.forEach { it.status = Status.BREEDING }
+                        females.forEach { it.status = Status.BREEDING }
 
                         for ((_, catsAtLocation2) in catsByLocation) {
                             if (catsAtLocation2 != catsAtLocation) {
@@ -61,7 +60,7 @@ class UpdateStatus(private val cats: MutableList<Cat>, private val r0: Double, p
 
                                 if (distance(catsAtLocation[0], catsAtLocation2[0]) <= r0) {
                                     for (cat in catsAtLocation2) {
-                                        catsAtLocation[0].addNeighboringBreending(cat)
+                                        catsAtLocation[0].addNeighboringBreeding(cat)
                                     }
                                 }
                             }
@@ -83,16 +82,16 @@ class UpdateStatus(private val cats: MutableList<Cat>, private val r0: Double, p
                             val otherCat = cats[j]
                             val distance = distance(currentCat, otherCat)
                             if ((otherCat.status != Status.DEAD)
-                                && (currentCat.status != Status.BREENDING || otherCat.status != Status.BREENDING)
+                                && (currentCat.status != Status.BREEDING || otherCat.status != Status.BREEDING)
                                 && currentCat != otherCat
                                 && distance <= r0
                             ) {
 
-                                if (currentCat.status == Status.BREENDING) {
+                                if (currentCat.status == Status.BREEDING) {
                                     breedingForWar(currentCat)
                                 }
 
-                                if (otherCat.status == Status.BREENDING) {
+                                if (otherCat.status == Status.BREEDING) {
                                     breedingForWar(otherCat)
                                 }
 
@@ -102,7 +101,7 @@ class UpdateStatus(private val cats: MutableList<Cat>, private val r0: Double, p
 
                                 if (currentCat.x == otherCat.x && currentCat.y == otherCat.y && log) {
                                     println("Коты в x = ${currentCat.x}, y = ${currentCat.y} дерутся")
-                                } else if (log){
+                                } else if (log) {
                                     println("$currentCat дерется c $otherCat")
                                 }
                             }
