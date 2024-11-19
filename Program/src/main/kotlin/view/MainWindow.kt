@@ -1,6 +1,7 @@
 package view
 
 import Cat
+import Config
 import SynchronizedQueue
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.gestures.detectDragGestures
@@ -18,24 +19,40 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 @Composable
-fun mainWindow(queueCats: SynchronizedQueue<Array<Cat>>) {
+fun mainWindow(queueCats: SynchronizedQueue<MutableList<Cat>>) {
     val scope = rememberCoroutineScope()
     var array by remember { mutableStateOf<Array<IntArray>?>(null) }
     var previousArray by remember { mutableStateOf<Array<IntArray>?>(null) }
     LaunchedEffect(queueCats) {
-        scope.launch {
-            queueCats.asFlow()
-                .map { it.let { Translate.catsToGrid(it.toList(), 1000, 1000) } }
-                .collect { newArray ->
-                    previousArray = array
-                    array = newArray
-                }
+        while (true) { // Continuously check the queue
+            val newArray = queueCats.dequeue()
+            if (newArray != null) {
+                previousArray = array
+                array = Translate.catsToGrid(newArray, Config.width.value, Config.height.value)
+                // Update the state variable; triggers recomposition
+            } else {
+                delay(100) // Check again after 100ms if queue is empty
+            }
         }
     }
+//    LaunchedEffect(queueCats) {
+//        scope.launch {
+//            queueCats.asFlow()
+//                .map { cats ->
+//                    cats.forEach { cat -> println(cat.status) }
+//                    Translate.catsToGrid(cats, Config.width.value, Config.height.value)
+//                }
+//                .collect { newArray ->
+//                    previousArray = array
+//                    array = newArray
+//                }
+//        }
+//    }
 
     var offsetX by remember { mutableStateOf(0f) }
     var offsetY by remember { mutableStateOf(0f) }

@@ -11,7 +11,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.*
 import java.awt.Dimension
 
-fun presenter(queueCats: SynchronizedQueue<Array<Cat>>) = application {
+fun presenter(queueCats: SynchronizedQueue<MutableList<Cat>>) = application {
     var showSecondScreen by remember { mutableStateOf(false) }
     Window(
         onCloseRequest = ::exitApplication,

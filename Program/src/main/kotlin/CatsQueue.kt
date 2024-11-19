@@ -23,7 +23,10 @@ class SynchronizedQueue<T> {
     fun dequeue(): T? {
         lock.lock()
         try {
-            return if (queue.isEmpty()) null else queue.removeFirst()
+            if (queue.isEmpty()) return null else  {
+                val a = queue.removeFirst()
+                return a
+            }
         } finally {
             lock.unlock()
         }
