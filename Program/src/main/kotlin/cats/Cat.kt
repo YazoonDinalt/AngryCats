@@ -13,7 +13,7 @@ enum class Status {
     HISS,
     FIGHT,
     DEAD,
-    BREENDING
+    BREEDING
 }
 
 val random = Random(SEED)
@@ -25,22 +25,22 @@ class Cat (
     var age: Int,
     var status: Status
 ) {
-    private var hissCats: MutableList<Cat> = mutableListOf() // Использование MutableList
-    private var breending: MutableList<Cat> = mutableListOf()
+    private var hissCats: MutableList<Cat> = mutableListOf() // Список котов на которых шипит
+    private var breeding: MutableList<Cat> = mutableListOf() // Список размножающихся котов в радиусе r0
 
-    fun getNeighboringBreending(): MutableList<Cat>{
-        return breending
+    fun getNeighboringBreeding(): MutableList<Cat>{
+        return breeding
     }
-    fun addNeighboringBreending(cat: Cat) {
-        breending.add(cat)
-    }
-
-    fun removeNeighboringBreending(cat: Cat) {
-        breending.remove(cat)
+    fun addNeighboringBreeding(cat: Cat) {
+        breeding.add(cat)
     }
 
-    fun removeAllNeighboringBreending() {
-        breending = mutableListOf()
+    fun removeNeighboringBreeding(cat: Cat) {
+        breeding.remove(cat)
+    }
+
+    fun removeAllNeighboringBreeding() {
+        breeding = mutableListOf()
     }
 
     fun addHiisCat(cat: Cat) {
