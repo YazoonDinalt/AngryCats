@@ -1,10 +1,12 @@
 package view
 
-import Cat
-import SynchronizedQueue
+import Config
+import ChannelQueue
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.onClick
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -21,15 +23,17 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun mainWindow(queueCats: SynchronizedQueue<Array<Cat>>) {
+fun mainWindow(queueCats: ChannelQueue<MutableList<CatForPresenter>>, backScreen: () -> Unit) {
     val scope = rememberCoroutineScope()
     var array by remember { mutableStateOf<Array<IntArray>?>(null) }
     var previousArray by remember { mutableStateOf<Array<IntArray>?>(null) }
+
     LaunchedEffect(queueCats) {
         scope.launch {
             queueCats.asFlow()
-                .map { it.let { Translate.catsToGrid(it.toList(), 1000, 1000) } }
+                .map { Translate.catsToGrid(it, Config.width.value, Config.height.value) }
                 .collect { newArray ->
                     previousArray = array
                     array = newArray
@@ -53,6 +57,16 @@ fun mainWindow(queueCats: SynchronizedQueue<Array<Cat>>) {
         }
         .clipToBounds()
     ) {
+
+        Box(modifier = Modifier.fillMaxSize().padding(top = 25.dp, start = 25.dp), contentAlignment = Alignment.TopStart){
+            Image(modifier = Modifier
+                .padding(bottom = 5.dp, end = 10.dp)
+                .size(60.dp)
+                .onClick { backScreen() },
+                painter = painterResource("back.png"),
+                contentScale = ContentScale.Crop,
+                contentDescription = null)}
+
         array?.let { displayArrayCanvas(it, offsetX, offsetY) }
     }
 }
@@ -66,9 +80,9 @@ fun displayArrayCanvas(array: Array<IntArray>, offsetX: Float = 0f, offsetY: Flo
     val cellWidth = cellSize.toPx(LocalDensity.current)
     val cellHeight = cellSize.toPx(LocalDensity.current)
     val images = mapOf(
-        1 to painterResource("cat_h.png"),
+        1 to painterResource("cats_normal.png"),
         2 to painterResource("fight_cat.png"),
-        3 to painterResource("cats_normal.png"),
+        3 to painterResource("cat_h.png"),
         4 to painterResource("dead_cat.jpg"),
         5 to painterResource("two_cats.png")
     )

@@ -1,7 +1,6 @@
 package view
 
-import Cat
-import SynchronizedQueue
+import ChannelQueue
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -11,8 +10,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.*
 import java.awt.Dimension
 
-fun presenter(queueCats: SynchronizedQueue<Array<Cat>>) = application {
-    var showSecondScreen by remember { mutableStateOf(false) }
+fun presenter(queueCats: ChannelQueue<MutableList<CatForPresenter>>) = application {
+    var navigationStack by remember { mutableStateOf(listOf<Screen>(Screen.FirstScreen)) }
+    val currentScreen = navigationStack.last()
     Window(
         onCloseRequest = ::exitApplication,
         title = "AngryCats",
@@ -27,13 +27,20 @@ fun presenter(queueCats: SynchronizedQueue<Array<Cat>>) = application {
                 surface = Color(red = 235, green = 235, blue = 237)
             )
         ) {
-            if (!showSecondScreen) {
-                getConfigData {
-                    showSecondScreen = true
-                    Config.isReady.value = true
+            when (currentScreen) {
+                Screen.FirstScreen ->
+                    startScreen {
+                        navigationStack += Screen.SecondScreen
+                    }
+                Screen.SecondScreen ->
+                    getConfigData {
+                        navigationStack += Screen.ThirdScreen
+                        Config.isReady.value = true
+                    }
+                Screen.ThirdScreen -> mainWindow(queueCats) {
+                    navigationStack -= Screen.ThirdScreen
+                    Config.isReady.value = false
                 }
-            } else {
-                mainWindow(queueCats)
             }
         }
     }
