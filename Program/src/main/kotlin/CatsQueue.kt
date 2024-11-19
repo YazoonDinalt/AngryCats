@@ -6,13 +6,8 @@ class ChannelQueue<T>(private val channel: Channel<T> = Channel(Channel.BUFFERED
 
     suspend fun enqueue(item: T) = channel.send(item)
 
-    suspend fun dequeue(): T? =
-        channel.receiveCatching().getOrNull()
-
-
     fun asFlow(): Flow<T> = channel.receiveAsFlow()
 
-    fun close() = channel.close()
 }
 
 
