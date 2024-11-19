@@ -30,10 +30,7 @@ fun mainWindow(queueCats: ChannelQueue<MutableList<CatForPresenter>>) {
     LaunchedEffect(queueCats) {
         scope.launch {
             queueCats.asFlow()
-                .map { cats ->
-                    cats.forEach { cat -> println(cat.status) }
-                    Translate.catsToGrid(cats, Config.width.value, Config.height.value)
-                }
+                .map { Translate.catsToGrid(it, Config.width.value, Config.height.value) }
                 .collect { newArray ->
                     previousArray = array
                     array = newArray
@@ -70,9 +67,9 @@ fun displayArrayCanvas(array: Array<IntArray>, offsetX: Float = 0f, offsetY: Flo
     val cellWidth = cellSize.toPx(LocalDensity.current)
     val cellHeight = cellSize.toPx(LocalDensity.current)
     val images = mapOf(
-        1 to painterResource("cat_h.png"),
+        1 to painterResource("cats_normal.png"),
         2 to painterResource("fight_cat.png"),
-        3 to painterResource("cats_normal.png"),
+        3 to painterResource("cat_h.png"),
         4 to painterResource("dead_cat.jpg"),
         5 to painterResource("two_cats.png")
     )

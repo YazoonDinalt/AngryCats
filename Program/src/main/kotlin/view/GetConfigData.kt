@@ -51,7 +51,7 @@ fun getConfigData(changeScreen: () -> Unit) {
                     Config.amountCats.value = amountCats.toIntOrNull() ?: Config.amountCats.value
                 },
                 shape = RoundedCornerShape(20.dp),
-                label = { Text("Default: 10") },
+                label = { Text("Default: ${Config.amountCats.value}") },
                 modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp)
             )
             Text(
@@ -67,7 +67,7 @@ fun getConfigData(changeScreen: () -> Unit) {
                     Config.height.value = height.toIntOrNull() ?: Config.height.value
                 },
                 shape = RoundedCornerShape(20.dp),
-                label = { Text("Default: 100") },
+                label = { Text("Default: ${Config.height.value}") },
                 modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
             )
@@ -85,7 +85,7 @@ fun getConfigData(changeScreen: () -> Unit) {
                     Config.width.value = width.toIntOrNull() ?: Config.width.value
                 },
                 shape = RoundedCornerShape(20.dp),
-                label = { Text("Default: 100")},
+                label = { Text("Default: ${Config.width.value}")},
                 modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp)
             )
             Text(
@@ -102,7 +102,7 @@ fun getConfigData(changeScreen: () -> Unit) {
                     Config.r0.value = r0.toDoubleOrNull() ?: Config.r0.value
                 },
                 shape = RoundedCornerShape(20.dp),
-                label = { Text("Default: 1.0") },
+                label = { Text("Default: ${Config.r0.value}") },
                 modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp)
             )
             Text(
@@ -119,7 +119,7 @@ fun getConfigData(changeScreen: () -> Unit) {
                     Config.r1.value = r1.toDoubleOrNull() ?: Config.r1.value
                 },
                 shape = RoundedCornerShape(20.dp),
-                label = { Text("Default: 10.0") },
+                label = { Text("Default: ${Config.r1.value}") },
                 modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp)
             )
             Text(
@@ -141,7 +141,7 @@ fun getConfigData(changeScreen: () -> Unit) {
 
             Spacer(modifier = Modifier.height(40.dp))
             Button(onClick = changeScreen, modifier = Modifier.fillMaxWidth()) {
-                Text("Go to Second Screen")
+                Text("Compute!")
             }
         }
     }

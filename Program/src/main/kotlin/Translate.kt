@@ -16,10 +16,6 @@ object Translate {
             }
 
         }
-        grid.forEach {
-            it.forEach { digit -> print("$digit ") }
-            println()
-        }
         return grid
     }
 
