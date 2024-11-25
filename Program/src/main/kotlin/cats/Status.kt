@@ -19,6 +19,7 @@ class UpdateStatus(private val cats: MutableList<Cat>, private val r0: Double, p
         }
     }
 
+    // Изменение статуса на FIGHT для всех связанных размножающихся котов
     private fun breedingForWar(cat: Cat) {
         cat.status = Status.FIGHT
         if (cat.getNeighboringBreeding().isEmpty()) {
@@ -34,7 +35,8 @@ class UpdateStatus(private val cats: MutableList<Cat>, private val r0: Double, p
         }
 
     }
-    
+
+    // Поиск котов которые могут размножаться и задание статуса BREEDING для них
     private suspend fun updateBreeding() {
         val catsByLocation = cats.groupBy { it.x  to it.y }
 
@@ -71,6 +73,7 @@ class UpdateStatus(private val cats: MutableList<Cat>, private val r0: Double, p
         }
     }
 
+    // Поиск дерущихся котов и обновление статуса на FIGHT для них
     private suspend fun updateFight() {
         coroutineScope {
             cats.indices.map { i ->
@@ -111,7 +114,8 @@ class UpdateStatus(private val cats: MutableList<Cat>, private val r0: Double, p
             }.awaitAll()
         }
     }
-    
+
+    // Поиск котов которые могут шипеть и задание им соответствующего статуса
     private suspend fun updateHiss() {
         coroutineScope {
             cats.indices.map { i ->

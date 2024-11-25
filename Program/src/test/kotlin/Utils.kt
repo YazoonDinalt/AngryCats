@@ -3,6 +3,8 @@ import cats.Status
 import utils.Distance
 
 object Checker {
+
+    // Проверка что все коты в заданном радиусе размножаются/дерутся
     private fun checkFightOrBreeding(cats: MutableList<Cat>, r0: Double, cat: Cat, inputStatus: Status): Boolean {
         for (i in cats.indices) {
             val currentCat = cats[i]
@@ -18,10 +20,11 @@ object Checker {
         return checkFightOrBreeding(cats, r0, cat, Status.FIGHT)
     }
 
-    fun checkBreending(cats: MutableList<Cat>, r0: Double, cat: Cat): Boolean {
+    fun checkBreeding(cats: MutableList<Cat>, r0: Double, cat: Cat): Boolean {
         return checkFightOrBreeding(cats, r0, cat, Status.BREEDING)
     }
 
+    // Проверка что в заданном радиусе коту не с кем драться
     fun checkWalk(cats: MutableList<Cat>, r0: Double, cat: Cat): Boolean {
         for (i in cats.indices) {
             if (cats[i] != cat) {
@@ -34,6 +37,7 @@ object Checker {
         return true
     }
 
+    // Проверка требования для шипящего кота
     fun checkHiss(r1: Double, cat: Cat): Boolean {
         val hissCats = cat.getHissCats()
         for (hissCat in hissCats) {
@@ -45,6 +49,7 @@ object Checker {
         return true
     }
 
+    // Проверка требований для мертвого кота
     fun checkDead(cat: Cat, width: Int, height: Int): Boolean {
         if (cat.status == Status.DEAD && cat.x == -width && cat.y == -height) {
             return true

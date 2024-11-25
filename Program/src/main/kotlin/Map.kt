@@ -6,6 +6,10 @@ import kotlinx.coroutines.*
 import kotlin.random.Random
 
 class Map (private val width: Int, private val height: Int, private val cats: MutableList<Cat>, private val log: Boolean = false) {
+
+    private val maxAge = 30
+
+    // Создание массива для консольной визуализации
     fun visualCatsMap(): Array<Array<String>> {
         val visCatsMap = Array(width + 1) { Array(height) { "0" } }
 
@@ -22,6 +26,7 @@ class Map (private val width: Int, private val height: Int, private val cats: Mu
         return visCatsMap
     }
 
+    // Расчет случайного расстояния для перемещения от 1 до (distance / AMBIT)
     private fun move(distance: Int): Int {
         val randomOp = Random.nextBoolean()
 
@@ -37,6 +42,7 @@ class Map (private val width: Int, private val height: Int, private val cats: Mu
 
     }
 
+    // Перемещение кота на случайное расстояние
     fun moveCats() {
         runBlocking {
             suspendMoveCats()
@@ -59,8 +65,8 @@ class Map (private val width: Int, private val height: Int, private val cats: Mu
 
                     cat.age += 1
 
-                    if (cat.age > 30) {
-                        if (cat.age < 32 && log) println("$cat умер")
+                    if (cat.age > maxAge) {
+                        if (cat.age < maxAge + 2 && log) println("$cat умер")
                         cat.status = Status.DEAD
                         cat.x = -width
                         cat.y = -height

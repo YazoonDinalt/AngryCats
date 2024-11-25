@@ -21,7 +21,7 @@ class ProgramTest {
                     Status.FIGHT -> assert(Checker.checkFight(cats, r0, cats[i]))
                     Status.HISS -> assert(Checker.checkHiss(r1, cats[i]))
                     Status.WALK -> assert(Checker.checkWalk(cats, r0, cats[i]))
-                    Status.BREEDING -> assert(Checker.checkBreending(cats, r0, cats[i]))
+                    Status.BREEDING -> assert(Checker.checkBreeding(cats, r0, cats[i]))
                     Status.DEAD -> assert(Checker.checkDead(cats[i], width, height))
                 }
             }
@@ -58,7 +58,7 @@ class ProgramTest {
 
         for (i in cats.indices) {
             when (cats[i].status) {
-                Status.BREEDING -> assert(Checker.checkBreending(cats, r0, cats[i]))
+                Status.BREEDING -> assert(Checker.checkBreeding(cats, r0, cats[i]))
                 else -> assert(false)
             }
         }
@@ -108,24 +108,24 @@ class ProgramTest {
     @Test
     fun `test all dead`() {
         val cats = mutableListOf(
-            Cat(0, 0, Sex.Female, 15, Status.WALK),
-            Cat(0, 1, Sex.Female, 15, Status.WALK),
-            Cat(0, 2, Sex.Female, 15, Status.WALK),
-            Cat(1, 0, Sex.Female, 15, Status.WALK),
-            Cat(1, 1, Sex.Female, 15, Status.WALK),
-            Cat(1, 2, Sex.Female, 15, Status.WALK),
-            Cat(2, 0, Sex.Female, 15, Status.WALK),
-            Cat(2, 1, Sex.Female, 15, Status.WALK),
-            Cat(2, 2, Sex.Female, 15, Status.WALK),
-            Cat(0, 0, Sex.Female, 15, Status.WALK),
-            Cat(0, 1, Sex.Female, 15, Status.WALK),
-            Cat(0, 2, Sex.Female, 15, Status.WALK),
-            Cat(1, 0, Sex.Female, 15, Status.WALK),
-            Cat(1, 1, Sex.Female, 15, Status.WALK),
-            Cat(1, 2, Sex.Female, 15, Status.WALK),
-            Cat(2, 0, Sex.Female, 15, Status.WALK),
-            Cat(2, 1, Sex.Female, 15, Status.WALK),
-            Cat(2, 2, Sex.Female, 15, Status.WALK),
+            Cat(0, 0, Sex.Female, 30, Status.WALK),
+            Cat(0, 1, Sex.Female, 30, Status.WALK),
+            Cat(0, 2, Sex.Female, 30, Status.WALK),
+            Cat(1, 0, Sex.Female, 30, Status.WALK),
+            Cat(1, 1, Sex.Female, 30, Status.WALK),
+            Cat(1, 2, Sex.Female, 30, Status.WALK),
+            Cat(2, 0, Sex.Female, 30, Status.WALK),
+            Cat(2, 1, Sex.Female, 30, Status.WALK),
+            Cat(2, 2, Sex.Female, 30, Status.WALK),
+            Cat(0, 0, Sex.Female, 30, Status.WALK),
+            Cat(0, 1, Sex.Female, 30, Status.WALK),
+            Cat(0, 2, Sex.Female, 30, Status.WALK),
+            Cat(1, 0, Sex.Female, 30, Status.WALK),
+            Cat(1, 1, Sex.Female, 30, Status.WALK),
+            Cat(1, 2, Sex.Female, 30, Status.WALK),
+            Cat(2, 0, Sex.Female, 30, Status.WALK),
+            Cat(2, 1, Sex.Female, 30, Status.WALK),
+            Cat(2, 2, Sex.Female, 30, Status.WALK),
         )
 
         Map(3, 3, cats, false).moveCats()

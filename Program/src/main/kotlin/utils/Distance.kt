@@ -3,12 +3,14 @@ package utils
 import cats.Cat
 import kotlin.math.*
 
+// Возможные способы вычисления расстояния
 enum class NameDistance {
     Euclidean,
     Manhattan,
     Chebyshev
 }
 
+// Расчет расстояния между двумя точками
 class Distance(cat1: Cat, cat2: Cat) {
     private val catLeftX = min(cat1.x, cat2.x)
     private val catRightX = max(cat1.x, cat2.x)
