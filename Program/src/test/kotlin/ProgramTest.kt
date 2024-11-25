@@ -29,6 +29,32 @@ class ProgramTest {
     }
 
     @Test
+    fun `amountCats more number of cell` () {
+        val height = 40
+        val width = 40
+        val amountCats = 5000
+        val r0 = 1.0
+        val r1 = r0 * 10
+
+        val cats = createCats(amountCats, height, width)
+
+        for (num in 0..1) {
+            Map(width, height, cats).moveCats()
+            UpdateStatus(cats, r0, r1, false)
+
+            for (i in cats.indices) {
+                when (cats[i].status) {
+                    Status.FIGHT -> assert(Checker.checkFight(cats, r0, cats[i]))
+                    Status.HISS -> assert(Checker.checkHiss(r1, cats[i]))
+                    Status.WALK -> assert(Checker.checkWalk(cats, r0, cats[i]))
+                    Status.BREEDING -> assert(Checker.checkBreeding(cats, r0, cats[i]))
+                    Status.DEAD -> assert(Checker.checkDead(cats[i], width, height))
+                }
+            }
+        }
+    }
+
+    @Test
     fun `test all breeding`() {
         val r0 = 0.0
         val r1 = r0 * 2

@@ -5,7 +5,7 @@ import utils.NameDistance
 import kotlinx.coroutines.*
 import kotlin.random.Random
 
-class UpdateStatus(private val cats: MutableList<Cat>, private val r0: Double, private val r1: Double, private val log: Boolean, private val nameDistance: NameDistance = NameDistance.Euclidean) {
+class UpdateStatus(private val cats: MutableList<Cat>, private val r0: Double, private val r1: Double, private val log: Boolean = false, private val nameDistance: NameDistance = NameDistance.Euclidean) {
 
     init {
         updateCatStatus()
