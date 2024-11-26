@@ -9,6 +9,7 @@ import view.CatForPresenter
 
 const val SEED = 18
 const val AMBIT = 5
+
 fun main() {
     val scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
     val queueCats = ChannelQueue<MutableList<CatForPresenter>>()
@@ -20,6 +21,12 @@ fun main() {
     presenter(queueCats)
 }
 
+/**
+
+    Main function marking the start
+
+*/
+
 suspend fun start(queueCats: ChannelQueue<MutableList<CatForPresenter>>) = coroutineScope{
     val cats = createCats(Config.amountCats.value, Config.height.value, Config.width.value)
 
@@ -28,6 +35,12 @@ suspend fun start(queueCats: ChannelQueue<MutableList<CatForPresenter>>) = corou
         if (!Config.isReady.value) return@coroutineScope
     }
 }
+
+/**
+
+    The function that is responsible for calculations
+
+*/
 
 suspend fun compute(cats: MutableList<Cat>, queueCats: ChannelQueue<MutableList<CatForPresenter>>) {
     UpdateStatus(cats, Config.r0.value, Config.r1.value, false)

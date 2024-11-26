@@ -24,6 +24,13 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
+
+/**
+
+    The main screen, which is where the cat interactions are displayed
+
+*/
+
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun mainWindow(queueCats: ChannelQueue<MutableList<CatForPresenter>>, backScreen: () -> Unit) {
@@ -75,6 +82,12 @@ fun mainWindow(queueCats: ChannelQueue<MutableList<CatForPresenter>>, backScreen
 fun Dp.toPx(density: Density): Float {
     return this.value * density.density
 }
+
+/**
+
+    This function contains the logic for rendering cats
+
+*/
 
 @Composable
 fun displayArrayCanvas(array: Array<IntArray>, offsetX: Float = 0f, offsetY: Float = 0f, cellSize: Dp = 50.dp) {

@@ -2,6 +2,12 @@ package utils
 
 import kotlinx.atomicfu.atomic
 
+/**
+
+    In this object all the data for the startup is stored
+
+ */
+
 object Config {
     val height = atomic(100)
     val width = atomic(100)

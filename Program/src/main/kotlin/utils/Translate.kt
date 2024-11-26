@@ -2,7 +2,11 @@ package utils
 
 import cats.Status
 import view.CatForPresenter
+/**
 
+A object for translating the given model into rendering data
+
+ */
 object Translate {
 
     fun catsToGrid(cats: MutableList<CatForPresenter>, gridWidth: Int, gridHeight: Int): Array<IntArray> {
@@ -14,7 +18,7 @@ object Translate {
                     Status.FIGHT -> 2
                     Status.HISS -> 3
                     Status.DEAD -> 4
-                    Status.BREENDING -> 5
+                    Status.BREEDING -> 5
                 }
             }
 

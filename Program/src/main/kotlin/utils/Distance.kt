@@ -3,11 +3,23 @@ package utils
 import cats.Cat
 import kotlin.math.*
 
+/**
+
+    List of distances that are supported
+
+ */
+
 enum class NameDistance {
     Euclidean,
     Manhattan,
     Chebyshev
 }
+
+/**
+
+    Class for distance calculation by supported methods
+
+ */
 
 class Distance(cat1: Cat, cat2: Cat) {
     private val catLeftX = min(cat1.x, cat2.x)

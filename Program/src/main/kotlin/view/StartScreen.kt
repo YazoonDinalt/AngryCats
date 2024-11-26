@@ -10,6 +10,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
+/**
+
+    This function contains a welcome dialog box AngryCats
+
+*/
+
 @Composable
 fun startScreen(changeScreen: () -> Unit) {
     Column(

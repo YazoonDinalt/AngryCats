@@ -3,6 +3,12 @@ package cats
 import SEED
 import kotlin.random.Random
 
+/**
+
+    Classes containing basic information about cats
+
+ */
+
 enum class Sex {
     Male,
     Female
@@ -17,6 +23,12 @@ enum class Status {
 }
 
 val random = Random(SEED)
+
+/**
+
+    A class containing information about cats and who they interact with
+
+ */
 
 class Cat (
     var x: Int,

@@ -11,6 +11,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.*
 import java.awt.Dimension
 
+
+/**
+
+    This composable function is responsible for the window in which the cats will be displayed
+
+*/
+
 fun presenter(queueCats: ChannelQueue<MutableList<CatForPresenter>>) = application {
     var navigationStack by remember { mutableStateOf(listOf<Screen>(Screen.FirstScreen)) }
     val currentScreen = navigationStack.last()

@@ -19,6 +19,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 
+/**
+
+    This is the screen where the user enters the basic startup parameters
+
+ */
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun getConfigData(changeScreen: () -> Unit) {

@@ -5,6 +5,13 @@ import cats.createCat
 import kotlinx.coroutines.*
 import kotlin.random.Random
 
+
+/**
+
+    This is the class that is responsible for moving cats ,
+
+*/
+
 class Map (private val width: Int, private val height: Int, private val cats: MutableList<Cat>, private val log: Boolean = false) {
     fun visualCatsMap(): Array<Array<String>> {
         val visCatsMap = Array(width + 1) { Array(height) { "0" } }
