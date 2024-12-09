@@ -60,7 +60,7 @@ class UpdateStatus(private val cats: MutableList<Cat>, private val r0: Double, p
                                 val males2 = catsAtLocation2.filter { it.sex == Sex.Male }
                                 val females2 = catsAtLocation2.filter { it.sex == Sex.Female }
 
-                                if (males2.isEmpty() || females2.isEmpty() || catsAtLocation2[0].status == Status.DEAD) {
+                                if (males2.isEmpty() || females2.isEmpty() || catsAtLocation2[0].status == Status.DEAD || catsAtLocation[0].room.number != catsAtLocation2[0].room.number) {
                                     continue
                                 }
 
@@ -81,13 +81,13 @@ class UpdateStatus(private val cats: MutableList<Cat>, private val r0: Double, p
         coroutineScope {
             cats.indices.map { i ->
                 async(Dispatchers.Default) {
-
                     val currentCat = cats[i]
                     if (currentCat.status != Status.DEAD) {
                         for (j in i + 1 until cats.size) {
                             val otherCat = cats[j]
                             val distance = distance(currentCat, otherCat)
-                            if ((otherCat.status != Status.DEAD)
+                            if (otherCat.status != Status.DEAD
+                                && currentCat.room.number == otherCat.room.number
                                 && (currentCat.status != Status.BREEDING || otherCat.status != Status.BREEDING)
                                 && currentCat != otherCat
                                 && distance <= r0
@@ -127,7 +127,10 @@ class UpdateStatus(private val cats: MutableList<Cat>, private val r0: Double, p
                         for (j in i + 1 until cats.size) {
                             val otherCat = cats[j]
                             val distance = distance(currentCat, otherCat)
-                            if (distance <= r1 && currentCat.status != Status.FIGHT) {
+                            if (distance <= r1
+                                && currentCat.status != Status.FIGHT
+                                && currentCat.room.number == otherCat.room.number
+                            ) {
                                 val probability = 1 / distance
                                 val randomValue = Random.nextDouble()
 
