@@ -17,6 +17,9 @@ jobs:
           distribution: corretto
           java-version: '17'
 
+      - name: Change working directory
+        run: cd ./Program
+
       - name: Cache Gradle dependencies
         uses: actions/cache@v3
         with:
@@ -28,7 +31,7 @@ jobs:
             ${{ runner.os }}-gradle-
 
       - name: Make gradlew executable
-        run: chmod +x ./Program/gradlew
+        run: chmod +x ./gradlew
 
       - name: Run Ktlint
-        run: ./Program/gradlew ktlintCheck
+        run: ./gradlew ktlintCheck
