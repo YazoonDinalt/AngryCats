@@ -4,7 +4,7 @@ import kotlinx.atomicfu.atomic
 
 /**
 
-    In this object all the data for the startup is stored
+ In this object all the data for the startup is stored
 
  */
 

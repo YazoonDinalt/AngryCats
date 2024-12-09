@@ -3,7 +3,7 @@ import org.junit.jupiter.api.Test
 
 class ProgramTest {
     @Test
-    fun `big test move and update` () {
+    fun `big test move and update`() {
         val height = 1000
         val width = 1000
         val amountCats = 50000
@@ -33,26 +33,27 @@ class ProgramTest {
         val r0 = 0.0
         val r1 = r0 * 2
 
-        val cats = mutableListOf(
-            Cat(0, 0, Sex.Female, 3, Status.WALK),
-            Cat(0, 1, Sex.Female, 3, Status.WALK),
-            Cat(0, 2, Sex.Female, 3, Status.WALK),
-            Cat(1, 0, Sex.Female, 3, Status.WALK),
-            Cat(1, 1, Sex.Female, 3, Status.WALK),
-            Cat(1, 2, Sex.Female, 3, Status.WALK),
-            Cat(2, 0, Sex.Female, 3, Status.WALK),
-            Cat(2, 1, Sex.Female, 3, Status.WALK),
-            Cat(2, 2, Sex.Female, 3, Status.WALK),
-            Cat(0, 0, Sex.Male, 3, Status.WALK),
-            Cat(0, 1, Sex.Male, 3, Status.WALK),
-            Cat(0, 2, Sex.Male, 3, Status.WALK),
-            Cat(1, 0, Sex.Male, 3, Status.WALK),
-            Cat(1, 1, Sex.Male, 3, Status.WALK),
-            Cat(1, 2, Sex.Male, 3, Status.WALK),
-            Cat(2, 0, Sex.Male, 3, Status.WALK),
-            Cat(2, 1, Sex.Male, 3, Status.WALK),
-            Cat(2, 2, Sex.Male, 3, Status.WALK),
-        )
+        val cats =
+            mutableListOf(
+                Cat(0, 0, Sex.Female, 3, Status.WALK),
+                Cat(0, 1, Sex.Female, 3, Status.WALK),
+                Cat(0, 2, Sex.Female, 3, Status.WALK),
+                Cat(1, 0, Sex.Female, 3, Status.WALK),
+                Cat(1, 1, Sex.Female, 3, Status.WALK),
+                Cat(1, 2, Sex.Female, 3, Status.WALK),
+                Cat(2, 0, Sex.Female, 3, Status.WALK),
+                Cat(2, 1, Sex.Female, 3, Status.WALK),
+                Cat(2, 2, Sex.Female, 3, Status.WALK),
+                Cat(0, 0, Sex.Male, 3, Status.WALK),
+                Cat(0, 1, Sex.Male, 3, Status.WALK),
+                Cat(0, 2, Sex.Male, 3, Status.WALK),
+                Cat(1, 0, Sex.Male, 3, Status.WALK),
+                Cat(1, 1, Sex.Male, 3, Status.WALK),
+                Cat(1, 2, Sex.Male, 3, Status.WALK),
+                Cat(2, 0, Sex.Male, 3, Status.WALK),
+                Cat(2, 1, Sex.Male, 3, Status.WALK),
+                Cat(2, 2, Sex.Male, 3, Status.WALK),
+            )
 
         UpdateStatus(cats, r0, r1, false)
 
@@ -73,27 +74,28 @@ class ProgramTest {
         val r0 = 1.0
         val r1 = r0 * 2
 
-        val cats = mutableListOf(
-            Cat(0, 0, Sex.Female, 3, Status.WALK),
-            Cat(0, 1, Sex.Female, 3, Status.WALK),
-            Cat(0, 2, Sex.Female, 3, Status.WALK),
-            Cat(1, 0, Sex.Female, 3, Status.WALK),
-            Cat(1, 1, Sex.Female, 3, Status.WALK),
-            Cat(1, 2, Sex.Female, 3, Status.WALK),
-            Cat(2, 0, Sex.Female, 3, Status.WALK),
-            Cat(2, 1, Sex.Female, 3, Status.WALK),
-            Cat(2, 2, Sex.Female, 3, Status.WALK),
-            Cat(0, 0, Sex.Male, 3, Status.WALK),
-            Cat(0, 1, Sex.Male, 3, Status.WALK),
-            Cat(0, 2, Sex.Male, 3, Status.WALK),
-            Cat(1, 0, Sex.Male, 3, Status.WALK),
-            Cat(1, 1, Sex.Male, 3, Status.WALK),
-            Cat(1, 2, Sex.Male, 3, Status.WALK),
-            Cat(2, 0, Sex.Male, 3, Status.WALK),
-            Cat(2, 1, Sex.Male, 3, Status.WALK),
-        )
+        val cats =
+            mutableListOf(
+                Cat(0, 0, Sex.Female, 3, Status.WALK),
+                Cat(0, 1, Sex.Female, 3, Status.WALK),
+                Cat(0, 2, Sex.Female, 3, Status.WALK),
+                Cat(1, 0, Sex.Female, 3, Status.WALK),
+                Cat(1, 1, Sex.Female, 3, Status.WALK),
+                Cat(1, 2, Sex.Female, 3, Status.WALK),
+                Cat(2, 0, Sex.Female, 3, Status.WALK),
+                Cat(2, 1, Sex.Female, 3, Status.WALK),
+                Cat(2, 2, Sex.Female, 3, Status.WALK),
+                Cat(0, 0, Sex.Male, 3, Status.WALK),
+                Cat(0, 1, Sex.Male, 3, Status.WALK),
+                Cat(0, 2, Sex.Male, 3, Status.WALK),
+                Cat(1, 0, Sex.Male, 3, Status.WALK),
+                Cat(1, 1, Sex.Male, 3, Status.WALK),
+                Cat(1, 2, Sex.Male, 3, Status.WALK),
+                Cat(2, 0, Sex.Male, 3, Status.WALK),
+                Cat(2, 1, Sex.Male, 3, Status.WALK),
+            )
 
-        UpdateStatus(cats, r0, r1,false)
+        UpdateStatus(cats, r0, r1, false)
 
         for (i in cats.indices) {
             when (cats[i].status) {
@@ -107,26 +109,27 @@ class ProgramTest {
 
     @Test
     fun `test all dead`() {
-        val cats = mutableListOf(
-            Cat(0, 0, Sex.Female, 15, Status.WALK),
-            Cat(0, 1, Sex.Female, 15, Status.WALK),
-            Cat(0, 2, Sex.Female, 15, Status.WALK),
-            Cat(1, 0, Sex.Female, 15, Status.WALK),
-            Cat(1, 1, Sex.Female, 15, Status.WALK),
-            Cat(1, 2, Sex.Female, 15, Status.WALK),
-            Cat(2, 0, Sex.Female, 15, Status.WALK),
-            Cat(2, 1, Sex.Female, 15, Status.WALK),
-            Cat(2, 2, Sex.Female, 15, Status.WALK),
-            Cat(0, 0, Sex.Female, 15, Status.WALK),
-            Cat(0, 1, Sex.Female, 15, Status.WALK),
-            Cat(0, 2, Sex.Female, 15, Status.WALK),
-            Cat(1, 0, Sex.Female, 15, Status.WALK),
-            Cat(1, 1, Sex.Female, 15, Status.WALK),
-            Cat(1, 2, Sex.Female, 15, Status.WALK),
-            Cat(2, 0, Sex.Female, 15, Status.WALK),
-            Cat(2, 1, Sex.Female, 15, Status.WALK),
-            Cat(2, 2, Sex.Female, 15, Status.WALK),
-        )
+        val cats =
+            mutableListOf(
+                Cat(0, 0, Sex.Female, 15, Status.WALK),
+                Cat(0, 1, Sex.Female, 15, Status.WALK),
+                Cat(0, 2, Sex.Female, 15, Status.WALK),
+                Cat(1, 0, Sex.Female, 15, Status.WALK),
+                Cat(1, 1, Sex.Female, 15, Status.WALK),
+                Cat(1, 2, Sex.Female, 15, Status.WALK),
+                Cat(2, 0, Sex.Female, 15, Status.WALK),
+                Cat(2, 1, Sex.Female, 15, Status.WALK),
+                Cat(2, 2, Sex.Female, 15, Status.WALK),
+                Cat(0, 0, Sex.Female, 15, Status.WALK),
+                Cat(0, 1, Sex.Female, 15, Status.WALK),
+                Cat(0, 2, Sex.Female, 15, Status.WALK),
+                Cat(1, 0, Sex.Female, 15, Status.WALK),
+                Cat(1, 1, Sex.Female, 15, Status.WALK),
+                Cat(1, 2, Sex.Female, 15, Status.WALK),
+                Cat(2, 0, Sex.Female, 15, Status.WALK),
+                Cat(2, 1, Sex.Female, 15, Status.WALK),
+                Cat(2, 2, Sex.Female, 15, Status.WALK),
+            )
 
         Map(3, 3, cats, false).moveCats()
 

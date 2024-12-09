@@ -5,14 +5,13 @@ import cats.createCat
 import kotlinx.coroutines.*
 import kotlin.random.Random
 
-
 /**
 
-    This is the class that is responsible for moving cats ,
+ This is the class that is responsible for moving cats ,
 
 */
 
-class Map (private val width: Int, private val height: Int, private val cats: MutableList<Cat>, private val log: Boolean = false) {
+class Map(private val width: Int, private val height: Int, private val cats: MutableList<Cat>, private val log: Boolean = false) {
     fun visualCatsMap(): Array<Array<String>> {
         val visCatsMap = Array(width + 1) { Array(height) { "0" } }
 
@@ -33,15 +32,17 @@ class Map (private val width: Int, private val height: Int, private val cats: Mu
         val randomOp = Random.nextBoolean()
 
         var move =
-            if (randomOp) -1
-            else 1
+            if (randomOp) {
+                -1
+            } else {
+                1
+            }
 
         if (distance / AMBIT >= 2) {
             move *= Random.nextInt(1, distance / AMBIT)
         }
 
         return move
-
     }
 
     fun moveCats() {
@@ -58,7 +59,7 @@ class Map (private val width: Int, private val height: Int, private val cats: Mu
                 async(Dispatchers.Default) {
                     if (cat.status == Status.BREEDING && cat.sex == Sex.Female) {
                         val newCat = createCat(width, height, 0, cat.x, cat.y)
-                        synchronized(newCatList){
+                        synchronized(newCatList) {
                             newCatList.add(newCat)
                         }
                         if (log) println("В x = ${cat.x}, y = ${cat.y} появился новый котенок")
@@ -103,6 +104,3 @@ class Map (private val width: Int, private val height: Int, private val cats: Mu
         }
     }
 }
-
-
-

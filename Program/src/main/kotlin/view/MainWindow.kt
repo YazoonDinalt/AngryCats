@@ -1,8 +1,5 @@
 package view
 
-import utils.Config
-import cats.ChannelQueue
-import utils.Translate
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.gestures.detectDragGestures
@@ -21,19 +18,24 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import cats.ChannelQueue
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-
+import utils.Config
+import utils.Translate
 
 /**
 
-    The main screen, which is where the cat interactions are displayed
+ The main screen, which is where the cat interactions are displayed
 
 */
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun mainWindow(queueCats: ChannelQueue<MutableList<CatForPresenter>>, backScreen: () -> Unit) {
+fun mainWindow(
+    queueCats: ChannelQueue<MutableList<CatForPresenter>>,
+    backScreen: () -> Unit,
+) {
     val scope = rememberCoroutineScope()
     var array by remember { mutableStateOf<Array<IntArray>?>(null) }
     var previousArray by remember { mutableStateOf<Array<IntArray>?>(null) }
@@ -52,28 +54,33 @@ fun mainWindow(queueCats: ChannelQueue<MutableList<CatForPresenter>>, backScreen
     var offsetX by remember { mutableStateOf(0f) }
     var offsetY by remember { mutableStateOf(0f) }
 
-    Box(modifier = Modifier
-        .fillMaxSize().
-        pointerInput(Unit) {
-            detectDragGestures(
-                onDrag = { change, dragAmount ->
-                    if (change.positionChange() != Offset.Zero) change.consume()
-                    offsetX += dragAmount.x
-                    offsetY += dragAmount.y
+    Box(
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .pointerInput(Unit) {
+                    detectDragGestures(
+                        onDrag = { change, dragAmount ->
+                            if (change.positionChange() != Offset.Zero) change.consume()
+                            offsetX += dragAmount.x
+                            offsetY += dragAmount.y
+                        },
+                    )
                 }
-            )
-        }
-        .clipToBounds()
+                .clipToBounds(),
     ) {
-
-        Box(modifier = Modifier.fillMaxSize().padding(top = 25.dp, start = 25.dp), contentAlignment = Alignment.TopStart){
-            Image(modifier = Modifier
-                .padding(bottom = 5.dp, end = 10.dp)
-                .size(60.dp)
-                .onClick { backScreen() },
+        Box(modifier = Modifier.fillMaxSize().padding(top = 25.dp, start = 25.dp), contentAlignment = Alignment.TopStart) {
+            Image(
+                modifier =
+                    Modifier
+                        .padding(bottom = 5.dp, end = 10.dp)
+                        .size(60.dp)
+                        .onClick { backScreen() },
                 painter = painterResource("back.png"),
                 contentScale = ContentScale.Crop,
-                contentDescription = null)}
+                contentDescription = null,
+            )
+        }
 
         array?.let { displayArrayCanvas(it, offsetX, offsetY) }
     }
@@ -85,26 +92,33 @@ fun Dp.toPx(density: Density): Float {
 
 /**
 
-    This function contains the logic for rendering cats
+ This function contains the logic for rendering cats
 
 */
 
 @Composable
-fun displayArrayCanvas(array: Array<IntArray>, offsetX: Float = 0f, offsetY: Float = 0f, cellSize: Dp = 50.dp) {
+fun displayArrayCanvas(
+    array: Array<IntArray>,
+    offsetX: Float = 0f,
+    offsetY: Float = 0f,
+    cellSize: Dp = 50.dp,
+) {
     val cellWidth = cellSize.toPx(LocalDensity.current)
     val cellHeight = cellSize.toPx(LocalDensity.current)
-    val images = mapOf(
-        1 to painterResource("cats_normal.png"),
-        2 to painterResource("fight_cat.png"),
-        3 to painterResource("cat_h.png"),
-        4 to painterResource("dead_cat.jpg"),
-        5 to painterResource("two_cats.png")
-    )
+    val images =
+        mapOf(
+            1 to painterResource("cats_normal.png"),
+            2 to painterResource("fight_cat.png"),
+            3 to painterResource("cat_h.png"),
+            4 to painterResource("dead_cat.jpg"),
+            5 to painterResource("two_cats.png"),
+        )
     Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .wrapContentSize(Alignment.Center),
-        contentAlignment = Alignment.Center
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .wrapContentSize(Alignment.Center),
+        contentAlignment = Alignment.Center,
     ) {
         Column {
             array.forEachIndexed { rowIndex, row ->
@@ -116,13 +130,14 @@ fun displayArrayCanvas(array: Array<IntArray>, offsetX: Float = 0f, offsetY: Flo
                                 painter = painter,
                                 contentDescription = null,
                                 contentScale = ContentScale.Crop,
-                                modifier = Modifier
-                                    .width(cellWidth.dp)
-                                    .height(cellHeight.dp)
-                                    .offset(
-                                        x = (columnIndex * cellWidth + offsetX).dp,
-                                        y = (rowIndex * cellHeight + offsetY).dp
-                                    )
+                                modifier =
+                                    Modifier
+                                        .width(cellWidth.dp)
+                                        .height(cellHeight.dp)
+                                        .offset(
+                                            x = (columnIndex * cellWidth + offsetX).dp,
+                                            y = (rowIndex * cellHeight + offsetY).dp,
+                                        ),
                             )
                         }
                     }

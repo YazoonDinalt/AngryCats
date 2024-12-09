@@ -12,19 +12,19 @@ import androidx.compose.ui.unit.sp
 
 /**
 
-    This function contains a welcome dialog box AngryCats
+ This function contains a welcome dialog box AngryCats
 
 */
 
 @Composable
 fun startScreen(changeScreen: () -> Unit) {
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(start = 70.dp, end = 70.dp, bottom = 20.dp, top = 350.dp),
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .padding(start = 70.dp, end = 70.dp, bottom = 20.dp, top = 350.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-
         Text("AngryCats", fontSize = 120.sp, fontWeight = FontWeight.Bold)
 
         Button(

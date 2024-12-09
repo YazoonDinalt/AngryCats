@@ -5,19 +5,19 @@ import kotlin.math.*
 
 /**
 
-    List of distances that are supported
+ List of distances that are supported
 
  */
 
 enum class NameDistance {
     Euclidean,
     Manhattan,
-    Chebyshev
+    Chebyshev,
 }
 
 /**
 
-    Class for distance calculation by supported methods
+ Class for distance calculation by supported methods
 
  */
 

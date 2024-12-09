@@ -1,6 +1,5 @@
 package view
 
-import utils.Config
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -17,11 +16,11 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-
+import utils.Config
 
 /**
 
-    This is the screen where the user enters the basic startup parameters
+ This is the screen where the user enters the basic startup parameters
 
  */
 
@@ -36,11 +35,12 @@ fun getConfigData(changeScreen: () -> Unit) {
     var time by remember { mutableStateOf("") }
 
     LazyColumn(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(start = 70.dp, end = 70.dp, bottom = 20.dp),
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .padding(start = 70.dp, end = 70.dp, bottom = 20.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+        verticalArrangement = Arrangement.Center,
     ) {
         item {
             Text("AngryCats", fontSize = 70.sp, fontWeight = FontWeight.Bold)
@@ -48,7 +48,7 @@ fun getConfigData(changeScreen: () -> Unit) {
                 "Enter the number of cats",
                 fontSize = 20.sp,
                 modifier = Modifier.fillMaxWidth(),
-                textAlign = TextAlign.Start
+                textAlign = TextAlign.Start,
             )
             OutlinedTextField(
                 value = amountCats,
@@ -58,13 +58,13 @@ fun getConfigData(changeScreen: () -> Unit) {
                 },
                 shape = RoundedCornerShape(20.dp),
                 label = { Text("Default: ${Config.amountCats.value}") },
-                modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp)
+                modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
             )
             Text(
                 "Enter height",
                 fontSize = 20.sp,
                 modifier = Modifier.fillMaxWidth(),
-                textAlign = TextAlign.Start
+                textAlign = TextAlign.Start,
             )
             OutlinedTextField(
                 value = height,
@@ -75,13 +75,13 @@ fun getConfigData(changeScreen: () -> Unit) {
                 shape = RoundedCornerShape(20.dp),
                 label = { Text("Default: ${Config.height.value}") },
                 modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
             )
             Text(
                 "Enter width",
                 fontSize = 20.sp,
                 modifier = Modifier.fillMaxWidth(),
-                textAlign = TextAlign.Start
+                textAlign = TextAlign.Start,
             )
 
             OutlinedTextField(
@@ -91,14 +91,14 @@ fun getConfigData(changeScreen: () -> Unit) {
                     Config.width.value = width.toIntOrNull() ?: Config.width.value
                 },
                 shape = RoundedCornerShape(20.dp),
-                label = { Text("Default: ${Config.width.value}")},
-                modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp)
+                label = { Text("Default: ${Config.width.value}") },
+                modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
             )
             Text(
                 "Enter r0",
                 fontSize = 20.sp,
                 modifier = Modifier.fillMaxWidth(),
-                textAlign = TextAlign.Start
+                textAlign = TextAlign.Start,
             )
 
             OutlinedTextField(
@@ -109,13 +109,13 @@ fun getConfigData(changeScreen: () -> Unit) {
                 },
                 shape = RoundedCornerShape(20.dp),
                 label = { Text("Default: ${Config.r0.value}") },
-                modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp)
+                modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
             )
             Text(
                 "Enter r1",
                 fontSize = 20.sp,
                 modifier = Modifier.fillMaxWidth(),
-                textAlign = TextAlign.Start
+                textAlign = TextAlign.Start,
             )
 
             OutlinedTextField(
@@ -126,29 +126,29 @@ fun getConfigData(changeScreen: () -> Unit) {
                 },
                 shape = RoundedCornerShape(20.dp),
                 label = { Text("Default: ${Config.r1.value}") },
-                modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp)
+                modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
             )
             Text(
                 "Enter time",
                 fontSize = 20.sp,
                 modifier = Modifier.fillMaxWidth(),
-                textAlign = TextAlign.Start
+                textAlign = TextAlign.Start,
             )
 
             OutlinedTextField(
                 value = time,
                 onValueChange = {
                     time = it
-                    Config.time.value = try {
-                        ((it.toDoubleOrNull() ?: 1.0) * 1000L ).toLong()
-                    } catch (e: Exception) {
-                        500L
-                    }
+                    Config.time.value =
+                        try {
+                            ((it.toDoubleOrNull() ?: 1.0) * 1000L).toLong()
+                        } catch (e: Exception) {
+                            500L
+                        }
                 },
-
                 shape = RoundedCornerShape(20.dp),
                 label = { Text("Default: 0.5s") },
-                modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp)
+                modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
             )
 
             Spacer(modifier = Modifier.height(40.dp))
@@ -158,8 +158,6 @@ fun getConfigData(changeScreen: () -> Unit) {
             ) {
                 Text("Compute!")
             }
-
-
         }
     }
 }
