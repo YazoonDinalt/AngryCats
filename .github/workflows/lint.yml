@@ -27,5 +27,8 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
 
+      - name: Make gradlew executable
+        run: chmod +x ./Program/gradlew
+
       - name: Run Ktlint
         run: ./Program/gradlew ktlintCheck
