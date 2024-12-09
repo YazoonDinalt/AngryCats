@@ -28,4 +28,4 @@ jobs:
             ${{ runner.os }}-gradle-
 
       - name: Run Ktlint
-        run: ./gradlew ktlintCheck
+        run: ./Program/gradlew ktlintCheck
