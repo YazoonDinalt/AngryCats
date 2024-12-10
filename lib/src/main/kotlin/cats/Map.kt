@@ -11,23 +11,24 @@ This is the class that is responsible for moving cats ,
 
  */
 
-class Map (
+class Map(
     private val width: Int,
     private val height: Int,
     private val cats: MutableList<Cat>,
-    private val log: Boolean = false
+    private val log: Boolean = false,
 ) {
     private var roomNumber = 0
     private val barrierList: MutableList<Room> = mutableListOf(Room(-1, -1, width, height, 0))
+
     fun visualCatsMap(): Array<Array<String>> {
         val visCatsMap = Array(width + 1) { Array(height) { "0" } }
 
         for (barrier in barrierList) {
-            for (i in barrier.leftX .. barrier.rightX) {
+            for (i in barrier.leftX..barrier.rightX) {
                 visCatsMap[i][barrier.leftX] = "-"
                 visCatsMap[i][barrier.rightX] = "-"
             }
-            for (i in barrier.leftY .. barrier.rightY) {
+            for (i in barrier.leftY..barrier.rightY) {
                 visCatsMap[barrier.leftY][i] = "|"
                 visCatsMap[barrier.rightY][i] = "|"
             }
@@ -50,8 +51,11 @@ class Map (
         val randomOp = Random.nextBoolean()
 
         var move =
-            if (randomOp) -1
-            else 1
+            if (randomOp) {
+                -1
+            } else {
+                1
+            }
 
         if (distance / AMBIT >= 2) {
             move *= Random.nextInt(1, distance / AMBIT)
@@ -74,7 +78,7 @@ class Map (
                 async(Dispatchers.Default) {
                     if (cat.status == Status.BREEDING && cat.sex == Sex.Female) {
                         val newCat = createCat(width, height, 0, cat.x, cat.y)
-                        synchronized(newCatList){
+                        synchronized(newCatList) {
                             newCatList.add(newCat)
                         }
                         if (log) println("В x = ${cat.x}, y = ${cat.y} появился новый котенок")
@@ -115,10 +119,10 @@ class Map (
                         }
 
                         for (barrier in barrierList) {
-                            if (barrier.leftX > cat.room.leftX
-                                && barrier.leftY > cat.room.leftY
-                                && barrier.rightX < cat.room.rightX
-                                && barrier.rightY < cat.room.rightY
+                            if (barrier.leftX > cat.room.leftX &&
+                                barrier.leftY > cat.room.leftY &&
+                                barrier.rightX < cat.room.rightX &&
+                                barrier.rightY < cat.room.rightY
                             ) {
                                 val startCat = Point(cat.x - moveX, cat.y - moveY)
                                 val endCat = Point(cat.x, cat.y)
@@ -126,12 +130,14 @@ class Map (
                                 val leftUp = Point(barrier.leftX, barrier.rightY)
                                 val rightUp = Point(barrier.rightX, barrier.rightY)
                                 val rightDown = Point(barrier.rightX, barrier.leftY)
-                                if ((cat.x in barrier.leftX .. barrier.rightX
-                                    && cat.y in barrier.leftY .. barrier.rightY)
-                                    || intersects(startCat, endCat, leftDown, leftUp)
-                                    || intersects(startCat, endCat, leftUp, rightUp)
-                                    || intersects(startCat, endCat, rightUp, rightDown)
-                                    || intersects(startCat, endCat, leftDown, rightDown)
+                                if ((
+                                        cat.x in barrier.leftX..barrier.rightX &&
+                                            cat.y in barrier.leftY..barrier.rightY
+                                    ) ||
+                                    intersects(startCat, endCat, leftDown, leftUp) ||
+                                    intersects(startCat, endCat, leftUp, rightUp) ||
+                                    intersects(startCat, endCat, rightUp, rightDown) ||
+                                    intersects(startCat, endCat, leftDown, rightDown)
                                 ) {
                                     if (cat.x - moveX < barrier.leftX) {
                                         cat.x = barrier.leftX - 1
@@ -162,7 +168,13 @@ class Map (
         }
     }
 
-    fun addBarrier(leftX: Int, leftY: Int, rightX: Int, rightY: Int, cats: MutableList<Cat>) {
+    fun addBarrier(
+        leftX: Int,
+        leftY: Int,
+        rightX: Int,
+        rightY: Int,
+        cats: MutableList<Cat>,
+    ) {
         roomNumber++
         barrierList.add(Room(leftX, leftY, rightX, rightY, roomNumber))
         runBlocking {
@@ -170,7 +182,13 @@ class Map (
         }
     }
 
-    private suspend fun suspendAddBarrier(leftX: Int, leftY: Int, rightX: Int, rightY: Int, cats: MutableList<Cat>) {
+    private suspend fun suspendAddBarrier(
+        leftX: Int,
+        leftY: Int,
+        rightX: Int,
+        rightY: Int,
+        cats: MutableList<Cat>,
+    ) {
         val room = Room(leftX, leftY, rightX, rightY, roomNumber)
         coroutineScope {
             cats.map { cat ->
@@ -194,20 +212,31 @@ class Map (
             }.awaitAll()
         }
     }
+
     data class Point(val x: Int, val y: Int)
 
-    private fun crossProduct(p1: Point, p2: Point, p3: Point): Int {
+    private fun crossProduct(
+        p1: Point,
+        p2: Point,
+        p3: Point,
+    ): Int {
         return (p2.x - p1.x) * (p3.y - p1.y) - (p2.y - p1.y) * (p3.x - p1.x)
     }
 
-    private fun intersects(p1: Point, p2: Point, p3: Point, p4: Point): Boolean {
+    private fun intersects(
+        p1: Point,
+        p2: Point,
+        p3: Point,
+        p4: Point,
+    ): Boolean {
         val cp1 = crossProduct(p1, p2, p3)
         val cp2 = crossProduct(p1, p2, p4)
         val cp3 = crossProduct(p3, p4, p1)
         val cp4 = crossProduct(p3, p4, p2)
 
         if (((cp1 > 0 && cp2 < 0) || (cp1 < 0 && cp2 > 0)) &&
-            ((cp3 > 0 && cp4 < 0) || (cp3 < 0 && cp4 > 0))) {
+            ((cp3 > 0 && cp4 < 0) || (cp3 < 0 && cp4 > 0))
+        ) {
             return true
         }
 
@@ -219,9 +248,12 @@ class Map (
         return false
     }
 
-    private fun onSegment(p1: Point, p2: Point, p: Point): Boolean {
+    private fun onSegment(
+        p1: Point,
+        p2: Point,
+        p: Point,
+    ): Boolean {
         return minOf(p1.x, p2.x) <= p.x && p.x <= maxOf(p1.x, p2.x) &&
-                minOf(p1.y, p2.y) <= p.y && p.y <= maxOf(p1.y, p2.y)
+            minOf(p1.y, p2.y) <= p.y && p.y <= maxOf(p1.y, p2.y)
     }
 }
-

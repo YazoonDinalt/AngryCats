@@ -3,7 +3,7 @@ import org.junit.jupiter.api.Test
 
 class ProgramTest {
     @Test
-    fun `big test move and update` () {
+    fun `big test move and update`() {
         val height = 1000
         val width = 1000
         val amountCats = 50000
@@ -34,26 +34,27 @@ class ProgramTest {
         val r1 = r0 * 2
         val room = Room(-1, -1, 3, 3, 0)
 
-        val cats = mutableListOf(
-            Cat(0, 0, Sex.Female, 3, Status.WALK, room),
-            Cat(0, 1, Sex.Female, 3, Status.WALK, room),
-            Cat(0, 2, Sex.Female, 3, Status.WALK, room),
-            Cat(1, 0, Sex.Female, 3, Status.WALK, room),
-            Cat(1, 1, Sex.Female, 3, Status.WALK, room),
-            Cat(1, 2, Sex.Female, 3, Status.WALK, room),
-            Cat(2, 0, Sex.Female, 3, Status.WALK, room),
-            Cat(2, 1, Sex.Female, 3, Status.WALK, room),
-            Cat(2, 2, Sex.Female, 3, Status.WALK, room),
-            Cat(0, 0, Sex.Male, 3, Status.WALK, room),
-            Cat(0, 1, Sex.Male, 3, Status.WALK, room),
-            Cat(0, 2, Sex.Male, 3, Status.WALK, room),
-            Cat(1, 0, Sex.Male, 3, Status.WALK, room),
-            Cat(1, 1, Sex.Male, 3, Status.WALK, room),
-            Cat(1, 2, Sex.Male, 3, Status.WALK, room),
-            Cat(2, 0, Sex.Male, 3, Status.WALK, room),
-            Cat(2, 1, Sex.Male, 3, Status.WALK, room),
-            Cat(2, 2, Sex.Male, 3, Status.WALK, room),
-        )
+        val cats =
+            mutableListOf(
+                Cat(0, 0, Sex.Female, 3, Status.WALK, room),
+                Cat(0, 1, Sex.Female, 3, Status.WALK, room),
+                Cat(0, 2, Sex.Female, 3, Status.WALK, room),
+                Cat(1, 0, Sex.Female, 3, Status.WALK, room),
+                Cat(1, 1, Sex.Female, 3, Status.WALK, room),
+                Cat(1, 2, Sex.Female, 3, Status.WALK, room),
+                Cat(2, 0, Sex.Female, 3, Status.WALK, room),
+                Cat(2, 1, Sex.Female, 3, Status.WALK, room),
+                Cat(2, 2, Sex.Female, 3, Status.WALK, room),
+                Cat(0, 0, Sex.Male, 3, Status.WALK, room),
+                Cat(0, 1, Sex.Male, 3, Status.WALK, room),
+                Cat(0, 2, Sex.Male, 3, Status.WALK, room),
+                Cat(1, 0, Sex.Male, 3, Status.WALK, room),
+                Cat(1, 1, Sex.Male, 3, Status.WALK, room),
+                Cat(1, 2, Sex.Male, 3, Status.WALK, room),
+                Cat(2, 0, Sex.Male, 3, Status.WALK, room),
+                Cat(2, 1, Sex.Male, 3, Status.WALK, room),
+                Cat(2, 2, Sex.Male, 3, Status.WALK, room),
+            )
 
         UpdateStatus(cats, r0, r1, false)
 
@@ -75,27 +76,28 @@ class ProgramTest {
         val r1 = r0 * 2
         val room = Room(-1, -1, 3, 3, 0)
 
-        val cats = mutableListOf(
-            Cat(0, 0, Sex.Female, 3, Status.WALK, room),
-            Cat(0, 1, Sex.Female, 3, Status.WALK, room),
-            Cat(0, 2, Sex.Female, 3, Status.WALK, room),
-            Cat(1, 0, Sex.Female, 3, Status.WALK, room),
-            Cat(1, 1, Sex.Female, 3, Status.WALK, room),
-            Cat(1, 2, Sex.Female, 3, Status.WALK, room),
-            Cat(2, 0, Sex.Female, 3, Status.WALK, room),
-            Cat(2, 1, Sex.Female, 3, Status.WALK, room),
-            Cat(2, 2, Sex.Female, 3, Status.WALK, room),
-            Cat(0, 0, Sex.Male, 3, Status.WALK, room),
-            Cat(0, 1, Sex.Male, 3, Status.WALK, room),
-            Cat(0, 2, Sex.Male, 3, Status.WALK, room),
-            Cat(1, 0, Sex.Male, 3, Status.WALK, room),
-            Cat(1, 1, Sex.Male, 3, Status.WALK, room),
-            Cat(1, 2, Sex.Male, 3, Status.WALK, room),
-            Cat(2, 0, Sex.Male, 3, Status.WALK, room),
-            Cat(2, 1, Sex.Male, 3, Status.WALK, room),
-        )
+        val cats =
+            mutableListOf(
+                Cat(0, 0, Sex.Female, 3, Status.WALK, room),
+                Cat(0, 1, Sex.Female, 3, Status.WALK, room),
+                Cat(0, 2, Sex.Female, 3, Status.WALK, room),
+                Cat(1, 0, Sex.Female, 3, Status.WALK, room),
+                Cat(1, 1, Sex.Female, 3, Status.WALK, room),
+                Cat(1, 2, Sex.Female, 3, Status.WALK, room),
+                Cat(2, 0, Sex.Female, 3, Status.WALK, room),
+                Cat(2, 1, Sex.Female, 3, Status.WALK, room),
+                Cat(2, 2, Sex.Female, 3, Status.WALK, room),
+                Cat(0, 0, Sex.Male, 3, Status.WALK, room),
+                Cat(0, 1, Sex.Male, 3, Status.WALK, room),
+                Cat(0, 2, Sex.Male, 3, Status.WALK, room),
+                Cat(1, 0, Sex.Male, 3, Status.WALK, room),
+                Cat(1, 1, Sex.Male, 3, Status.WALK, room),
+                Cat(1, 2, Sex.Male, 3, Status.WALK, room),
+                Cat(2, 0, Sex.Male, 3, Status.WALK, room),
+                Cat(2, 1, Sex.Male, 3, Status.WALK, room),
+            )
 
-        UpdateStatus(cats, r0, r1,false)
+        UpdateStatus(cats, r0, r1, false)
 
         for (i in cats.indices) {
             when (cats[i].status) {
@@ -110,26 +112,27 @@ class ProgramTest {
     @Test
     fun `test all dead`() {
         val room = Room(-1, -1, 3, 3, 0)
-        val cats = mutableListOf(
-            Cat(0, 0, Sex.Female, 30, Status.WALK, room),
-            Cat(0, 1, Sex.Female, 30, Status.WALK, room),
-            Cat(0, 2, Sex.Female, 30, Status.WALK, room),
-            Cat(1, 0, Sex.Female, 30, Status.WALK, room),
-            Cat(1, 1, Sex.Female, 30, Status.WALK, room),
-            Cat(1, 2, Sex.Female, 30, Status.WALK, room),
-            Cat(2, 0, Sex.Female, 30, Status.WALK, room),
-            Cat(2, 1, Sex.Female, 30, Status.WALK, room),
-            Cat(2, 2, Sex.Female, 30, Status.WALK, room),
-            Cat(0, 0, Sex.Female, 30, Status.WALK, room),
-            Cat(0, 1, Sex.Female, 30, Status.WALK, room),
-            Cat(0, 2, Sex.Female, 30, Status.WALK, room),
-            Cat(1, 0, Sex.Female, 30, Status.WALK, room),
-            Cat(1, 1, Sex.Female, 30, Status.WALK, room),
-            Cat(1, 2, Sex.Female, 30, Status.WALK, room),
-            Cat(2, 0, Sex.Female, 30, Status.WALK, room),
-            Cat(2, 1, Sex.Female, 30, Status.WALK, room),
-            Cat(2, 2, Sex.Female, 30, Status.WALK, room),
-        )
+        val cats =
+            mutableListOf(
+                Cat(0, 0, Sex.Female, 30, Status.WALK, room),
+                Cat(0, 1, Sex.Female, 30, Status.WALK, room),
+                Cat(0, 2, Sex.Female, 30, Status.WALK, room),
+                Cat(1, 0, Sex.Female, 30, Status.WALK, room),
+                Cat(1, 1, Sex.Female, 30, Status.WALK, room),
+                Cat(1, 2, Sex.Female, 30, Status.WALK, room),
+                Cat(2, 0, Sex.Female, 30, Status.WALK, room),
+                Cat(2, 1, Sex.Female, 30, Status.WALK, room),
+                Cat(2, 2, Sex.Female, 30, Status.WALK, room),
+                Cat(0, 0, Sex.Female, 30, Status.WALK, room),
+                Cat(0, 1, Sex.Female, 30, Status.WALK, room),
+                Cat(0, 2, Sex.Female, 30, Status.WALK, room),
+                Cat(1, 0, Sex.Female, 30, Status.WALK, room),
+                Cat(1, 1, Sex.Female, 30, Status.WALK, room),
+                Cat(1, 2, Sex.Female, 30, Status.WALK, room),
+                Cat(2, 0, Sex.Female, 30, Status.WALK, room),
+                Cat(2, 1, Sex.Female, 30, Status.WALK, room),
+                Cat(2, 2, Sex.Female, 30, Status.WALK, room),
+            )
 
         Map(3, 3, cats, false).moveCats()
 
@@ -144,9 +147,10 @@ class ProgramTest {
     @Test
     fun `test cat in new room`() {
         val room = Room(-1, -1, 3, 3, 0)
-        val cats = mutableListOf(
-            Cat(1, 1, Sex.Female, 3, Status.WALK, room)
-        )
+        val cats =
+            mutableListOf(
+                Cat(1, 1, Sex.Female, 3, Status.WALK, room),
+            )
 
         val map = Map(3, 3, cats, false)
 
@@ -163,24 +167,25 @@ class ProgramTest {
     @Test
     fun `test cat not in new room`() {
         val room = Room(-1, -1, 5, 5, 0)
-        val cats = mutableListOf(
-            Cat(0, 0, Sex.Female, 3, Status.WALK, room),
-            Cat(0, 1, Sex.Female, 3, Status.WALK, room),
-            Cat(0, 2, Sex.Female, 3, Status.WALK, room),
-            Cat(0, 3, Sex.Female, 3, Status.WALK, room),
-            Cat(0, 4, Sex.Female, 3, Status.WALK, room),
-            Cat(4, 0, Sex.Female, 3, Status.WALK, room),
-            Cat(4, 1, Sex.Female, 3, Status.WALK, room),
-            Cat(4, 2, Sex.Female, 3, Status.WALK, room),
-            Cat(4, 3, Sex.Female, 3, Status.WALK, room),
-            Cat(4, 4, Sex.Female, 3, Status.WALK, room),
-            Cat(1, 0, Sex.Female, 3, Status.WALK, room),
-            Cat(2, 0, Sex.Female, 3, Status.WALK, room),
-            Cat(3, 0, Sex.Female, 3, Status.WALK, room),
-            Cat(1, 4, Sex.Female, 3, Status.WALK, room),
-            Cat(2, 4, Sex.Female, 3, Status.WALK, room),
-            Cat(3, 4, Sex.Female, 3, Status.WALK, room)
-        )
+        val cats =
+            mutableListOf(
+                Cat(0, 0, Sex.Female, 3, Status.WALK, room),
+                Cat(0, 1, Sex.Female, 3, Status.WALK, room),
+                Cat(0, 2, Sex.Female, 3, Status.WALK, room),
+                Cat(0, 3, Sex.Female, 3, Status.WALK, room),
+                Cat(0, 4, Sex.Female, 3, Status.WALK, room),
+                Cat(4, 0, Sex.Female, 3, Status.WALK, room),
+                Cat(4, 1, Sex.Female, 3, Status.WALK, room),
+                Cat(4, 2, Sex.Female, 3, Status.WALK, room),
+                Cat(4, 3, Sex.Female, 3, Status.WALK, room),
+                Cat(4, 4, Sex.Female, 3, Status.WALK, room),
+                Cat(1, 0, Sex.Female, 3, Status.WALK, room),
+                Cat(2, 0, Sex.Female, 3, Status.WALK, room),
+                Cat(3, 0, Sex.Female, 3, Status.WALK, room),
+                Cat(1, 4, Sex.Female, 3, Status.WALK, room),
+                Cat(2, 4, Sex.Female, 3, Status.WALK, room),
+                Cat(3, 4, Sex.Female, 3, Status.WALK, room),
+            )
         val map = Map(5, 5, cats, false)
 
         map.addBarrier(1, 1, 3, 3, cats)

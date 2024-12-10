@@ -11,12 +11,21 @@ A class that updates statuses for all cats
 
  */
 
-class UpdateStatus(private val cats: MutableList<Cat>, private val r0: Double, private val r1: Double, private val log: Boolean, private val nameDistance: NameDistance = NameDistance.Euclidean) {
+class UpdateStatus(
+    private val cats: MutableList<Cat>,
+    private val r0: Double,
+    private val r1: Double,
+    private val log: Boolean,
+    private val nameDistance: NameDistance = NameDistance.Euclidean,
+) {
     init {
         updateCatStatus()
     }
 
-    private fun distance(cat1: Cat, cat2: Cat): Float {
+    private fun distance(
+        cat1: Cat,
+        cat2: Cat,
+    ): Float {
         return when (nameDistance) {
             NameDistance.Euclidean -> Distance(cat1, cat2).euclideanDistance()
             NameDistance.Manhattan -> Distance(cat1, cat2).manhattanDistance()
@@ -40,7 +49,7 @@ class UpdateStatus(private val cats: MutableList<Cat>, private val r0: Double, p
     }
 
     private suspend fun updateBreeding() {
-        val catsByLocation = cats.groupBy { it.x  to it.y }
+        val catsByLocation = cats.groupBy { it.x to it.y }
 
         coroutineScope {
             catsByLocation.map { (_, catsAtLocation) ->
@@ -49,7 +58,6 @@ class UpdateStatus(private val cats: MutableList<Cat>, private val r0: Double, p
                     val females = catsAtLocation.filter { it.sex == Sex.Female }
 
                     if (males.isNotEmpty() && females.isNotEmpty() && catsAtLocation[0].status != Status.DEAD) {
-
                         males.forEach { it.status = Status.BREEDING }
                         females.forEach { it.status = Status.BREEDING }
 
@@ -58,7 +66,12 @@ class UpdateStatus(private val cats: MutableList<Cat>, private val r0: Double, p
                                 val males2 = catsAtLocation2.filter { it.sex == Sex.Male }
                                 val females2 = catsAtLocation2.filter { it.sex == Sex.Female }
 
-                                if (males2.isEmpty() || females2.isEmpty() || catsAtLocation2[0].status == Status.DEAD || catsAtLocation[0].room.number != catsAtLocation2[0].room.number) {
+                                if (
+                                    males2.isEmpty() ||
+                                    females2.isEmpty() ||
+                                    catsAtLocation2[0].status == Status.DEAD ||
+                                    catsAtLocation[0].room.number != catsAtLocation2[0].room.number
+                                ) {
                                     continue
                                 }
 
@@ -84,13 +97,12 @@ class UpdateStatus(private val cats: MutableList<Cat>, private val r0: Double, p
                         for (j in i + 1 until cats.size) {
                             val otherCat = cats[j]
                             val distance = distance(currentCat, otherCat)
-                            if (otherCat.status != Status.DEAD
-                                && currentCat.room.number == otherCat.room.number
-                                && (currentCat.status != Status.BREEDING || otherCat.status != Status.BREEDING)
-                                && currentCat != otherCat
-                                && distance <= r0
+                            if (otherCat.status != Status.DEAD &&
+                                currentCat.room.number == otherCat.room.number &&
+                                (currentCat.status != Status.BREEDING || otherCat.status != Status.BREEDING) &&
+                                currentCat != otherCat &&
+                                distance <= r0
                             ) {
-
                                 if (currentCat.status == Status.BREEDING) {
                                     breedingForWar(currentCat)
                                 }
@@ -124,9 +136,9 @@ class UpdateStatus(private val cats: MutableList<Cat>, private val r0: Double, p
                         for (j in i + 1 until cats.size) {
                             val otherCat = cats[j]
                             val distance = distance(currentCat, otherCat)
-                            if (distance <= r1
-                                && currentCat.status != Status.FIGHT
-                                && currentCat.room.number == otherCat.room.number
+                            if (distance <= r1 &&
+                                currentCat.status != Status.FIGHT &&
+                                currentCat.room.number == otherCat.room.number
                             ) {
                                 val probability = 1 / distance
                                 val randomValue = Random.nextDouble()
@@ -155,7 +167,6 @@ class UpdateStatus(private val cats: MutableList<Cat>, private val r0: Double, p
     }
 
     private fun updateCatStatus() {
-
         runBlocking {
             updateBreeding()
         }
