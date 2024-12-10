@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.ktlint)
+    alias(libs.plugins.dokka)
 }
 
 repositories {
@@ -9,6 +10,7 @@ repositories {
 
 subprojects {
     apply(plugin = "org.jlleitschuh.gradle.ktlint") // Version should be inherited from parent
+    apply(plugin = "org.jetbrains.dokka")
 
     repositories {
         // Required to download KtLint
