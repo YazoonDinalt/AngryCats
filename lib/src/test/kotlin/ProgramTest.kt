@@ -1,6 +1,4 @@
-import org.example.lib.cats.Status
-import org.example.lib.cats.Cat
-import org.example.lib.cats.Sex
+import org.example.lib.cats.*
 import org.junit.jupiter.api.Test
 
 class ProgramTest {
