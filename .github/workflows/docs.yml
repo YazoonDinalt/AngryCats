@@ -41,7 +41,7 @@ jobs:
         id: deployment
         uses: actions/upload-pages-artifact@v3
         with:
-          path: build/dokka/html
+          path: build/dokka/htmlMultiModule
 
   deploy:
     runs-on: ubuntu-latest
