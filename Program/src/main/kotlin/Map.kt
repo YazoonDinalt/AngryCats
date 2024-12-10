@@ -9,14 +9,13 @@ import kotlin.random.Random
 
 */
 
-var c = 0
-
 class Map (
     private val width: Int,
     private val height: Int,
     private val cats: MutableList<Cat>,
     private val log: Boolean = false
 ) {
+    private var roomNumber = 0
     private val barrierList: MutableList<Room> = mutableListOf(Room(-1, -1, width, height, 0))
     fun visualCatsMap(): Array<Array<String>> {
         val visCatsMap = Array(width + 1) { Array(height) { "0" } }
@@ -120,8 +119,18 @@ class Map (
                                 && barrier.rightX < cat.room.rightX
                                 && barrier.rightY < cat.room.rightY
                             ) {
-                                if (cat.x in barrier.leftX .. barrier.rightX
-                                    && cat.y in barrier.leftY .. barrier.rightY
+                                val startCat = Point(cat.x - moveX, cat.y - moveY)
+                                val endCat = Point(cat.x, cat.y)
+                                val leftDown = Point(barrier.leftX, barrier.leftY)
+                                val leftUp = Point(barrier.leftX, barrier.rightY)
+                                val rightUp = Point(barrier.rightX, barrier.rightY)
+                                val rightDown = Point(barrier.rightX, barrier.leftY)
+                                if ((cat.x in barrier.leftX .. barrier.rightX
+                                    && cat.y in barrier.leftY .. barrier.rightY)
+                                    || intersects(startCat, endCat, leftDown, leftUp)
+                                    || intersects(startCat, endCat, leftUp, rightUp)
+                                    || intersects(startCat, endCat, rightUp, rightDown)
+                                    || intersects(startCat, endCat, leftDown, rightDown)
                                 ) {
                                     if (cat.x - moveX < barrier.leftX) {
                                         cat.x = barrier.leftX - 1
@@ -153,15 +162,15 @@ class Map (
     }
 
     fun addBarrier(leftX: Int, leftY: Int, rightX: Int, rightY: Int, cats: MutableList<Cat>) {
-        c++
-        barrierList.add(Room(leftX, leftY, rightX, rightY, c))
+        roomNumber++
+        barrierList.add(Room(leftX, leftY, rightX, rightY, roomNumber))
         runBlocking {
             suspendAddBarrier(leftX, leftY, rightX, rightY, cats)
         }
     }
 
     private suspend fun suspendAddBarrier(leftX: Int, leftY: Int, rightX: Int, rightY: Int, cats: MutableList<Cat>) {
-        val room = Room(leftX, leftY, rightX, rightY, c)
+        val room = Room(leftX, leftY, rightX, rightY, roomNumber)
         coroutineScope {
             cats.map { cat ->
                 async(Dispatchers.Default) {
@@ -183,6 +192,35 @@ class Map (
                 }
             }.awaitAll()
         }
+    }
+    data class Point(val x: Int, val y: Int)
 
+    private fun crossProduct(p1: Point, p2: Point, p3: Point): Int {
+        return (p2.x - p1.x) * (p3.y - p1.y) - (p2.y - p1.y) * (p3.x - p1.x)
+    }
+
+    private fun intersects(p1: Point, p2: Point, p3: Point, p4: Point): Boolean {
+        val cp1 = crossProduct(p1, p2, p3)
+        val cp2 = crossProduct(p1, p2, p4)
+        val cp3 = crossProduct(p3, p4, p1)
+        val cp4 = crossProduct(p3, p4, p2)
+
+        if (((cp1 > 0 && cp2 < 0) || (cp1 < 0 && cp2 > 0)) &&
+            ((cp3 > 0 && cp4 < 0) || (cp3 < 0 && cp4 > 0))) {
+            return true
+        }
+
+        if (cp1 == 0 && onSegment(p1, p2, p3)) return true
+        if (cp2 == 0 && onSegment(p1, p2, p4)) return true
+        if (cp3 == 0 && onSegment(p3, p4, p1)) return true
+        if (cp4 == 0 && onSegment(p3, p4, p2)) return true
+
+        return false
+    }
+
+    private fun onSegment(p1: Point, p2: Point, p: Point): Boolean {
+        return minOf(p1.x, p2.x) <= p.x && p.x <= maxOf(p1.x, p2.x) &&
+                minOf(p1.y, p2.y) <= p.y && p.y <= maxOf(p1.y, p2.y)
     }
 }
+
