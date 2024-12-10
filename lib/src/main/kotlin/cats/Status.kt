@@ -16,7 +16,7 @@ class UpdateStatus(
     private val r0: Double,
     private val r1: Double,
     private val log: Boolean,
-    private val nameDistance: NameDistance = NameDistance.Euclidean
+    private val nameDistance: NameDistance = NameDistance.Euclidean,
 ) {
     init {
         updateCatStatus()
