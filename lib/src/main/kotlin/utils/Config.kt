@@ -1,4 +1,4 @@
-package org.example.lib.utils
+package utils
 
 import kotlinx.atomicfu.atomic
 
@@ -9,11 +9,11 @@ import kotlinx.atomicfu.atomic
  */
 
 object Config {
-    val height = atomic(100)
-    val width = atomic(100)
-    val amountCats = atomic(500)
+    val height = atomic(10)
+    val width = atomic(11)
+    val amountCats = atomic(50)
     val r0 = atomic(1.0)
     val r1 = atomic(10.0)
     val time = atomic(500L)
-    val isReady = atomic(false)
+    val isReady = atomic(true)
 }

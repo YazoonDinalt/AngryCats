@@ -12,6 +12,8 @@ dependencies {
     // Project "app" depends on project "lib". (Project paths are separated with ":", so ":lib" refers to the top-level "lib" project.)
     implementation(project(":lib"))
     implementation(libs.bundles.kotlinxEcosystem)
+    implementation(libs.bundles.kotlinLibGDX)
+    implementation("com.badlogicgames.gdx:gdx-platform:1.10.0:natives-desktop")
     implementation(compose.desktop.currentOs)
     implementation(compose.material3)
     implementation(compose.materialIconsExtended)

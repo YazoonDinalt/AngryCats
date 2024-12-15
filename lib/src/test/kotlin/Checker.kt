@@ -1,6 +1,6 @@
-import org.example.lib.cats.Cat
-import org.example.lib.cats.Status
-import org.example.lib.utils.Distance
+import cats.Cat
+import cats.Status
+import utils.Distance
 
 object Checker {
     private fun checkFightOrBreeding(
@@ -70,9 +70,6 @@ object Checker {
         width: Int,
         height: Int,
     ): Boolean {
-        if (cat.status == Status.DEAD && cat.x == -width && cat.y == -height) {
-            return true
-        }
-        return true
+        return cat.status == Status.DEAD && cat.x == -width && cat.y == -height
     }
 }

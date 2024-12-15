@@ -1,4 +1,4 @@
-package org.example.lib.cats
+package cats
 
 import kotlin.random.Random
 

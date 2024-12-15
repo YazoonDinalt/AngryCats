@@ -1,8 +1,8 @@
-package org.example.lib.cats
+package cats
 
 import kotlinx.coroutines.*
-import org.example.lib.utils.Distance
-import org.example.lib.utils.NameDistance
+import utils.Distance
+import utils.NameDistance
 import kotlin.random.Random
 
 /**
