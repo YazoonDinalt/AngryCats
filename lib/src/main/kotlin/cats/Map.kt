@@ -1,9 +1,11 @@
-package org.example.lib.cats
+package cats
 
 import kotlinx.coroutines.*
 import kotlin.random.Random
 
 const val AMBIT = 5
+var roomNumber = 0
+val barrierList = mutableListOf<Room>()
 
 /**
 
@@ -17,8 +19,6 @@ class Map(
     private val cats: MutableList<Cat>,
     private val log: Boolean = false,
 ) {
-    private var roomNumber = 0
-    private val barrierList: MutableList<Room> = mutableListOf(Room(-1, -1, width, height, 0))
 
     fun visualCatsMap(): Array<Array<String>> {
         val visCatsMap = Array(width + 1) { Array(height) { "0" } }

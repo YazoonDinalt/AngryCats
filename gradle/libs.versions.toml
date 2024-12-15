@@ -10,8 +10,8 @@ kotlinxCoroutines = "1.8.1"
 kotlinxAtomicfu = "0.23.2"
 ktlint = "12.1.2"
 compose = "1.4.0"
-kotlinxCoroutinesAndroid = "1.3.9"
 dokka = "1.9.20"
+libgdxVersion = "1.10.0"
 
 [libraries]
 kotlinGradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
@@ -19,11 +19,12 @@ kotlinxDatetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.r
 kotlinxSerialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJSON" }
 kotlinxCoroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutines" }
 kotlinxAtomicfu = { module = "org.jetbrains.kotlinx:atomicfu", version.ref = "kotlinxAtomicfu" }
-kotlinxCoroutinesAndroid = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinxCoroutinesAndroid" }
-
+libGDX = { module = "com.badlogicgames.gdx:gdx", version.ref = "libgdxVersion" }
+libGDXBackend = { module = "com.badlogicgames.gdx:gdx-backend-lwjgl3", version.ref = "libgdxVersion" }
 # Libraries can be bundled together for easier import
 [bundles]
 kotlinxEcosystem = ["kotlinxDatetime", "kotlinxSerialization", "kotlinxCoroutines", "kotlinxAtomicfu"]
+kotlinLibGDX = ["libGDX", "libGDXBackend"]
 
 [plugins]
 kotlinPluginSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }

@@ -20,10 +20,10 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import org.example.lib.cats.CatForPresenter
-import org.example.lib.cats.ChannelQueue
-import org.example.lib.utils.Config
-import org.example.lib.utils.Translate
+import cats.CatForPresenter
+import cats.ChannelQueue
+import utils.Config
+import utils.Translate
 
 /**
 

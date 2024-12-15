@@ -1,4 +1,4 @@
-package org.example.lib.cats
+package cats
 
 /**
 
@@ -10,4 +10,5 @@ class CatForPresenter(
     var x: Int,
     var y: Int,
     var status: Status,
+    var animationStartTime: Long = 0
 )

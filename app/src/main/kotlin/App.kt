@@ -1,24 +1,25 @@
 package org.example.app
 
-import kotlinx.coroutines.*
-import org.example.app.view.presenter
-import org.example.lib.cats.Cat
-import org.example.lib.cats.CatForPresenter
-import org.example.lib.cats.ChannelQueue
-import org.example.lib.cats.Map
-import org.example.lib.cats.UpdateStatus
-import org.example.lib.cats.createCats
-import org.example.lib.utils.Config
+import cats.*
+import cats.Map
+import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application
+import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration
+import org.example.app.view.CatGame
+import utils.Config
+import utils.Config.height
+import utils.Config.width
+import kotlin.random.Random
 
 fun main() {
-    val scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
-    val queueCats = ChannelQueue<MutableList<CatForPresenter>>()
+    val queueCats = BlockingQueue<MutableList<CatForPresenter>>(10)
+    for (i in 0 until 5) generateBarrier()
 
-    scope.launch {
-        while (true) if (Config.isReady.value) start(queueCats)
-    }
+    Thread { if (Config.isReady.value) start(queueCats) }.start()
 
-    presenter(queueCats)
+    val config = Lwjgl3ApplicationConfiguration()
+    config.setTitle("Cat Game")
+    config.setWindowedMode(800, 600)
+    Lwjgl3Application(CatGame(queueCats), config)
 }
 
 /**
@@ -27,15 +28,14 @@ Main function marking the start
 
  */
 
-suspend fun start(queueCats: ChannelQueue<MutableList<CatForPresenter>>) =
-    coroutineScope {
-        val cats = createCats(Config.amountCats.value, Config.height.value, Config.width.value)
-
-        while (true) {
-            compute(cats, queueCats)
-            if (!Config.isReady.value) return@coroutineScope
-        }
+fun start(queueCats: BlockingQueue<MutableList<CatForPresenter>>) {
+    val cats = createCats(Config.amountCats.value, height.value, width.value)
+    val gameMap = Map(width.value, height.value, cats, false)
+    while (true) {
+        compute(cats, queueCats, gameMap)
+        if (!Config.isReady.value) return
     }
+}
 
 /**
 
@@ -43,15 +43,30 @@ The function that is responsible for calculations
 
  */
 
-suspend fun compute(
+fun compute(
     cats: MutableList<Cat>,
-    queueCats: ChannelQueue<MutableList<CatForPresenter>>,
+    queueCats: BlockingQueue<MutableList<CatForPresenter>>,
+    gameMap: Map,
 ) {
     UpdateStatus(cats, Config.r0.value, Config.r1.value, false)
     val catsForQueue = mutableListOf<CatForPresenter>()
     cats.forEach { catsForQueue.add(CatForPresenter(it.x, it.y, it.status)) }
     queueCats.enqueue(catsForQueue)
-    // Print(Map(Utils.Config.width.value, Utils.Config.height.value, cats, false).visualCatsMap())
-    Map(Config.width.value, Config.height.value, cats, false).moveCats()
-    delay(Config.time.value)
+    gameMap.moveCats()
+    Thread.sleep(Config.time.value)
+}
+
+fun generateBarrier() {
+    if (width.value * height.value > 100) {
+        val maxBarrierWidth = width.value / 4
+        val maxBarrierHeight = height.value / 4
+        val leftX = Random.nextInt(0, width.value - maxBarrierWidth)
+        val barrierWidth = Random.nextInt(0, maxBarrierWidth + 1)
+        val rightX = leftX + barrierWidth
+        val barrierHeight = Random.nextInt(0, maxBarrierHeight + 1)
+        val leftY = leftX +  barrierHeight
+        val rightY = rightX + barrierHeight
+        roomNumber++
+        barrierList.add(Room(leftX, leftY, rightX, rightY, roomNumber))
+    }
 }

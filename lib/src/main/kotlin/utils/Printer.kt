@@ -1,4 +1,4 @@
-package org.example.lib.utils
+package utils
 
 /**
 

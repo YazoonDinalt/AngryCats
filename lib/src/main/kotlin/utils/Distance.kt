@@ -1,6 +1,6 @@
-package org.example.lib.utils
+package utils
 
-import org.example.lib.cats.Cat
+import cats.Cat
 import kotlin.math.*
 
 /**
