@@ -7,8 +7,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.*
+import cats.BlockingQueue
 import cats.CatForPresenter
-import cats.ChannelQueue
+import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application
+import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration
 import utils.Config
 import java.awt.Dimension
 
@@ -18,7 +20,7 @@ import java.awt.Dimension
 
 */
 
-fun presenter(queueCats: ChannelQueue<MutableList<CatForPresenter>>) =
+fun presenter(queueCats: BlockingQueue<MutableList<CatForPresenter>>) =
     application {
         var navigationStack by remember { mutableStateOf(listOf<Screen>(Screen.FirstScreen)) }
         val currentScreen = navigationStack.last()
@@ -48,11 +50,12 @@ fun presenter(queueCats: ChannelQueue<MutableList<CatForPresenter>>) =
                             navigationStack += Screen.ThirdScreen
                             Config.isReady.value = true
                         }
-                    Screen.ThirdScreen ->
-                        mainWindow(queueCats) {
-                            navigationStack -= Screen.ThirdScreen
-                            Config.isReady.value = false
-                        }
+                    Screen.ThirdScreen -> {
+                        val config = Lwjgl3ApplicationConfiguration()
+                        config.setTitle("Cat Game")
+                        config.setWindowedMode(800, 600)
+                        Lwjgl3Application(CatGame(queueCats), config)
+                    }
                 }
             }
         }
