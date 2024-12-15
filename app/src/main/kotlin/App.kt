@@ -2,9 +2,6 @@ package org.example.app
 
 import cats.*
 import cats.Map
-import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application
-import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration
-import org.example.app.view.CatGame
 import org.example.app.view.presenter
 import utils.Config
 import utils.Config.height
@@ -17,10 +14,6 @@ fun main() {
 
     Thread { if (Config.isReady.value) start(queueCats) }.start()
     presenter(queueCats)
-//    val config = Lwjgl3ApplicationConfiguration()
-//    config.setTitle("Cat Game")
-//    config.setWindowedMode(800, 600)
-//    Lwjgl3Application(CatGame(queueCats), config)
 }
 
 /**

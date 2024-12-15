@@ -1,11 +1,12 @@
 package cats
 
 import kotlinx.coroutines.*
+import utils.Config
 import kotlin.random.Random
 
 const val AMBIT = 5
 var roomNumber = 0
-val barrierList = mutableListOf<Room>()
+val barrierList = mutableListOf(Room(0,0,Config.width.value+1, Config.height.value+1, 0))
 
 /**
 

@@ -9,6 +9,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.*
 import cats.BlockingQueue
 import cats.CatForPresenter
+import cats.Room
+import cats.barrierList
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration
 import utils.Config
@@ -51,6 +53,7 @@ fun presenter(queueCats: BlockingQueue<MutableList<CatForPresenter>>) =
                             Config.isReady.value = true
                         }
                     Screen.ThirdScreen -> {
+                        barrierList[0] = Room(0,0,Config.width.value+1, Config.height.value+1, 0)
                         val config = Lwjgl3ApplicationConfiguration()
                         config.setTitle("Cat Game")
                         config.setWindowedMode(800, 600)
