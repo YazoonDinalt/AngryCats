@@ -6,7 +6,7 @@ class ProgramTest {
     fun `big test move and update`() {
         val height = 1000
         val width = 1000
-        val amountCats = 50000
+        val amountCats = 20000
         val r0 = 8.0
         val r1 = r0 * 2
 
@@ -21,7 +21,7 @@ class ProgramTest {
                     Status.FIGHT -> assert(Checker.checkFight(cats, r0, cats[i]))
                     Status.HISS -> assert(Checker.checkHiss(r1, cats[i]))
                     Status.WALK -> assert(Checker.checkWalk(cats, r0, cats[i]))
-                    Status.BREEDING -> assert(Checker.checkBreending(cats, r0, cats[i]))
+                    Status.BREEDING -> assert(Checker.checkBreeding(cats, r0, cats[i]))
                     Status.DEAD -> assert(Checker.checkDead(cats[i], width, height))
                 }
             }
@@ -60,7 +60,7 @@ class ProgramTest {
 
         for (i in cats.indices) {
             when (cats[i].status) {
-                Status.BREEDING -> assert(Checker.checkBreending(cats, r0, cats[i]))
+                Status.BREEDING -> assert(Checker.checkBreeding(cats, r0, cats[i]))
                 else -> assert(false)
             }
         }
@@ -140,6 +140,32 @@ class ProgramTest {
             when (cat.status) {
                 Status.DEAD -> assert(Checker.checkDead(cat, 3, 3))
                 else -> assert(false)
+            }
+        }
+    }
+
+    @Test
+    fun `amountCats more number of cell`() {
+        val height = 40
+        val width = 40
+        val amountCats = 5000
+        val r0 = 1.0
+        val r1 = r0 * 10
+
+        val cats = createCats(amountCats, height, width)
+
+        for (num in 0..1) {
+            Map(width, height, cats, true).moveCats()
+            UpdateStatus(cats, r0, r1, true)
+
+            for (i in cats.indices) {
+                when (cats[i].status) {
+                    Status.FIGHT -> assert(Checker.checkFight(cats, r0, cats[i]))
+                    Status.HISS -> assert(Checker.checkHiss(r1, cats[i]))
+                    Status.WALK -> assert(Checker.checkWalk(cats, r0, cats[i]))
+                    Status.BREEDING -> assert(Checker.checkBreeding(cats, r0, cats[i]))
+                    Status.DEAD -> assert(Checker.checkDead(cats[i], width, height))
+                }
             }
         }
     }

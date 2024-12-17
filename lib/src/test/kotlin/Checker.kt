@@ -27,7 +27,7 @@ object Checker {
         return checkFightOrBreeding(cats, r0, cat, Status.FIGHT)
     }
 
-    fun checkBreending(
+    fun checkBreeding(
         cats: MutableList<Cat>,
         r0: Double,
         cat: Cat,
