@@ -1,6 +1,8 @@
 package org.example.lib.cats
 
 import kotlinx.coroutines.*
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import org.example.lib.utils.Distance
 import org.example.lib.utils.NameDistance
 import kotlin.random.Random
@@ -10,6 +12,8 @@ import kotlin.random.Random
 A class that updates statuses for all cats
 
  */
+
+val mutex = Mutex()
 
 class UpdateStatus(
     private val cats: MutableList<Cat>,
@@ -104,11 +108,15 @@ class UpdateStatus(
                                 distance <= r0
                             ) {
                                 if (currentCat.status == Status.BREEDING) {
-                                    breedingForWar(currentCat)
+                                    mutex.withLock {
+                                        breedingForWar(currentCat)
+                                    }
                                 }
 
                                 if (otherCat.status == Status.BREEDING) {
-                                    breedingForWar(otherCat)
+                                    mutex.withLock {
+                                        breedingForWar(otherCat)
+                                    }
                                 }
 
                                 currentCat.status = Status.FIGHT
