@@ -37,10 +37,12 @@ fun mainWindow(
     queueCats: ChannelQueue<MutableList<CatForPresenter>>,
     backScreen: () -> Unit,
 ) {
+    // Initial settings of scope and arrays of cats
     val scope = rememberCoroutineScope()
     var array by remember { mutableStateOf<Array<IntArray>?>(null) }
     var previousArray by remember { mutableStateOf<Array<IntArray>?>(null) }
 
+    // Launch an effect that listen the changes of cats' actions
     LaunchedEffect(queueCats) {
         scope.launch {
             queueCats.asFlow()
@@ -52,14 +54,17 @@ fun mainWindow(
         }
     }
 
+    // Variables for dragging the screen
     var offsetX by remember { mutableStateOf(0f) }
     var offsetY by remember { mutableStateOf(0f) }
 
+    // Main view box
     Box(
         modifier =
             Modifier
                 .fillMaxSize()
                 .pointerInput(Unit) {
+                    // Processing the drag action
                     detectDragGestures(
                         onDrag = { change, dragAmount ->
                             if (change.positionChange() != Offset.Zero) change.consume()
@@ -70,6 +75,7 @@ fun mainWindow(
                 }
                 .clipToBounds(),
     ) {
+        // Get Back button top left
         Box(modifier = Modifier.fillMaxSize().padding(top = 25.dp, start = 25.dp), contentAlignment = Alignment.TopStart) {
             Image(
                 modifier =
@@ -83,20 +89,26 @@ fun mainWindow(
             )
         }
 
+        // If the cat's array is not empty, then display
         array?.let { displayArrayCanvas(it, offsetX, offsetY) }
     }
 }
 
+/**
+
+ Converts a value in Dp (Density-independent Pixels) to pixels (px) based on the screen density.
+
+ */
 fun Dp.toPx(density: Density): Float {
     return this.value * density.density
 }
 
 /**
 
- This function contains the logic for rendering cats
+ This function contains the logic for rendering cats on grid on the screen, where each cell
+ in the grid corresponds to a cat is represented by an image based on its state.
 
 */
-
 @Composable
 fun displayArrayCanvas(
     array: Array<IntArray>,
@@ -104,6 +116,7 @@ fun displayArrayCanvas(
     offsetY: Float = 0f,
     cellSize: Dp = 50.dp,
 ) {
+    // Initial settings
     val cellWidth = cellSize.toPx(LocalDensity.current)
     val cellHeight = cellSize.toPx(LocalDensity.current)
     val images =
@@ -114,6 +127,8 @@ fun displayArrayCanvas(
             4 to painterResource("dead_cat.jpg"),
             5 to painterResource("two_cats.png"),
         )
+
+    //Rendering in a form of table
     Box(
         modifier =
             Modifier

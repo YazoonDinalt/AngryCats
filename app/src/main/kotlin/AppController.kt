@@ -9,17 +9,32 @@ import org.example.lib.cats.Map
 import org.example.lib.cats.UpdateStatus
 import org.example.lib.utils.IAppConfig
 
+/**
+
+Main logic of the app
+
+ */
 class AppController(
     private val queueCats: ChannelQueue<MutableList<CatForPresenter>>,
     private val config: IAppConfig
 ) {
+    /**
+
+    main loop
+
+     */
     suspend fun run() {
         while (true) {
             if (config.isReady) startProcessing()
-            delay(100) // Задержка для предотвращения перегрузки
+            delay(100) // Delay for preventing overload
         }
     }
 
+    /**
+
+    Cats configuration
+
+     */
     private suspend fun startProcessing() {
         val cats = createCats(config.amountCats, config.height, config.width)
 
@@ -28,6 +43,11 @@ class AppController(
         }
     }
 
+    /**
+
+    Cats settings
+
+     */
     private suspend fun processCats(cats: MutableList<Cat>) {
         UpdateStatus(cats, config.r0, config.r1, false)
         val catsForQueue = cats.map { CatForPresenter(it.x, it.y, it.status) }

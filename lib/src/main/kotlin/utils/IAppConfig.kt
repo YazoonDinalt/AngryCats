@@ -1,5 +1,10 @@
 package org.example.lib.utils
 
+/**
+
+ Interface for processing and working with configs and ability to add multiple configs
+
+ */
 interface IAppConfig {
     var height: Int
     var width: Int

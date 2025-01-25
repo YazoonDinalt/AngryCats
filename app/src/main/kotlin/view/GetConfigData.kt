@@ -27,6 +27,8 @@ import org.example.lib.utils.IAppConfig
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun getConfigData(config: IAppConfig, changeScreen: () -> Unit) {
+
+    // Variables to save the user's choice for configuration during the runtime
     var amountCats by remember { mutableStateOf("") }
     var height by remember { mutableStateOf("") }
     var width by remember { mutableStateOf("") }
@@ -34,6 +36,7 @@ fun getConfigData(config: IAppConfig, changeScreen: () -> Unit) {
     var r1 by remember { mutableStateOf("") }
     var time by remember { mutableStateOf("") }
 
+    // General setting of the alignment of the horizontal column of the configuration
     LazyColumn(
         modifier =
             Modifier
@@ -44,6 +47,8 @@ fun getConfigData(config: IAppConfig, changeScreen: () -> Unit) {
     ) {
         item {
             Text("AngryCats", fontSize = 70.sp, fontWeight = FontWeight.Bold)
+
+            // Number of cats bar
             Text(
                 "Enter the number of cats",
                 fontSize = 20.sp,
@@ -60,6 +65,8 @@ fun getConfigData(config: IAppConfig, changeScreen: () -> Unit) {
                 label = { Text("Default: ${config.amountCats}") },
                 modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
             )
+
+            // Height of the map
             Text(
                 "Enter height",
                 fontSize = 20.sp,
@@ -77,13 +84,14 @@ fun getConfigData(config: IAppConfig, changeScreen: () -> Unit) {
                 modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
             )
+
+            // Width of the map
             Text(
                 "Enter width",
                 fontSize = 20.sp,
                 modifier = Modifier.fillMaxWidth(),
                 textAlign = TextAlign.Start,
             )
-
             OutlinedTextField(
                 value = width,
                 onValueChange = {
@@ -94,13 +102,14 @@ fun getConfigData(config: IAppConfig, changeScreen: () -> Unit) {
                 label = { Text("Default: ${config.width}") },
                 modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
             )
+
+            // Radius of a fight
             Text(
                 "Enter r0",
                 fontSize = 20.sp,
                 modifier = Modifier.fillMaxWidth(),
                 textAlign = TextAlign.Start,
             )
-
             OutlinedTextField(
                 value = r0,
                 onValueChange = {
@@ -111,13 +120,14 @@ fun getConfigData(config: IAppConfig, changeScreen: () -> Unit) {
                 label = { Text("Default: ${config.r0}") },
                 modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
             )
+
+            // Radius of a hiss
             Text(
                 "Enter r1",
                 fontSize = 20.sp,
                 modifier = Modifier.fillMaxWidth(),
                 textAlign = TextAlign.Start,
             )
-
             OutlinedTextField(
                 value = r1,
                 onValueChange = {
@@ -128,13 +138,14 @@ fun getConfigData(config: IAppConfig, changeScreen: () -> Unit) {
                 label = { Text("Default: ${config.r1}") },
                 modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
             )
+
+            // Lifespan of cats
             Text(
                 "Enter time",
                 fontSize = 20.sp,
                 modifier = Modifier.fillMaxWidth(),
                 textAlign = TextAlign.Start,
             )
-
             OutlinedTextField(
                 value = time,
                 onValueChange = {
@@ -151,6 +162,7 @@ fun getConfigData(config: IAppConfig, changeScreen: () -> Unit) {
                 modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
             )
 
+            // End button
             Spacer(modifier = Modifier.height(40.dp))
             Button(
                 onClick = changeScreen,

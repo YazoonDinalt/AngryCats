@@ -8,28 +8,27 @@ import org.example.lib.utils.NameDistance
 import kotlin.random.Random
 
 /**
-
-A class that updates statuses for all cats
-
+ * A class responsible for updating the statuses of all cats based on their interactions,
+ * distances, and specific behavior rules such as breeding, fighting, and hissing.
  */
-
 val mutex = Mutex()
 
 class UpdateStatus(
-    private val cats: MutableList<Cat>,
-    private val r0: Double,
-    private val r1: Double,
-    private val log: Boolean,
-    private val nameDistance: NameDistance = NameDistance.Euclidean,
+    private val cats: MutableList<Cat>, // List of all cats to process.
+    private val r0: Double,             // Maximum distance for fighting or breeding interactions.
+    private val r1: Double,             // Maximum distance for hissing interactions.
+    private val log: Boolean,           // Whether to log events to the console.
+    private val nameDistance: NameDistance = NameDistance.Euclidean, // Distance calculation method.
 ) {
     init {
+        // Begin updating cat statuses when the class is initialized.
         updateCatStatus()
     }
 
-    private fun distance(
-        cat1: Cat,
-        cat2: Cat,
-    ): Float {
+    /**
+     * Calculates the distance between two cats based on the specified method.
+     */
+    private fun distance(cat1: Cat, cat2: Cat): Float {
         return when (nameDistance) {
             NameDistance.Euclidean -> Distance(cat1, cat2).euclideanDistance()
             NameDistance.Manhattan -> Distance(cat1, cat2).manhattanDistance()
@@ -37,6 +36,10 @@ class UpdateStatus(
         }
     }
 
+    /**
+     * Recursively updates the status of a cat and its neighbors to 'FIGHT'
+     * when a breeding conflict occurs.
+     */
     private fun breedingForWar(cat: Cat) {
         cat.status = Status.FIGHT
         if (cat.getNeighboringBreeding().isEmpty()) {
@@ -45,14 +48,17 @@ class UpdateStatus(
             for (c in cat.getNeighboringBreeding()) {
                 c.removeNeighboringBreeding(cat)
             }
-
             for (c in cat.getNeighboringBreeding()) {
                 breedingForWar(c)
             }
         }
     }
 
+    /**
+     * Updates the breeding status of cats based on their location and proximity.
+     */
     private suspend fun updateBreeding() {
+        // Group cats by their (x, y) coordinates.
         val catsByLocation = cats.groupBy { it.x to it.y }
 
         coroutineScope {
@@ -61,10 +67,12 @@ class UpdateStatus(
                     val males = catsAtLocation.filter { it.sex == Sex.Male }
                     val females = catsAtLocation.filter { it.sex == Sex.Female }
 
+                    // Breeding occurs if both males and females are present.
                     if (males.isNotEmpty() && females.isNotEmpty() && catsAtLocation[0].status != Status.DEAD) {
                         males.forEach { it.status = Status.BREEDING }
                         females.forEach { it.status = Status.BREEDING }
 
+                        // Find neighboring cats within distance r0.
                         for ((_, catsAtLocation2) in catsByLocation) {
                             if (catsAtLocation2 != catsAtLocation) {
                                 val males2 = catsAtLocation2.filter { it.sex == Sex.Male }
@@ -75,9 +83,7 @@ class UpdateStatus(
                                     females2.isEmpty() ||
                                     catsAtLocation2[0].status == Status.DEAD ||
                                     catsAtLocation[0].room.number != catsAtLocation2[0].room.number
-                                ) {
-                                    continue
-                                }
+                                ) continue
 
                                 if (distance(catsAtLocation[0], catsAtLocation2[0]) <= r0) {
                                     for (cat in catsAtLocation2) {
@@ -92,6 +98,10 @@ class UpdateStatus(
         }
     }
 
+    /**
+     * Updates the fighting status of cats if they are within distance r0
+     * and meet specific conditions.
+     */
     private suspend fun updateFight() {
         coroutineScope {
             cats.indices.map { i ->
@@ -101,12 +111,15 @@ class UpdateStatus(
                         for (j in i + 1 until cats.size) {
                             val otherCat = cats[j]
                             val distance = distance(currentCat, otherCat)
+
+                            // Trigger a fight if conditions are met.
                             if (otherCat.status != Status.DEAD &&
                                 currentCat.room.number == otherCat.room.number &&
                                 (currentCat.status != Status.BREEDING || otherCat.status != Status.BREEDING) &&
                                 currentCat != otherCat &&
                                 distance <= r0
                             ) {
+                                // Resolve breeding conflicts during fights.
                                 if (currentCat.status == Status.BREEDING) {
                                     mutex.withLock {
                                         breedingForWar(currentCat)
@@ -119,13 +132,16 @@ class UpdateStatus(
                                     }
                                 }
 
+                                // Update both cats' statuses to 'FIGHT'.
                                 currentCat.status = Status.FIGHT
                                 otherCat.status = Status.FIGHT
 
-                                if (currentCat.x == otherCat.x && currentCat.y == otherCat.y && log) {
-                                    println("Коты в x = ${currentCat.x}, y = ${currentCat.y} дерутся")
-                                } else if (log) {
-                                    println("$currentCat дерется c $otherCat")
+                                if (log) {
+                                    if (currentCat.x == otherCat.x && currentCat.y == otherCat.y) {
+                                        println("Коты в x = ${currentCat.x}, y = ${currentCat.y} дерутся")
+                                    } else {
+                                        println("$currentCat дерется c $otherCat")
+                                    }
                                 }
                             }
                         }
@@ -135,6 +151,10 @@ class UpdateStatus(
         }
     }
 
+    /**
+     * Updates the hissing status of cats when they are within distance r1
+     * and conditions are met.
+     */
     private suspend fun updateHiss() {
         coroutineScope {
             cats.indices.map { i ->
@@ -144,17 +164,19 @@ class UpdateStatus(
                         for (j in i + 1 until cats.size) {
                             val otherCat = cats[j]
                             val distance = distance(currentCat, otherCat)
+
                             if (distance <= r1 &&
                                 currentCat.status != Status.FIGHT &&
                                 currentCat.room.number == otherCat.room.number
                             ) {
+                                // Random chance of triggering hissing based on proximity.
                                 val probability = 1 / distance
                                 val randomValue = Random.nextDouble()
 
                                 if (randomValue <= probability) {
                                     currentCat.status = Status.HISS
-                                    currentCat.addHiisCat(otherCat)
-                                    otherCat.addHiisCat(currentCat)
+                                    currentCat.addHissCat(otherCat)
+                                    otherCat.addHissCat(currentCat)
                                     if (log) {
                                         println("$currentCat шипит на $otherCat")
                                     }
@@ -174,16 +196,12 @@ class UpdateStatus(
         }
     }
 
+    /**
+     * Sequentially updates the statuses of all cats: breeding, fighting, and hissing.
+     */
     private fun updateCatStatus() {
-        runBlocking {
-            updateBreeding()
-        }
-        runBlocking {
-            updateFight()
-        }
-
-        runBlocking {
-            updateHiss()
-        }
+        runBlocking { updateBreeding() }
+        runBlocking { updateFight() }
+        runBlocking { updateHiss() }
     }
 }

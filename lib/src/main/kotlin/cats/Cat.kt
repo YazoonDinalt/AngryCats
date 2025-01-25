@@ -2,14 +2,15 @@ package org.example.lib.cats
 
 import kotlin.random.Random
 
+// Random number generator
 const val SEED = 18
+val random = Random(SEED)
 
 /**
 
- Classes containing basic information about cats
+ Enums containing basic information about cats
 
  */
-
 enum class Sex {
     Male,
     Female,
@@ -22,8 +23,6 @@ enum class Status {
     DEAD,
     BREEDING,
 }
-
-val random = Random(SEED)
 
 /**
 
@@ -47,42 +46,51 @@ class Cat(
     var status: Status,
     var room: Room,
 ) {
-    private var hissCats: MutableList<Cat> = mutableListOf() // Список котов на которых шипит
-    private var breeding: MutableList<Cat> = mutableListOf() // Список размножающихся котов в радиусе r0
+    private var hissCats: MutableList<Cat> = mutableListOf() // List of cats hissing with
+    private var breeding: MutableList<Cat> = mutableListOf() // List of cats breeding with
 
+    // Get all the breeding Cats
     fun getNeighboringBreeding(): MutableList<Cat> {
         return breeding
     }
 
+    // Add a breeding Cat
     fun addNeighboringBreeding(cat: Cat) {
         breeding.add(cat)
     }
 
+    // Remove a breeding Cat
     fun removeNeighboringBreeding(cat: Cat) {
         breeding.remove(cat)
     }
 
+    // Remove all the breeding Cats
     fun removeAllNeighboringBreeding() {
         breeding = mutableListOf()
     }
 
-    fun addHiisCat(cat: Cat) {
+    // Add a hissing Cat
+    fun addHissCat(cat: Cat) {
         hissCats.add(cat)
     }
 
+    // Remove all the hissing Cats
     fun removeAllHissCats() {
         hissCats = mutableListOf()
     }
 
+    // Get all the hissing Cats
     fun getHissCats(): MutableList<Cat> {
         return hissCats
     }
 
+    // Info string
     override fun toString(): String {
         return "Cat(X=$x, Y=$y, Status=$status, Age=$age, Sex=$sex)"
     }
 }
 
+// Create one cat
 fun createCat(
     width: Int,
     height: Int,
@@ -96,6 +104,7 @@ fun createCat(
     return (Cat(x, y, sex, age, Status.WALK, room))
 }
 
+// Create multiple cats
 fun createCats(
     amount: Int,
     height: Int,
