@@ -1,15 +1,11 @@
 import org.example.lib.cats.CatForPresenter
-import org.example.lib.cats.Cat
+import org.example.lib.cats.Map
+import org.example.lib.cats.Status
 import org.example.lib.cats.createCat
 import org.example.lib.cats.createCats
-import org.example.lib.cats.Map
-import org.example.lib.cats.Room
-import org.example.lib.cats.Sex
-import org.example.lib.cats.Status
 import org.example.lib.utils.Print
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
-
 
 class CatForPresenterTest {
     @Test
@@ -43,15 +39,11 @@ class CatForPresenterTest {
     }
 }
 
-
 class MapTest {
-    val height = 5
-    val width = 5
-    val amountCats = 2
-    val r0 = 1.0
-    val r1 = 3.0
     @Test
     fun `test visualCatsMap with no cats and no barriers`() {
+        val height = 5
+        val width = 5
         val map = Map(width, height, mutableListOf()).visualCatsMap()
 
         // Проверяем, что карта имеет размерность 6x5, как и ожидалось
@@ -68,6 +60,9 @@ class MapTest {
 
     @Test
     fun `test visualCatsMap with one cat and no barriers`() {
+        val height = 5
+        val width = 5
+
         val cat = createCat(width, height)
         val map = Map(width, height, mutableListOf(cat)).visualCatsMap()
 
@@ -77,6 +72,10 @@ class MapTest {
 
     @Test
     fun `test visualCatsMap with barriers and cats`() {
+        val height = 5
+        val width = 5
+        val amountCats = 2
+
         val cats = createCats(amountCats, height, width)
         cats[0].status = Status.BREEDING
         cats[1].status = Status.FIGHT
@@ -101,6 +100,9 @@ class MapTest {
 
     @Test
     fun `test visualCatsMap with dead cat`() {
+        val height = 5
+        val width = 5
+
         val cat = createCat(width, height)
         cat.status = Status.DEAD
         val map = Map(width, height, cats = mutableListOf(cat))
