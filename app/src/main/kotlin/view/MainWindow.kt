@@ -22,7 +22,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import org.example.lib.cats.CatForPresenter
 import org.example.lib.cats.ChannelQueue
-import org.example.lib.utils.Config
+import org.example.lib.utils.DefaultConfig
 import org.example.lib.utils.Translate
 
 /**
@@ -44,7 +44,7 @@ fun mainWindow(
     LaunchedEffect(queueCats) {
         scope.launch {
             queueCats.asFlow()
-                .map { Translate.catsToGrid(it, Config.width.value, Config.height.value) }
+                .map { Translate.catsToGrid(it, DefaultConfig.width, DefaultConfig.height) }
                 .collect { newArray ->
                     previousArray = array
                     array = newArray

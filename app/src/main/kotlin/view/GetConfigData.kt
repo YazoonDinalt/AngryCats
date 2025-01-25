@@ -16,7 +16,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import org.example.lib.utils.Config
+import org.example.lib.utils.IAppConfig
 
 /**
 
@@ -26,7 +26,7 @@ import org.example.lib.utils.Config
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun getConfigData(changeScreen: () -> Unit) {
+fun getConfigData(config: IAppConfig, changeScreen: () -> Unit) {
     var amountCats by remember { mutableStateOf("") }
     var height by remember { mutableStateOf("") }
     var width by remember { mutableStateOf("") }
@@ -54,10 +54,10 @@ fun getConfigData(changeScreen: () -> Unit) {
                 value = amountCats,
                 onValueChange = {
                     amountCats = it
-                    Config.amountCats.value = amountCats.toIntOrNull() ?: Config.amountCats.value
+                    config.amountCats = amountCats.toIntOrNull() ?: config.amountCats
                 },
                 shape = RoundedCornerShape(20.dp),
-                label = { Text("Default: ${Config.amountCats.value}") },
+                label = { Text("Default: ${config.amountCats}") },
                 modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
             )
             Text(
@@ -70,10 +70,10 @@ fun getConfigData(changeScreen: () -> Unit) {
                 value = height,
                 onValueChange = {
                     height = it
-                    Config.height.value = height.toIntOrNull() ?: Config.height.value
+                    config.height = height.toIntOrNull() ?: config.height
                 },
                 shape = RoundedCornerShape(20.dp),
-                label = { Text("Default: ${Config.height.value}") },
+                label = { Text("Default: ${config.height}") },
                 modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
             )
@@ -88,10 +88,10 @@ fun getConfigData(changeScreen: () -> Unit) {
                 value = width,
                 onValueChange = {
                     width = it
-                    Config.width.value = width.toIntOrNull() ?: Config.width.value
+                    config.width = width.toIntOrNull() ?: config.width
                 },
                 shape = RoundedCornerShape(20.dp),
-                label = { Text("Default: ${Config.width.value}") },
+                label = { Text("Default: ${config.width}") },
                 modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
             )
             Text(
@@ -105,10 +105,10 @@ fun getConfigData(changeScreen: () -> Unit) {
                 value = r0,
                 onValueChange = {
                     r0 = it
-                    Config.r0.value = r0.toDoubleOrNull() ?: Config.r0.value
+                    config.r0 = r0.toDoubleOrNull() ?: config.r0
                 },
                 shape = RoundedCornerShape(20.dp),
-                label = { Text("Default: ${Config.r0.value}") },
+                label = { Text("Default: ${config.r0}") },
                 modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
             )
             Text(
@@ -122,10 +122,10 @@ fun getConfigData(changeScreen: () -> Unit) {
                 value = r1,
                 onValueChange = {
                     r1 = it
-                    Config.r1.value = r1.toDoubleOrNull() ?: Config.r1.value
+                    config.r1 = r1.toDoubleOrNull() ?: config.r1
                 },
                 shape = RoundedCornerShape(20.dp),
-                label = { Text("Default: ${Config.r1.value}") },
+                label = { Text("Default: ${config.r1}") },
                 modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
             )
             Text(
@@ -139,7 +139,7 @@ fun getConfigData(changeScreen: () -> Unit) {
                 value = time,
                 onValueChange = {
                     time = it
-                    Config.time.value =
+                    config.time =
                         try {
                             ((it.toDoubleOrNull() ?: 1.0) * 1000L).toLong()
                         } catch (e: Exception) {

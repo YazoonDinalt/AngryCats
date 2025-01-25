@@ -8,12 +8,12 @@ import kotlinx.atomicfu.atomic
 
  */
 
-object Config {
-    val height = atomic(100)
-    val width = atomic(100)
-    val amountCats = atomic(500)
-    val r0 = atomic(1.0)
-    val r1 = atomic(10.0)
-    val time = atomic(500L)
-    val isReady = atomic(false)
+object DefaultConfig : IAppConfig {
+    override var height: Int by atomic(100)
+    override var width: Int by atomic(100)
+    override var amountCats: Int by atomic(500)
+    override var r0: Double by atomic(1.0)
+    override var r1: Double by atomic(10.0)
+    override var time: Long by atomic(500L)
+    override var isReady: Boolean by atomic(false)
 }

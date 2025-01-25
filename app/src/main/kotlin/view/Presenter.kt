@@ -9,7 +9,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.*
 import org.example.lib.cats.CatForPresenter
 import org.example.lib.cats.ChannelQueue
-import org.example.lib.utils.Config
+import org.example.lib.utils.IAppConfig
 import java.awt.Dimension
 
 /**
@@ -18,7 +18,7 @@ import java.awt.Dimension
 
 */
 
-fun presenter(queueCats: ChannelQueue<MutableList<CatForPresenter>>) =
+fun presenter(queueCats: ChannelQueue<MutableList<CatForPresenter>>, config: IAppConfig) =
     application {
         var navigationStack by remember { mutableStateOf(listOf<Screen>(Screen.FirstScreen)) }
         val currentScreen = navigationStack.last()
@@ -44,14 +44,14 @@ fun presenter(queueCats: ChannelQueue<MutableList<CatForPresenter>>) =
                             navigationStack += Screen.SecondScreen
                         }
                     Screen.SecondScreen ->
-                        getConfigData {
+                        getConfigData(config) {
                             navigationStack += Screen.ThirdScreen
-                            Config.isReady.value = true
+                            config.isReady = true
                         }
                     Screen.ThirdScreen ->
                         mainWindow(queueCats) {
                             navigationStack -= Screen.ThirdScreen
-                            Config.isReady.value = false
+                            config.isReady = false
                         }
                 }
             }
