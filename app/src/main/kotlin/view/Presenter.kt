@@ -18,45 +18,47 @@ import java.awt.Dimension
 
 */
 
-fun presenter(queueCats: ChannelQueue<MutableList<CatForPresenter>>, config: IAppConfig) =
-    application {
-        var navigationStack by remember { mutableStateOf(listOf<Screen>(Screen.FirstScreen)) }
+fun presenter(
+    queueCats: ChannelQueue<MutableList<CatForPresenter>>,
+    config: IAppConfig,
+) = application {
+    var navigationStack by remember { mutableStateOf(listOf<Screen>(Screen.FirstScreen)) }
 
-        // common part of the screen setting
-        val currentScreen = navigationStack.last()
-        Window(
-            onCloseRequest = ::exitApplication,
-            title = "AngryCats",
-            state =
-                rememberWindowState(
-                    position = WindowPosition(alignment = Alignment.Center),
-                    size = DpSize(1200.dp, 1200.dp),
+    // common part of the screen setting
+    val currentScreen = navigationStack.last()
+    Window(
+        onCloseRequest = ::exitApplication,
+        title = "AngryCats",
+        state =
+            rememberWindowState(
+                position = WindowPosition(alignment = Alignment.Center),
+                size = DpSize(1200.dp, 1200.dp),
+            ),
+    ) {
+        window.minimumSize = Dimension(800, 800)
+        MaterialTheme(
+            colorScheme =
+                MaterialTheme.colorScheme.copy(
+                    surface = Color(red = 235, green = 235, blue = 237),
                 ),
         ) {
-            window.minimumSize = Dimension(800, 800)
-            MaterialTheme(
-                colorScheme =
-                    MaterialTheme.colorScheme.copy(
-                        surface = Color(red = 235, green = 235, blue = 237),
-                    ),
-            ) {
-                // Variants of the screen
-                when (currentScreen) {
-                    Screen.FirstScreen ->   // Initial screen
-                        startScreen {
-                            navigationStack += Screen.SecondScreen
-                        }
-                    Screen.SecondScreen ->   // Configuration screen
-                        getConfigData(config) {
-                            navigationStack += Screen.ThirdScreen
-                            config.isReady = true
-                        }
-                    Screen.ThirdScreen ->   // Cats screen
-                        mainWindow(queueCats) {
-                            navigationStack -= Screen.ThirdScreen
-                            config.isReady = false
-                        }
-                }
+            // Variants of the screen
+            when (currentScreen) {
+                Screen.FirstScreen -> // Initial screen
+                    startScreen {
+                        navigationStack += Screen.SecondScreen
+                    }
+                Screen.SecondScreen -> // Configuration screen
+                    getConfigData(config) {
+                        navigationStack += Screen.ThirdScreen
+                        config.isReady = true
+                    }
+                Screen.ThirdScreen -> // Cats screen
+                    mainWindow(queueCats) {
+                        navigationStack -= Screen.ThirdScreen
+                        config.isReady = false
+                    }
             }
         }
     }
+}

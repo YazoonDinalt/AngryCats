@@ -1,12 +1,12 @@
 package org.example.app
 
 import kotlinx.coroutines.*
-import org.example.lib.cats.ChannelQueue
-import org.example.lib.cats.CatForPresenter
-import org.example.lib.cats.createCats
 import org.example.lib.cats.Cat
+import org.example.lib.cats.CatForPresenter
+import org.example.lib.cats.ChannelQueue
 import org.example.lib.cats.Map
 import org.example.lib.cats.UpdateStatus
+import org.example.lib.cats.createCats
 import org.example.lib.utils.IAppConfig
 
 /**
@@ -16,11 +16,11 @@ Main logic of the app
  */
 class AppController(
     private val queueCats: ChannelQueue<MutableList<CatForPresenter>>,
-    private val config: IAppConfig
+    private val config: IAppConfig,
 ) {
     /**
 
-    main loop
+     main loop
 
      */
     suspend fun run() {
@@ -32,7 +32,7 @@ class AppController(
 
     /**
 
-    Cats configuration
+     Cats configuration
 
      */
     private suspend fun startProcessing() {
@@ -45,7 +45,7 @@ class AppController(
 
     /**
 
-    Cats settings
+     Cats settings
 
      */
     private suspend fun processCats(cats: MutableList<Cat>) {

@@ -14,11 +14,11 @@ import kotlin.random.Random
 val mutex = Mutex()
 
 class UpdateStatus(
-    private val cats: MutableList<Cat>, // List of all cats to process.
-    private val r0: Double,             // Maximum distance for fighting or breeding interactions.
-    private val r1: Double,             // Maximum distance for hissing interactions.
-    private val log: Boolean,           // Whether to log events to the console.
-    private val nameDistance: NameDistance = NameDistance.Euclidean, // Distance calculation method.
+    private val cats: MutableList<Cat>,
+    private val r0: Double,
+    private val r1: Double,
+    private val log: Boolean,
+    private val nameDistance: NameDistance = NameDistance.Euclidean,
 ) {
     init {
         // Begin updating cat statuses when the class is initialized.
@@ -28,7 +28,10 @@ class UpdateStatus(
     /**
      * Calculates the distance between two cats based on the specified method.
      */
-    private fun distance(cat1: Cat, cat2: Cat): Float {
+    private fun distance(
+        cat1: Cat,
+        cat2: Cat,
+    ): Float {
         return when (nameDistance) {
             NameDistance.Euclidean -> Distance(cat1, cat2).euclideanDistance()
             NameDistance.Manhattan -> Distance(cat1, cat2).manhattanDistance()
@@ -83,7 +86,9 @@ class UpdateStatus(
                                     females2.isEmpty() ||
                                     catsAtLocation2[0].status == Status.DEAD ||
                                     catsAtLocation[0].room.number != catsAtLocation2[0].room.number
-                                ) continue
+                                ) {
+                                    continue
+                                }
 
                                 if (distance(catsAtLocation[0], catsAtLocation2[0]) <= r0) {
                                     for (cat in catsAtLocation2) {

@@ -12,7 +12,7 @@ Main function marking the start
 
  */
 fun main() {
-    //Initial settings
+    // Initial settings
     var config = DefaultConfig
     val scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
     val queueCats = ChannelQueue<MutableList<CatForPresenter>>()

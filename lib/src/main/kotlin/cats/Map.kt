@@ -27,7 +27,7 @@ class Map(
      * - `H` for hissing cats.
      * - `D` for dead cats.
      * - `B` for breeding cats.
-    */
+     * */
     fun visualCatsMap(): Array<Array<String>> {
         val visCatsMap = Array(width + 1) { Array(height) { "0" } }
 
@@ -100,7 +100,6 @@ class Map(
         coroutineScope {
             cats.map { cat ->
                 async(Dispatchers.Default) {
-
                     // If cat is ready for breeding, then breed
                     if (cat.status == Status.BREEDING && cat.sex == Sex.Female) {
                         val newCat = createCat(width, height, 0, cat.x, cat.y)

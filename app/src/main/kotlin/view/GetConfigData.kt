@@ -26,8 +26,10 @@ import org.example.lib.utils.IAppConfig
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun getConfigData(config: IAppConfig, changeScreen: () -> Unit) {
-
+fun getConfigData(
+    config: IAppConfig,
+    changeScreen: () -> Unit,
+) {
     // Variables to save the user's choice for configuration during the runtime
     var amountCats by remember { mutableStateOf("") }
     var height by remember { mutableStateOf("") }

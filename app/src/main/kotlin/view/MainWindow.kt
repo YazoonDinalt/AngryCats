@@ -128,7 +128,7 @@ fun displayArrayCanvas(
             5 to painterResource("two_cats.png"),
         )
 
-    //Rendering in a form of table
+    // Rendering in a form of table
     Box(
         modifier =
             Modifier
