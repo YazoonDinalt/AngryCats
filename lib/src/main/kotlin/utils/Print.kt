@@ -6,7 +6,7 @@ Class for rendering the current map
 
  */
 
-class Printer<T>(private val catsMap: Array<Array<T>>) {
+class Print<T>(private val catsMap: Array<Array<T>>) {
     init {
         print()
     }

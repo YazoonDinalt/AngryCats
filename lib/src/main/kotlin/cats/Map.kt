@@ -31,7 +31,10 @@ class Map(
     fun visualCatsMap(): Array<Array<String>> {
         val visCatsMap = Array(width + 1) { Array(height) { "0" } }
 
+        barrierList.removeAt(0)
+
         for (barrier in barrierList) {
+
             for (i in barrier.leftX..barrier.rightX) {
                 visCatsMap[i][barrier.leftX] = "-"
                 visCatsMap[i][barrier.rightX] = "-"
